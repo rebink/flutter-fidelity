@@ -7,6 +7,8 @@ Read the original reference at native resolution and the report's text regions. 
 
 An inferred font remains an uncertainty even when its bytes are successfully hashed. Compare regular and bold samples in both widget and native renders; if registering weights under separate families, keep the capture mappings, production font declarations and TextStyle families consistent. Check icon-font loading separately from text fonts: missing glyphs in a widget test can be a capture setup defect rather than missing production UI. Use code-drawn icons when appropriate, and avoid unrelated character substitutions to hide missing glyphs.
 
+If exact typography depends on an unavailable font or asset, ask whether the developer can identify/supply it or explicitly accepts a named substitute. Record the answer; a substitute does not establish exact matching to the original font. Do not repeatedly ask about a substitution already approved in the task.
+
 Use TextPainter/RenderParagraph measurements and rendered samples to compare candidate font size, weight, letter spacing, line height, baselines and line breaks. Choose a small candidate set based on visible evidence; record unresolved candidates instead of inventing exact values.
 
 Distinguish the text widget's layout rectangle from glyph ink. The reference region and measured region must describe the same box. Avoid padding fixes that compensate for the wrong font. TextStyle.height is a font-size multiplier, not a literal pixel line height; StrutStyle and TextHeightBehavior affect the resulting bounds. Check fallback glyphs, mixed text runs, explicit line breaks and locale.

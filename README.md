@@ -48,6 +48,13 @@ The repository-owned skills are:
 - [Visual repair](skills/flutter-visual-repair/SKILL.md): bounded corrections, retained candidates and behavioral verification.
 - [Fidelity verification](skills/flutter-fidelity-verification/SKILL.md): native captures, interactions, accessibility and runnable deliverables.
 
+Before generating ambiguous interactions or chart behavior, the agent inspects
+existing widgets/dependencies and [asks the developer for the missing decisions](docs/design-clarification.md).
+This includes chart-library reuse or selection, tappability/actions, data sources,
+range semantics and supported states. Required answers are recorded before the
+dependent implementation; screenshot appearance alone is not treated as proof
+of behavior. The CLI/MCP measures rendering and does not enforce these decisions.
+
 The assistant inspects the screenshot, saves a reviewed visual spec, generates
 real Flutter widgets and a capture entrypoint, then uses:
 

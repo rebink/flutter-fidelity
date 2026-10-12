@@ -16,6 +16,18 @@ crop converted to sRGB), `bundle.json`, `visual-spec.json`, and hashed font/asse
 copies. No resize is performed. Reference and capture must have the same export
 scale/aspect ratio. Cached bundles work offline.
 
+## Confirm implementation intent
+
+Read [design clarification](design-clarification.md) before implementing behavior
+or chart/data choices that are not established by the screenshot or prior task
+answers. Inspect existing dependencies, components and application contracts
+first. Ask focused questions for the remaining gaps, record the developer's
+decisions, and wait for required answers before dependent implementation.
+Independent visual inspection, asset inventory and confirmed layout work can
+continue. The PNG is the authority for appearance; the developer/application
+contracts establish behavior. This is an agent workflow, not an automatically
+enforced CLI/MCP decision gate.
+
 ## Visual specification
 
 `inspect_reference` returns the reference preview and spec. The assistant uses

@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "screenId": "replace-with-screen-id",
+  "reference": "replace-with-reference-bundle-path",
+  "repositoryFindings": {
+    "chartComponents": [],
+    "chartDependencies": [],
+    "modelsAndRoutes": []
+  },
+  "confirmedDecisions": [],
+  "openQuestions": [
+    {
+      "id": "chart_implementation",
+      "question": "Reuse a detected component, use a specified chart library, or use custom drawing?",
+      "blocks": ["chart implementation", "new chart dependencies"]
+    },
+    {
+      "id": "chart_data_and_ranges",
+      "question": "What supplies the series, and what are the units and time-range calculations?",
+      "blocks": ["series binding", "range calculations"]
+    },
+    {
+      "id": "widget_actions",
+      "question": "Which elements are tappable, and what are their specified actions and states?",
+      "blocks": ["unconfirmed callbacks", "chart gestures and tooltips"]
+    }
+  ],
+  "decisionRecordFormat": {
+    "id": "decision-id",
+    "answer": "concrete confirmed behavior or implementation choice",
+    "source": "developer response, existing contract path, or explicit delegation",
+    "acceptanceCriteria": []
+  }
+}
