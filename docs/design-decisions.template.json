@@ -5,24 +5,42 @@
   "repositoryFindings": {
     "chartComponents": [],
     "chartDependencies": [],
-    "modelsAndRoutes": []
+    "modelsAndRoutes": [],
+    "assetFindings": []
   },
   "confirmedDecisions": [],
   "openQuestions": [
     {
       "id": "chart_implementation",
       "question": "Reuse a detected component, use a specified chart library, or use custom drawing?",
-      "blocks": ["chart implementation", "new chart dependencies"]
+      "blocks": [
+        "chart implementation",
+        "new chart dependencies"
+      ]
     },
     {
       "id": "chart_data_and_ranges",
       "question": "What supplies the series, and what are the units and time-range calculations?",
-      "blocks": ["series binding", "range calculations"]
+      "blocks": [
+        "series binding",
+        "range calculations"
+      ]
     },
     {
       "id": "widget_actions",
       "question": "Which elements are tappable, and what are their specified actions and states?",
-      "blocks": ["unconfirmed callbacks", "chart gestures and tooltips"]
+      "blocks": [
+        "unconfirmed callbacks",
+        "chart gestures and tooltips"
+      ]
+    },
+    {
+      "id": "missing_assets",
+      "question": "Which original SVG/PNG or named existing component should supply each missing asset, and are any alternatives approved?",
+      "blocks": [
+        "unresolved required icons/images",
+        "asset conversion or new rendering dependencies"
+      ]
     }
   ],
   "decisionRecordFormat": {
@@ -30,5 +48,17 @@
     "answer": "concrete confirmed behavior or implementation choice",
     "source": "developer response, existing contract path, or explicit delegation",
     "acceptanceCriteria": []
+  },
+  "assetDecisionRecordFormat": {
+    "regionId": "affected-region-id",
+    "assetRole": "icon, illustration, photograph, or decoration",
+    "source": "confirmed file path or named component",
+    "format": "confirmed SVG, PNG, icon font, or other format",
+    "logicalSize": null,
+    "exportScale": null,
+    "tintAndTransparency": "confirmed rendering requirements",
+    "approvedAlternative": null,
+    "decisionSource": "developer response, existing asset contract, or explicit delegation",
+    "status": "pending"
   }
 }

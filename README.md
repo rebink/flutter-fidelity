@@ -51,7 +51,10 @@ The repository-owned skills are:
 Before generating ambiguous interactions or chart behavior, the agent inspects
 existing widgets/dependencies and [asks the developer for the missing decisions](docs/design-clarification.md).
 This includes chart-library reuse or selection, tappability/actions, data sources,
-range semantics and supported states. Required answers are recorded before the
+range semantics, supported states and missing icon/image assets. If an SVG/PNG
+cannot be found or rendered, the agent diagnoses loading first, then asks for
+the original source, an existing component or an approved alternative.
+Required answers are recorded before the
 dependent implementation; screenshot appearance alone is not treated as proof
 of behavior. The CLI/MCP measures rendering and does not enforce these decisions.
 

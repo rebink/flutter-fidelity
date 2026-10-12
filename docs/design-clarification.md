@@ -48,6 +48,38 @@ action: navigation destination, modal content, state update or API call. A
 chevron, colored card or icon alone is not proof of an action. Confirm responsive
 behavior and typography/assets when required information is missing.
 
+## Missing icons and image assets
+
+Search the repository's asset folders, pubspec declarations, existing icon
+components/packs, SVG renderers and supplied design exports before asking.
+If a found asset fails to render, first check path/case, asset declaration,
+supported format, font loading, decoding and capture precaching. A loading
+failure is not evidence that the asset must be replaced.
+
+If the required asset is still unavailable, identify its region/name and explain
+what was checked. Ask a concrete question such as:
+
+“The vehicle-status icon is visible in the reference, but I couldn't find its
+source in the app assets. Should I use an original SVG/PNG you provide, reuse a
+specific existing icon/component, or use a replacement you approve?”
+
+Offer reuse only when a suitable named candidate was actually found. Ask for
+the file path/source or a file attachment through a channel that supports files.
+Do not assume a text-only question panel accepts file uploads. Follow up on
+format and rendering details only where needed:
+
+- SVG/vector versus PNG/raster, including PNG export scale and intended logical size.
+- Original colors versus tintable artwork; transparent versus baked background.
+- Existing rendering component/package; whether an SVG renderer or PNG conversion
+  is explicitly acceptable when the project does not support the supplied format.
+- Alternate light/dark/selected variants and reuse rights when not established.
+
+Record the supplied source or approved alternative and its limits in the decision
+record. Continue independent layout work while this asset is pending. Use a
+placeholder only if explicitly allowed, and keep it identified as a placeholder
+in verification. Never present a substitute as the exact original, or create a
+hand-drawn/library/downloaded replacement just to avoid asking the developer.
+
 ## Record decisions and keep dependent work pending
 
 Record confirmed answers, their source, and open questions alongside the visual
@@ -56,7 +88,7 @@ optional format; an existing issue/spec can serve the same purpose. This is an
 agent-maintained record, not a new CLI/MCP schema or automatically enforced gate.
 
 Wait for required answers before implementing dependent behavior/data/package
-choices. Continue work that does not depend on them, such as visual measurement,
+choices, including unresolved required assets. Continue work that does not depend on them, such as visual measurement,
 asset inventory and confirmed layout. Elapsed time and an unsubmitted default
 option are not answers. If the developer explicitly delegates a choice, record
 that delegation and the concrete choice; otherwise retain it as unresolved.
