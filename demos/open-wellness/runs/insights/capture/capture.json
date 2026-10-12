@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "profile": {
+    "width": 390,
+    "height": 844,
+    "pixelRatio": 1,
+    "locale": "en-US",
+    "textScale": 1,
+    "brightness": "dark",
+    "safeInsets": {
+      "top": 0,
+      "right": 0,
+      "bottom": 0,
+      "left": 0
+    }
+  },
+  "mode": "widget",
+  "platform": "widget-macos",
+  "flutterVersion": "3.24.0",
+  "createdAt": "2026-10-12T05:06:22.923549Z",
+  "referenceSha256": "71cc7715e2db6ffcb4abca790ed09e50d827fec333a581e18567d7c701a308ba",
+  "imageSha256": "3296718e68e388ad851c0cb58b1ba753fa7429b8ff83f057c95d8c7c00a6cf25",
+  "fontSha256": [
+    "d636e4683231f931eda222d588e944d082bfd3bdba02f928bee461c0f185b251",
+    "8a0aace75d33794eece4b28187bfc1df0bbd2888b5d8a56e01788c8d65d16be1"
+  ],
+  "regions": [
+    {
+      "id": "hero",
+      "bounds": {
+        "x": 24,
+        "y": 112,
+        "width": 342,
+        "height": 112
+      },
+      "text": "Recovery score\n94\n+12 this week"
+    },
+    {
+      "id": "chart",
+      "bounds": {
+        "x": 24,
+        "y": 248,
+        "width": 342,
+        "height": 224
+      },
+      "text": "Recovery trend"
+    },
+    {
+      "id": "navigation",
+      "bounds": {
+        "x": 24,
+        "y": 752,
+        "width": 342,
+        "height": 64
+      },
+      "text": "Today\nInsights"
+    }
+  ],
+  "fontsLoaded": true,
+  "settled": true,
+  "runtimeErrors": [],
+  "checks": {
+    "analysis": "failed",
+    "interactions": "not-run",
+    "accessibility": "not-run",
+    "responsive": "not-run"
+  }
+}

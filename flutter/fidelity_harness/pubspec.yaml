@@ -1,0 +1,12 @@
+name: fidelity_harness
+description: Development-only deterministic screenshot capture and region measurement for Flutter Fidelity.
+version: 0.1.0
+publish_to: none
+environment:
+  sdk: '>=3.5.0 <4.0.0'
+dependencies:
+  crypto: ^3.0.3
+  flutter:
+    sdk: flutter
+  flutter_test:
+    sdk: flutter

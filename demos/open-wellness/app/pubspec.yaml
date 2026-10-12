@@ -1,0 +1,28 @@
+name: open_wellness_demo
+description: Original CC0 wellness UI comparison demo.
+version: 1.0.0+1
+publish_to: none
+environment:
+  sdk: '>=3.5.0 <4.0.0'
+dependencies:
+  flutter:
+    sdk: flutter
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  fidelity_harness:
+    path: ../../../flutter/fidelity_harness
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/fidelity_fonts/
+  fonts:
+    - family: Lato
+      fonts:
+        - asset: assets/fidelity_fonts/Lato-Regular.ttf
+    - family: LatoBold
+      fonts:
+        - asset: assets/fidelity_fonts/Lato-Bold.ttf

@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "source": "original project-authored controlled design specimens",
+  "designLicense": "CC0-1.0",
+  "attributionRequired": false,
+  "screens": [
+    "today",
+    "insights",
+    "training"
+  ],
+  "fontsLicense": "OFL-1.1",
+  "codeLicense": "MIT"
+}

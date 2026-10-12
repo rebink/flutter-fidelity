@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "createdAt": "2026-10-12T05:03:53.498Z",
+  "reference": {
+    "path": "reference.png",
+    "sha256": "71cc7715e2db6ffcb4abca790ed09e50d827fec333a581e18567d7c701a308ba",
+    "name": "reference.png"
+  },
+  "original": {
+    "path": "original.png",
+    "sha256": "71cc7715e2db6ffcb4abca790ed09e50d827fec333a581e18567d7c701a308ba",
+    "name": "insights.png"
+  },
+  "image": {
+    "width": 390,
+    "height": 844,
+    "crop": {
+      "x": 0,
+      "y": 0,
+      "width": 390,
+      "height": 844
+    }
+  },
+  "profile": {
+    "width": 390,
+    "height": 844,
+    "pixelRatio": 1,
+    "locale": "en-US",
+    "textScale": 1,
+    "brightness": "dark",
+    "safeInsets": {
+      "top": 0,
+      "right": 0,
+      "bottom": 0,
+      "left": 0
+    }
+  },
+  "confirmed": true,
+  "fonts": [
+    {
+      "path": "fonts/Lato-Regular.ttf",
+      "sha256": "d636e4683231f931eda222d588e944d082bfd3bdba02f928bee461c0f185b251",
+      "name": "Lato-Regular.ttf"
+    },
+    {
+      "path": "fonts/Lato-Bold.ttf",
+      "sha256": "8a0aace75d33794eece4b28187bfc1df0bbd2888b5d8a56e01788c8d65d16be1",
+      "name": "Lato-Bold.ttf"
+    }
+  ],
+  "assets": [],
+  "warnings": [],
+  "spec": "visual-spec.json"
+}

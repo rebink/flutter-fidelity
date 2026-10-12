@@ -1,0 +1,19 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "flutter-fidelity",
+  "version": "0.1.0",
+  "description": "Generate Flutter UI from screenshots with agent skills, real-font captures, measured visual repair and MCP tools.",
+  "author": { "name": "Flutter Fidelity contributors" },
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Flutter Fidelity",
+        "shortDescription": "Screenshot to verified Flutter",
+        "longDescription": "A local screenshot-first Flutter workflow with reference bundles, pixel and region reports, bounded agent repair, and development capture harnesses.",
+        "developerName": "Flutter Fidelity contributors",
+        "category": "Productivity",
+        "defaultPrompt": "Implement this PNG as maintainable Flutter widgets, then capture and compare it using Flutter Fidelity."
+      }
+    }
+  }
+}

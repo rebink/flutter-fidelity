@@ -1,0 +1,12 @@
+{
+  "frameworkVersion": "3.24.0",
+  "channel": "stable",
+  "repositoryUrl": "https://github.com/flutter/flutter.git",
+  "frameworkRevision": "80c2e84975bbd28ecf5f8d4bd4ca5a2490bfc819",
+  "frameworkCommitDate": "2024-07-30 23:06:49 +0700",
+  "engineRevision": "b8800d88be4866db1b15f8b954ab2573bba9960f",
+  "dartSdkVersion": "3.5.0",
+  "devToolsVersion": "2.37.2",
+  "flutterVersion": "3.24.0",
+  "flutterRoot": "/Users/mohamedrebink/fvm/versions/3.24.0"
+}

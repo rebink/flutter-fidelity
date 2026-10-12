@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "profile": {
+    "width": 390,
+    "height": 844,
+    "pixelRatio": 1,
+    "locale": "en-US",
+    "textScale": 1,
+    "brightness": "dark",
+    "safeInsets": {
+      "top": 0,
+      "right": 0,
+      "bottom": 0,
+      "left": 0
+    }
+  },
+  "mode": "integration",
+  "platform": "android",
+  "flutterVersion": "3.24.0",
+  "createdAt": "2026-10-12T05:11:03.857219Z",
+  "referenceSha256": "63e65ca06e975442930b97ca97921161e1aae62319b7c25ea2da090c75e88dc1",
+  "imageSha256": "a04d7b10721675d98e6b456bfd3d46b7506113c73769f6ed64a1cc1b75744d7b",
+  "fontSha256": [
+    "d636e4683231f931eda222d588e944d082bfd3bdba02f928bee461c0f185b251",
+    "8a0aace75d33794eece4b28187bfc1df0bbd2888b5d8a56e01788c8d65d16be1"
+  ],
+  "regions": [
+    {
+      "id": "hero",
+      "bounds": {
+        "x": 24,
+        "y": 112,
+        "width": 342,
+        "height": 136
+      },
+      "text": "Readiness\n96\nReady for a steady session\n96%"
+    },
+    {
+      "id": "chart",
+      "bounds": {
+        "x": 24,
+        "y": 272,
+        "width": 342,
+        "height": 218
+      },
+      "text": "Load & recovery\nLoad\nRecovery"
+    },
+    {
+      "id": "navigation",
+      "bounds": {
+        "x": 24,
+        "y": 752,
+        "width": 342,
+        "height": 64
+      },
+      "text": "Overview\nLoad\nRecovery"
+    }
+  ],
+  "fontsLoaded": true,
+  "settled": true,
+  "runtimeErrors": [],
+  "checks": {
+    "analysis": "passed",
+    "interactions": "not-run",
+    "accessibility": "not-run",
+    "responsive": "not-run"
+  }
+}

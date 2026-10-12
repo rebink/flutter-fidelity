@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "regions": [
+    {
+      "id": "hero",
+      "kind": "layout",
+      "bounds": {
+        "x": 24,
+        "y": 112,
+        "width": 342,
+        "height": 136
+      },
+      "confidence": "high",
+      "provenance": "Original controlled design rectangle",
+      "required": true
+    },
+    {
+      "id": "chart",
+      "kind": "decoration",
+      "bounds": {
+        "x": 24,
+        "y": 272,
+        "width": 342,
+        "height": 218
+      },
+      "confidence": "high",
+      "provenance": "Original controlled design rectangle",
+      "required": true
+    },
+    {
+      "id": "navigation",
+      "kind": "control",
+      "bounds": {
+        "x": 24,
+        "y": 752,
+        "width": 342,
+        "height": 64
+      },
+      "confidence": "high",
+      "provenance": "Original controlled design rectangle",
+      "required": true
+    }
+  ],
+  "layoutNotes": [
+    "Original CC0 design; independent SVG reference; 390 x 844."
+  ],
+  "uncertainties": [],
+  "assets": []
+}

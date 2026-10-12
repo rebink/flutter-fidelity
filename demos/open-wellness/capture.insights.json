@@ -1,0 +1,6 @@
+{
+  "projectRoot": "demos/open-wellness/app",
+  "target": "test/insights_capture_test.dart",
+  "mode": "widget",
+  "flutter": "flutter"
+}

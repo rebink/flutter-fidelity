@@ -1,0 +1,162 @@
+{
+  "version": 1,
+  "purpose": "Curated screenshot inputs for agent evaluation. These are not claims of generated Flutter fidelity.",
+  "cases": [
+    {
+      "id": "typography",
+      "index": 0,
+      "reference": "screens/typography.png",
+      "spec": "screens/typography.visual-spec.json",
+      "width": 390,
+      "height": 844,
+      "fonts": [
+        "fonts/Lato-Regular.ttf",
+        "fonts/Lato-Bold.ttf"
+      ],
+      "source": "synthetic screenshot specimen"
+    },
+    {
+      "id": "nested-layout",
+      "index": 1,
+      "reference": "screens/nested-layout.png",
+      "spec": "screens/nested-layout.visual-spec.json",
+      "width": 390,
+      "height": 844,
+      "fonts": [
+        "fonts/Lato-Regular.ttf",
+        "fonts/Lato-Bold.ttf"
+      ],
+      "source": "synthetic screenshot specimen"
+    },
+    {
+      "id": "wrapping",
+      "index": 2,
+      "reference": "screens/wrapping.png",
+      "spec": "screens/wrapping.visual-spec.json",
+      "width": 390,
+      "height": 844,
+      "fonts": [
+        "fonts/Lato-Regular.ttf",
+        "fonts/Lato-Bold.ttf"
+      ],
+      "source": "synthetic screenshot specimen"
+    },
+    {
+      "id": "scrolling",
+      "index": 3,
+      "reference": "screens/scrolling.png",
+      "spec": "screens/scrolling.visual-spec.json",
+      "width": 390,
+      "height": 844,
+      "fonts": [
+        "fonts/Lato-Regular.ttf",
+        "fonts/Lato-Bold.ttf"
+      ],
+      "source": "synthetic screenshot specimen"
+    },
+    {
+      "id": "images",
+      "index": 4,
+      "reference": "screens/images.png",
+      "spec": "screens/images.visual-spec.json",
+      "width": 390,
+      "height": 844,
+      "fonts": [
+        "fonts/Lato-Regular.ttf",
+        "fonts/Lato-Bold.ttf"
+      ],
+      "source": "synthetic screenshot specimen"
+    },
+    {
+      "id": "icons",
+      "index": 5,
+      "reference": "screens/icons.png",
+      "spec": "screens/icons.visual-spec.json",
+      "width": 390,
+      "height": 844,
+      "fonts": [
+        "fonts/Lato-Regular.ttf",
+        "fonts/Lato-Bold.ttf"
+      ],
+      "source": "synthetic screenshot specimen"
+    },
+    {
+      "id": "gradients",
+      "index": 6,
+      "reference": "screens/gradients.png",
+      "spec": "screens/gradients.visual-spec.json",
+      "width": 390,
+      "height": 844,
+      "fonts": [
+        "fonts/Lato-Regular.ttf",
+        "fonts/Lato-Bold.ttf"
+      ],
+      "source": "synthetic screenshot specimen"
+    },
+    {
+      "id": "shadows",
+      "index": 7,
+      "reference": "screens/shadows.png",
+      "spec": "screens/shadows.visual-spec.json",
+      "width": 390,
+      "height": 844,
+      "fonts": [
+        "fonts/Lato-Regular.ttf",
+        "fonts/Lato-Bold.ttf"
+      ],
+      "source": "synthetic screenshot specimen"
+    },
+    {
+      "id": "clipping",
+      "index": 8,
+      "reference": "screens/clipping.png",
+      "spec": "screens/clipping.visual-spec.json",
+      "width": 390,
+      "height": 844,
+      "fonts": [
+        "fonts/Lato-Regular.ttf",
+        "fonts/Lato-Bold.ttf"
+      ],
+      "source": "synthetic screenshot specimen"
+    },
+    {
+      "id": "components",
+      "index": 9,
+      "reference": "screens/components.png",
+      "spec": "screens/components.visual-spec.json",
+      "width": 390,
+      "height": 844,
+      "fonts": [
+        "fonts/Lato-Regular.ttf",
+        "fonts/Lato-Bold.ttf"
+      ],
+      "source": "synthetic screenshot specimen"
+    },
+    {
+      "id": "variants",
+      "index": 10,
+      "reference": "screens/variants.png",
+      "spec": "screens/variants.visual-spec.json",
+      "width": 390,
+      "height": 844,
+      "fonts": [
+        "fonts/Lato-Regular.ttf",
+        "fonts/Lato-Bold.ttf"
+      ],
+      "source": "synthetic screenshot specimen"
+    },
+    {
+      "id": "complete-screen",
+      "index": 11,
+      "reference": "screens/complete-screen.png",
+      "spec": "screens/complete-screen.visual-spec.json",
+      "width": 390,
+      "height": 844,
+      "fonts": [
+        "fonts/Lato-Regular.ttf",
+        "fonts/Lato-Bold.ttf"
+      ],
+      "source": "synthetic screenshot specimen"
+    }
+  ]
+}

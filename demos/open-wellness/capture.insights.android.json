@@ -1,0 +1,9 @@
+{
+  "projectRoot": "demos/open-wellness/app",
+  "target": "integration_test/insights_capture_test.dart",
+  "mode": "integration",
+  "driver": "test_driver/fidelity_driver.dart",
+  "deviceId": "emulator-5554",
+  "flutter": "flutter",
+  "timeoutMs": 300000
+}

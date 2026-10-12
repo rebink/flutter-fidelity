@@ -1,0 +1,194 @@
+[
+  {
+    "s": "Weekly insights",
+    "x": 24,
+    "y": 32,
+    "size": 28,
+    "color": "#edf3ff",
+    "bold": true
+  },
+  {
+    "s": "Small habits. Meaningful progress.",
+    "x": 24,
+    "y": 70,
+    "size": 14,
+    "color": "#a2b0c8",
+    "bold": false
+  },
+  {
+    "s": "Recovery score",
+    "x": 44,
+    "y": 131,
+    "size": 14,
+    "color": "#d4ccff",
+    "bold": false
+  },
+  {
+    "s": "94",
+    "x": 44,
+    "y": 157,
+    "size": 40,
+    "color": "#ffffff",
+    "bold": true
+  },
+  {
+    "s": "+12 this week",
+    "x": 241,
+    "y": 170,
+    "size": 14,
+    "color": "#9ef0d0",
+    "bold": true
+  },
+  {
+    "s": "Recovery trend",
+    "x": 40,
+    "y": 266,
+    "size": 17,
+    "color": "#edf3ff",
+    "bold": true
+  },
+  {
+    "s": "Mon",
+    "x": 44,
+    "y": 432,
+    "size": 11,
+    "color": "#a2b0c8",
+    "bold": false
+  },
+  {
+    "s": "Tue",
+    "x": 89,
+    "y": 432,
+    "size": 11,
+    "color": "#a2b0c8",
+    "bold": false
+  },
+  {
+    "s": "Wed",
+    "x": 134,
+    "y": 432,
+    "size": 11,
+    "color": "#a2b0c8",
+    "bold": false
+  },
+  {
+    "s": "Thu",
+    "x": 179,
+    "y": 432,
+    "size": 11,
+    "color": "#a2b0c8",
+    "bold": false
+  },
+  {
+    "s": "Fri",
+    "x": 224,
+    "y": 432,
+    "size": 11,
+    "color": "#a2b0c8",
+    "bold": false
+  },
+  {
+    "s": "Sat",
+    "x": 269,
+    "y": 432,
+    "size": 11,
+    "color": "#a2b0c8",
+    "bold": false
+  },
+  {
+    "s": "Sun",
+    "x": 314,
+    "y": 432,
+    "size": 11,
+    "color": "#a2b0c8",
+    "bold": false
+  },
+  {
+    "s": "Active time",
+    "x": 40,
+    "y": 514,
+    "size": 13,
+    "color": "#a2b0c8",
+    "bold": false
+  },
+  {
+    "s": "4h 18m",
+    "x": 40,
+    "y": 540,
+    "size": 26,
+    "color": "#edf3ff",
+    "bold": true
+  },
+  {
+    "s": "+18% this week",
+    "x": 40,
+    "y": 576,
+    "size": 11,
+    "color": "#9ef0d0",
+    "bold": false
+  },
+  {
+    "s": "Resting heart",
+    "x": 219,
+    "y": 514,
+    "size": 13,
+    "color": "#a2b0c8",
+    "bold": false
+  },
+  {
+    "s": "58 bpm",
+    "x": 219,
+    "y": 540,
+    "size": 26,
+    "color": "#edf3ff",
+    "bold": true
+  },
+  {
+    "s": "In your usual range",
+    "x": 219,
+    "y": 576,
+    "size": 11,
+    "color": "#a2b0c8",
+    "bold": false
+  },
+  {
+    "s": "Mindful minutes",
+    "x": 40,
+    "y": 647,
+    "size": 16,
+    "color": "#edf3ff",
+    "bold": true
+  },
+  {
+    "s": "68 / 90",
+    "x": 285,
+    "y": 649,
+    "size": 13,
+    "color": "#a2b0c8",
+    "bold": false
+  },
+  {
+    "s": "Keep a little time for you",
+    "x": 40,
+    "y": 706,
+    "size": 11,
+    "color": "#a2b0c8",
+    "bold": false
+  },
+  {
+    "s": "Today",
+    "x": 83,
+    "y": 777,
+    "size": 14,
+    "color": "#a2b0c8",
+    "bold": true
+  },
+  {
+    "s": "Insights",
+    "x": 240,
+    "y": 777,
+    "size": 14,
+    "color": "#cfbfff",
+    "bold": true
+  }
+]

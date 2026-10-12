@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "regions": [
+    {
+      "id": "heading",
+      "kind": "text",
+      "bounds": {
+        "x": 24,
+        "y": 64,
+        "width": 342,
+        "height": 34
+      },
+      "confidence": "high",
+      "provenance": "Controlled synthetic reference coordinates, not extracted Figma data",
+      "required": true,
+      "text": "Everything in place"
+    },
+    {
+      "id": "subtitle",
+      "kind": "text",
+      "bounds": {
+        "x": 24,
+        "y": 114,
+        "width": 342,
+        "height": 24
+      },
+      "confidence": "high",
+      "provenance": "Controlled reference coordinates",
+      "required": true,
+      "text": "Nested groups need measured spacing."
+    },
+    {
+      "id": "subject",
+      "kind": "layout",
+      "bounds": {
+        "x": 24,
+        "y": 240,
+        "width": 342,
+        "height": 180
+      },
+      "confidence": "high",
+      "provenance": "Controlled reference coordinates",
+      "required": true
+    },
+    {
+      "id": "cta",
+      "kind": "control",
+      "bounds": {
+        "x": 24,
+        "y": 760,
+        "width": 342,
+        "height": 52
+      },
+      "confidence": "high",
+      "provenance": "Controlled reference coordinates",
+      "required": true
+    }
+  ],
+  "layoutNotes": [
+    "390×844 logical viewport, export scale 1. Lato Regular and Bold. App content excludes system chrome.",
+    "Reference region rectangles are specimen design boxes; a generated widget should register these boxes rather than glyph-ink bounds."
+  ],
+  "uncertainties": [],
+  "assets": []
+}

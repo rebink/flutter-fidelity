@@ -1,0 +1,8 @@
+{
+  "projectRoot": "flutter/example",
+  "target": "integration_test/fidelity_test.dart",
+  "driver": "test_driver/fidelity_driver.dart",
+  "mode": "integration",
+  "deviceId": "emulator-5554",
+  "flutter": "flutter"
+}

@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "profile": {
+    "width": 390,
+    "height": 844,
+    "pixelRatio": 1,
+    "locale": "en-US",
+    "textScale": 1,
+    "brightness": "light",
+    "safeInsets": {
+      "top": 0,
+      "right": 0,
+      "bottom": 0,
+      "left": 0
+    }
+  },
+  "mode": "widget",
+  "platform": "widget-macos",
+  "flutterVersion": "3.24.0",
+  "createdAt": "2026-10-12T05:05:27.262717Z",
+  "referenceSha256": "9de49363b2bc094e50bfbd0decf15942c01d456744c3245584176c01b6e272f9",
+  "imageSha256": "34cfb93267fcb84ed8f4d14a419b702e2be289b10630592a5d6421491a0bd5c8",
+  "fontSha256": [
+    "d636e4683231f931eda222d588e944d082bfd3bdba02f928bee461c0f185b251",
+    "8a0aace75d33794eece4b28187bfc1df0bbd2888b5d8a56e01788c8d65d16be1"
+  ],
+  "regions": [
+    {
+      "id": "hero",
+      "bounds": {
+        "x": 24,
+        "y": 112,
+        "width": 342,
+        "height": 196
+      },
+      "text": "Today's energy\n82\nA great day to move\nYour daily balance\n82%"
+    },
+    {
+      "id": "chart",
+      "bounds": {
+        "x": 24,
+        "y": 448,
+        "width": 342,
+        "height": 180
+      },
+      "text": "Weekly activity"
+    },
+    {
+      "id": "navigation",
+      "bounds": {
+        "x": 24,
+        "y": 752,
+        "width": 342,
+        "height": 64
+      },
+      "text": "Today\nInsights"
+    }
+  ],
+  "fontsLoaded": true,
+  "settled": true,
+  "runtimeErrors": [],
+  "checks": {
+    "analysis": "passed",
+    "interactions": "not-run",
+    "accessibility": "not-run",
+    "responsive": "not-run"
+  }
+}

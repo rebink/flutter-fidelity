@@ -1,0 +1,15 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { Client } from '@modelcontextprotocol/sdk/client/index.js';
+import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
+import path from 'node:path';
+test('built MCP starts over stdio with no stdout contamination', async t => {
+  const client=new Client({name:'stdio-verifier',version:'1.0.0'});
+  const transport=new StdioClientTransport({command:process.execPath,args:[path.resolve('dist/cli.js'),'mcp'],stderr:'pipe'});
+  await client.connect(transport);
+  t.after(async()=>{await client.close();});
+  const {tools}=await client.listTools();assert.equal(tools.length,9);
+  const result=await client.callTool({name:'suggest_viewport',arguments:{image:path.resolve('fixtures/screens/complete-screen.png')}});
+  const content=result.content as {type:string;text?:string}[];
+  assert.equal(result.isError,undefined); assert.equal(JSON.parse(content[0]!.text!).confirmed,false);
+});

@@ -1,0 +1,250 @@
+[
+  {
+    "s": "Training lab",
+    "x": 24,
+    "y": 32,
+    "size": 28,
+    "bold": true,
+    "color": "#edf3ff"
+  },
+  {
+    "s": "Your performance, connected.",
+    "x": 24,
+    "y": 70,
+    "size": 14,
+    "bold": false,
+    "color": "#a2b0c8"
+  },
+  {
+    "s": "Readiness",
+    "x": 44,
+    "y": 133,
+    "size": 14,
+    "bold": false,
+    "color": "#a2b0c8"
+  },
+  {
+    "s": "96",
+    "x": 44,
+    "y": 164,
+    "size": 42,
+    "bold": true,
+    "color": "#edf3ff"
+  },
+  {
+    "s": "Ready for a steady session",
+    "x": 44,
+    "y": 217,
+    "size": 12,
+    "bold": false,
+    "color": "#9ef0d0"
+  },
+  {
+    "s": "96%",
+    "x": 287,
+    "y": 173,
+    "size": 14,
+    "bold": true,
+    "color": "#edf3ff"
+  },
+  {
+    "s": "Load & recovery",
+    "x": 40,
+    "y": 290,
+    "size": 17,
+    "bold": true,
+    "color": "#edf3ff"
+  },
+  {
+    "s": "Load",
+    "x": 40,
+    "y": 321,
+    "size": 11,
+    "bold": false,
+    "color": "#9e8cff"
+  },
+  {
+    "s": "Recovery",
+    "x": 90,
+    "y": 321,
+    "size": 11,
+    "bold": false,
+    "color": "#9ef0d0"
+  },
+  {
+    "s": "M",
+    "x": 49,
+    "y": 459,
+    "size": 11,
+    "bold": false,
+    "color": "#a2b0c8"
+  },
+  {
+    "s": "T",
+    "x": 94,
+    "y": 459,
+    "size": 11,
+    "bold": false,
+    "color": "#a2b0c8"
+  },
+  {
+    "s": "W",
+    "x": 139,
+    "y": 459,
+    "size": 11,
+    "bold": false,
+    "color": "#a2b0c8"
+  },
+  {
+    "s": "T",
+    "x": 184,
+    "y": 459,
+    "size": 11,
+    "bold": false,
+    "color": "#a2b0c8"
+  },
+  {
+    "s": "F",
+    "x": 229,
+    "y": 459,
+    "size": 11,
+    "bold": false,
+    "color": "#a2b0c8"
+  },
+  {
+    "s": "S",
+    "x": 274,
+    "y": 459,
+    "size": 11,
+    "bold": false,
+    "color": "#a2b0c8"
+  },
+  {
+    "s": "S",
+    "x": 319,
+    "y": 459,
+    "size": 11,
+    "bold": false,
+    "color": "#a2b0c8"
+  },
+  {
+    "s": "Load",
+    "x": 40,
+    "y": 532,
+    "size": 12,
+    "bold": false,
+    "color": "#a2b0c8"
+  },
+  {
+    "s": "428",
+    "x": 40,
+    "y": 558,
+    "size": 26,
+    "bold": true,
+    "color": "#edf3ff"
+  },
+  {
+    "s": "Strain",
+    "x": 159,
+    "y": 532,
+    "size": 12,
+    "bold": false,
+    "color": "#a2b0c8"
+  },
+  {
+    "s": "14.2",
+    "x": 159,
+    "y": 558,
+    "size": 26,
+    "bold": true,
+    "color": "#edf3ff"
+  },
+  {
+    "s": "Recovery",
+    "x": 278,
+    "y": 532,
+    "size": 12,
+    "bold": false,
+    "color": "#a2b0c8"
+  },
+  {
+    "s": "92%",
+    "x": 278,
+    "y": 558,
+    "size": 26,
+    "bold": true,
+    "color": "#edf3ff"
+  },
+  {
+    "s": "Training zones",
+    "x": 40,
+    "y": 647,
+    "size": 16,
+    "bold": true,
+    "color": "#edf3ff"
+  },
+  {
+    "s": "42 min",
+    "x": 295,
+    "y": 649,
+    "size": 12,
+    "bold": false,
+    "color": "#a2b0c8"
+  },
+  {
+    "s": "Easy",
+    "x": 40,
+    "y": 704,
+    "size": 11,
+    "bold": false,
+    "color": "#a2b0c8"
+  },
+  {
+    "s": "Aerobic",
+    "x": 118,
+    "y": 704,
+    "size": 11,
+    "bold": false,
+    "color": "#a2b0c8"
+  },
+  {
+    "s": "Tempo",
+    "x": 196,
+    "y": 704,
+    "size": 11,
+    "bold": false,
+    "color": "#a2b0c8"
+  },
+  {
+    "s": "Peak",
+    "x": 274,
+    "y": 704,
+    "size": 11,
+    "bold": false,
+    "color": "#a2b0c8"
+  },
+  {
+    "s": "Overview",
+    "x": 48,
+    "y": 777,
+    "size": 14,
+    "bold": true,
+    "color": "#cfbfff"
+  },
+  {
+    "s": "Load",
+    "x": 171,
+    "y": 777,
+    "size": 14,
+    "bold": true,
+    "color": "#a2b0c8"
+  },
+  {
+    "s": "Recovery",
+    "x": 268,
+    "y": 777,
+    "size": 14,
+    "bold": true,
+    "color": "#a2b0c8"
+  }
+]

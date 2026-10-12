@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "regions": [
+    {
+      "id": "hero",
+      "kind": "layout",
+      "bounds": {
+        "x": 24,
+        "y": 112,
+        "width": 342,
+        "height": 112
+      },
+      "confidence": "high",
+      "provenance": "Original controlled design rectangle",
+      "required": true
+    },
+    {
+      "id": "chart",
+      "kind": "decoration",
+      "bounds": {
+        "x": 24,
+        "y": 248,
+        "width": 342,
+        "height": 224
+      },
+      "confidence": "high",
+      "provenance": "Original controlled design rectangle",
+      "required": true
+    },
+    {
+      "id": "navigation",
+      "kind": "control",
+      "bounds": {
+        "x": 24,
+        "y": 752,
+        "width": 342,
+        "height": 64
+      },
+      "confidence": "high",
+      "provenance": "Original controlled design rectangle",
+      "required": true
+    }
+  ],
+  "layoutNotes": [
+    "390 x 844 app-content benchmark; export ratio 1; independently rendered SVG and text reference."
+  ],
+  "uncertainties": [],
+  "assets": []
+}

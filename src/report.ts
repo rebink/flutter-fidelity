@@ -1,0 +1,24 @@
+import { promises as fs } from 'node:fs';
+import path from 'node:path';
+import type { ComparisonReport } from './schema.js';
+import { json } from './io.js';
+function escape(value: unknown) { return String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!); }
+const percent = (n: number) => `${(n * 100).toFixed(3)}%`;
+export async function writeReport(directory: string, report: ComparisonReport) {
+  const rows = report.regions.map(r => `<tr><td>${escape(r.id)}</td><td>${r.status}</td><td>${percent(r.metric.tolerantRatio)}</td><td>${percent(r.metric.exactRatio)}</td><td>${r.geometryError?.toFixed(2) ?? 'unverified'}</td><td>${escape(r.textMatches === undefined ? 'unverified / n/a' : r.textMatches)}</td><td>${escape(r.issues.join('; '))}</td></tr>`).join('');
+  const problems = [...report.failures, ...report.incomplete].map(s => `<li>${escape(s)}</li>`).join('');
+  const html = `<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Flutter fidelity report</title>
+<style>body{font:16px system-ui;margin:0;background:#111827;color:#e5e7eb}main{max-width:1200px;margin:auto;padding:28px}h1{margin:0 0 8px}a{color:#93c5fd}.summary{display:flex;gap:16px;flex-wrap:wrap}.card{background:#1f2937;padding:16px;border-radius:12px;margin:16px 0}.card strong{display:block;font-size:24px}.images{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}img{max-width:100%;height:auto;background:repeating-conic-gradient(#eee 0% 25%,#ddd 0% 50%) 50%/12px 12px}figure{margin:0}figcaption{padding:8px 0}.stage{position:relative;max-width:440px}.stage img{display:block;width:100%}.stage .actual{position:absolute;inset:0;opacity:.5}.blink .actual{animation:blink 1s steps(1) infinite}@keyframes blink{50%{opacity:0}100%{opacity:1}}button,input{margin:8px}table{border-collapse:collapse;width:100%;font-size:14px}th,td{text-align:left;padding:10px;border-bottom:1px solid #374151}.scroll{overflow:auto}pre{white-space:pre-wrap;overflow-wrap:anywhere}small{color:#9ca3af}</style>
+<main><h1>Flutter fidelity: ${escape(report.status)}</h1><small>${escape(report.createdAt)} · design-fidelity check; interaction, accessibility and responsive checks are separate.</small>
+<div class="summary"><div class="card"><strong>${percent(report.metric.tolerantRatio)}</strong>Tolerant pixel mismatch</div><div class="card"><strong>${percent(report.metric.exactRatio)}</strong>Exact RGBA mismatch</div><div class="card"><strong>${report.metric.ssim.toFixed(5)}</strong>SSIM (diagnostic)</div><div class="card"><strong>${report.exactPixelEquality ? 'Yes' : 'No'}</strong>Exact pixel equality</div></div>
+${problems ? `<div class="card"><ul>${problems}</ul></div>` : ''}
+<section class="card"><h2>Overlay inspection</h2><label>Actual opacity <input id="opacity" type="range" min="0" max="1" step="0.01" value="0.5"></label><button id="blink" type="button">Toggle blink</button><div class="stage" id="stage"><img src="reference.png" alt="Reference"><img class="actual" id="actual" src="actual.png" alt="Actual"></div></section>
+<section class="images">${[['reference.png','Reference'],['actual.png','Flutter capture'],['strict-diff.png','Strict difference'],['tolerant-diff.png','Tolerant difference']].map(([src,label]) => `<figure><a href="${src}"><img src="${src}" alt="${label}" loading="lazy"></a><figcaption>${label}</figcaption></figure>`).join('')}</section>
+<section class="card scroll"><h2>Regions</h2><table><thead><tr><th>Region</th><th>Status</th><th>Tolerant mismatch</th><th>Exact mismatch</th><th>Geometry error (logical px)</th><th>Text matches</th><th>Issues</th></tr></thead><tbody>${rows}</tbody></table></section>
+<section class="card"><h2>Policy and environment</h2><pre>${escape(JSON.stringify({ profile: report.profile, policy: report.policy, capture: report.capture, referenceSha256: report.referenceSha256, actualSha256: report.actualSha256, specSha256: report.specSha256 }, null, 2))}</pre><a href="comparison.json">Download machine-readable report</a></section></main>
+<script>document.getElementById('opacity').addEventListener('input',e=>{document.getElementById('stage').classList.remove('blink');document.getElementById('actual').style.opacity=e.target.value});document.getElementById('blink').addEventListener('click',()=>{document.getElementById('actual').style.opacity='';document.getElementById('stage').classList.toggle('blink')})</script></html>`;
+  const file = path.join(directory, 'index.html');
+  await fs.writeFile(file, html);
+  return file;
+}
+export async function getReport(directory: string) { return json(path.join(path.resolve(directory), 'comparison.json')); }

@@ -1,0 +1,6 @@
+{
+  "projectRoot": "flutter/example",
+  "target": "test/fidelity_test.dart",
+  "mode": "widget",
+  "flutter": "flutter"
+}
