@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "profile": {
+    "width": 390,
+    "height": 844,
+    "pixelRatio": 1,
+    "locale": "en-US",
+    "textScale": 1,
+    "brightness": "dark",
+    "safeInsets": {
+      "top": 0,
+      "right": 0,
+      "bottom": 0,
+      "left": 0
+    }
+  },
+  "mode": "integration",
+  "platform": "android",
+  "flutterVersion": "3.24.0",
+  "createdAt": "2026-10-12T05:31:01.275705Z",
+  "referenceSha256": "53e6400f12e1c353d932d3e83c77e810c7a890bbf59c06caa6b2c375430314fb",
+  "imageSha256": "588377eb86bdebf769d5981e4cfaa5cba1d56498ad82cbe2c6d08d8bcfa92d1b",
+  "fontSha256": [
+    "d636e4683231f931eda222d588e944d082bfd3bdba02f928bee461c0f185b251",
+    "8a0aace75d33794eece4b28187bfc1df0bbd2888b5d8a56e01788c8d65d16be1"
+  ],
+  "regions": [
+    {
+      "id": "hero",
+      "bounds": {
+        "x": 24,
+        "y": 112,
+        "width": 342,
+        "height": 256
+      },
+      "text": "12 vehicles online\nLast sync · just now\nRoute A · 8 stops"
+    },
+    {
+      "id": "content",
+      "bounds": {
+        "x": 24,
+        "y": 628,
+        "width": 342,
+        "height": 88
+      },
+      "text": "Vehicle 07\nNorth hub → Downtown\nTrack"
+    },
+    {
+      "id": "navigation",
+      "bounds": {
+        "x": 24,
+        "y": 752,
+        "width": 342,
+        "height": 64
+      },
+      "text": "Focus\nWallet\nControl"
+    }
+  ],
+  "fontsLoaded": true,
+  "settled": true,
+  "runtimeErrors": [],
+  "checks": {
+    "analysis": "passed",
+    "interactions": "passed",
+    "accessibility": "not-run",
+    "responsive": "not-run"
+  }
+}

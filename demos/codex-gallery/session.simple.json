@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "referenceSha256": "0c87cda18a48f06e5d7db60bb1d295dfdef01bc913efb6aa3c2204836d90809a",
+  "specSha256": "a755026ddf2d336edf34add7d09d8161ddd92c0ed6e98692feac635da6f14959",
+  "policySha256": "b67d039007e44a5b61dbbeaa357656200064d3940887641b0542f72e61fe0186",
+  "best": 1,
+  "stalled": 0,
+  "stop": false,
+  "reason": "",
+  "runs": [
+    {
+      "report": "/Users/mohamedrebink/Documents/myapp/AI UI flutter dev/demos/codex-gallery/runs/simple/round-1/report",
+      "ratio": 0.031714060031595576,
+      "valid": true,
+      "status": "failed",
+      "regions": []
+    },
+    {
+      "report": "/Users/mohamedrebink/Documents/myapp/AI UI flutter dev/demos/codex-gallery/runs/simple/round-2/report",
+      "ratio": 0.028758050795965488,
+      "valid": true,
+      "status": "failed",
+      "regions": []
+    }
+  ]
+}

@@ -1,0 +1,138 @@
+[
+  {
+    "s": "Focus today",
+    "x": 24,
+    "y": 32,
+    "size": 28,
+    "bold": true,
+    "color": "#292735"
+  },
+  {
+    "s": "Make space for a better day.",
+    "x": 24,
+    "y": 70,
+    "size": 14,
+    "bold": false,
+    "color": "#797681"
+  },
+  {
+    "s": "YOUR DAILY PLAN",
+    "x": 44,
+    "y": 132,
+    "size": 11,
+    "bold": true,
+    "color": "#7254bb"
+  },
+  {
+    "s": "2 of 3 complete",
+    "x": 44,
+    "y": 160,
+    "size": 28,
+    "bold": true,
+    "color": "#292735"
+  },
+  {
+    "s": "Today’s priorities",
+    "x": 24,
+    "y": 256,
+    "size": 18,
+    "bold": true,
+    "color": "#292735"
+  },
+  {
+    "s": "Read for 20 minutes",
+    "x": 82,
+    "y": 313,
+    "size": 16,
+    "bold": true,
+    "color": "#292735"
+  },
+  {
+    "s": "Personal growth",
+    "x": 82,
+    "y": 338,
+    "size": 12,
+    "bold": false,
+    "color": "#797681"
+  },
+  {
+    "s": "Take a short walk",
+    "x": 82,
+    "y": 397,
+    "size": 16,
+    "bold": true,
+    "color": "#292735"
+  },
+  {
+    "s": "Health & movement",
+    "x": 82,
+    "y": 422,
+    "size": 12,
+    "bold": false,
+    "color": "#797681"
+  },
+  {
+    "s": "Plan tomorrow",
+    "x": 82,
+    "y": 481,
+    "size": 16,
+    "bold": true,
+    "color": "#292735"
+  },
+  {
+    "s": "A little preparation",
+    "x": 82,
+    "y": 506,
+    "size": 12,
+    "bold": false,
+    "color": "#797681"
+  },
+  {
+    "s": "Add a task",
+    "x": 158,
+    "y": 578,
+    "size": 16,
+    "bold": true,
+    "color": "#ffffff"
+  },
+  {
+    "s": "One thing at a time",
+    "x": 40,
+    "y": 654,
+    "size": 16,
+    "bold": true,
+    "color": "#292735"
+  },
+  {
+    "s": "Small steps count. Keep going.",
+    "x": 40,
+    "y": 681,
+    "size": 12,
+    "bold": false,
+    "color": "#797681"
+  },
+  {
+    "s": "Focus",
+    "x": 63,
+    "y": 777,
+    "size": 14,
+    "bold": true,
+    "color": "#7254bb"
+  },
+  {
+    "s": "Wallet",
+    "x": 172,
+    "y": 777,
+    "size": 14,
+    "bold": true,
+    "color": "#797681"
+  },
+  {
+    "s": "Control",
+    "x": 281,
+    "y": 777,
+    "size": 14,
+    "bold": true,
+    "color": "#797681"
+  }
+]

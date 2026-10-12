@@ -1,0 +1,9 @@
+{
+  "projectRoot": "demos/codex-gallery/app",
+  "target": "integration_test/simple_capture_test.dart",
+  "mode": "integration",
+  "flutter": "flutter",
+  "driver": "test_driver/fidelity_driver.dart",
+  "deviceId": "emulator-5554",
+  "timeoutMs": 300000
+}

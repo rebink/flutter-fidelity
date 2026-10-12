@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "authoring": "Codex host assistant",
+  "referenceType": "independently rendered original SVG and text designs",
+  "referencePrecedesFlutterImplementation": true,
+  "designLicense": "CC0-1.0",
+  "codeLicense": "MIT",
+  "fontLicense": "OFL-1.1",
+  "skills": [
+    "screenshot-to-flutter",
+    "flutter-typography-fidelity",
+    "flutter-visual-repair",
+    "flutter-fidelity-verification"
+  ],
+  "screens": [
+    {
+      "id": "simple",
+      "name": "Focus today",
+      "level": "simple"
+    },
+    {
+      "id": "complex",
+      "name": "Wallet overview",
+      "level": "complex"
+    },
+    {
+      "id": "advanced",
+      "name": "Operations",
+      "level": "advanced"
+    }
+  ]
+}

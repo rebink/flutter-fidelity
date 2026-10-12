@@ -1,0 +1,191 @@
+{
+  "version": 1,
+  "createdAt": "2026-10-12T05:25:58.540Z",
+  "scope": "design-fidelity",
+  "status": "failed",
+  "exactPixelEquality": false,
+  "metric": {
+    "pixels": 329160,
+    "exactMismatch": 31013,
+    "exactRatio": 0.09421861708591567,
+    "tolerantMismatch": 12098,
+    "tolerantRatio": 0.03675416210961235,
+    "ssim": 0.7566666261480295
+  },
+  "policy": {
+    "version": 2,
+    "regionThreshold": 0.01,
+    "threshold": 0.1,
+    "screenMismatch": 0.01,
+    "regionMismatch": 0.03,
+    "geometryTolerance": 1
+  },
+  "profile": {
+    "width": 390,
+    "height": 844,
+    "pixelRatio": 1,
+    "locale": "en-US",
+    "textScale": 1,
+    "brightness": "dark",
+    "safeInsets": {
+      "top": 0,
+      "right": 0,
+      "bottom": 0,
+      "left": 0
+    }
+  },
+  "referenceSha256": "218a0573a57dd55acfcf4e94b3245b18024f7cc29000ab21eb65f0188dab0dcd",
+  "actualSha256": "67c1c6fe1f436c43189592b7c800ac6fea17936cc8e46e17f933a6076358588f",
+  "specSha256": "851bd6a51868e64eb4dc3595b6c0db7d7181a3c1e4486a498318fe43a8609e9e",
+  "capture": {
+    "version": 1,
+    "profile": {
+      "width": 390,
+      "height": 844,
+      "pixelRatio": 1,
+      "locale": "en-US",
+      "textScale": 1,
+      "brightness": "dark",
+      "safeInsets": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      }
+    },
+    "mode": "widget",
+    "platform": "widget-macos",
+    "flutterVersion": "3.24.0",
+    "createdAt": "2026-10-12T05:25:58.068356Z",
+    "referenceSha256": "218a0573a57dd55acfcf4e94b3245b18024f7cc29000ab21eb65f0188dab0dcd",
+    "imageSha256": "67c1c6fe1f436c43189592b7c800ac6fea17936cc8e46e17f933a6076358588f",
+    "fontSha256": [
+      "d636e4683231f931eda222d588e944d082bfd3bdba02f928bee461c0f185b251",
+      "8a0aace75d33794eece4b28187bfc1df0bbd2888b5d8a56e01788c8d65d16be1"
+    ],
+    "regions": [
+      {
+        "id": "hero",
+        "bounds": {
+          "x": 24,
+          "y": 112,
+          "width": 342,
+          "height": 144
+        },
+        "text": "Total balance\n$8,425.60\n+7.2% this month\nSend"
+      },
+      {
+        "id": "content",
+        "bounds": {
+          "x": 24,
+          "y": 280,
+          "width": 342,
+          "height": 156
+        },
+        "text": "Balance trend\n1W\n1M\n1Y"
+      },
+      {
+        "id": "navigation",
+        "bounds": {
+          "x": 24,
+          "y": 752,
+          "width": 342,
+          "height": 64
+        },
+        "text": "Focus\nWallet\nControl"
+      }
+    ],
+    "fontsLoaded": true,
+    "settled": true,
+    "runtimeErrors": [],
+    "checks": {
+      "analysis": "passed",
+      "interactions": "not-run",
+      "accessibility": "not-run",
+      "responsive": "not-run"
+    }
+  },
+  "regions": [
+    {
+      "id": "hero",
+      "bounds": {
+        "x": 24,
+        "y": 112,
+        "width": 342,
+        "height": 144
+      },
+      "metric": {
+        "pixels": 49248,
+        "exactMismatch": 6622,
+        "exactRatio": 0.13446231319038338,
+        "tolerantMismatch": 3655,
+        "tolerantRatio": 0.07421621182586095,
+        "ssim": 0.6849720849194195
+      },
+      "geometryError": 0,
+      "status": "failed",
+      "issues": [
+        "Region pixel mismatch exceeds policy"
+      ]
+    },
+    {
+      "id": "content",
+      "bounds": {
+        "x": 24,
+        "y": 280,
+        "width": 342,
+        "height": 156
+      },
+      "metric": {
+        "pixels": 53352,
+        "exactMismatch": 7196,
+        "exactRatio": 0.13487779277252962,
+        "tolerantMismatch": 4662,
+        "tolerantRatio": 0.08738191632928476,
+        "ssim": 0.7271517392673793
+      },
+      "geometryError": 0,
+      "status": "failed",
+      "issues": [
+        "Region pixel mismatch exceeds policy"
+      ]
+    },
+    {
+      "id": "navigation",
+      "bounds": {
+        "x": 24,
+        "y": 752,
+        "width": 342,
+        "height": 64
+      },
+      "metric": {
+        "pixels": 21888,
+        "exactMismatch": 2424,
+        "exactRatio": 0.11074561403508772,
+        "tolerantMismatch": 1622,
+        "tolerantRatio": 0.07410453216374269,
+        "ssim": 0.7847414529733674
+      },
+      "geometryError": 0,
+      "status": "failed",
+      "issues": [
+        "Region pixel mismatch exceeds policy"
+      ]
+    }
+  ],
+  "failures": [
+    "Whole-screen mismatch 3.675% exceeds 1.000%",
+    "Region hero: Region pixel mismatch exceeds policy",
+    "Region content: Region pixel mismatch exceeds policy",
+    "Region navigation: Region pixel mismatch exceeds policy"
+  ],
+  "incomplete": [],
+  "artifacts": {
+    "reference": "reference.png",
+    "actual": "actual.png",
+    "strictDiff": "strict-diff.png",
+    "tolerantDiff": "tolerant-diff.png",
+    "overlay": "overlay.png",
+    "html": "index.html"
+  }
+}

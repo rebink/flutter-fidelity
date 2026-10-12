@@ -110,55 +110,48 @@ does not depend on the capture harness. Backend generation, native platform
 views and complex animation/shaders are outside v1. Figma/Sketch adapters and an
 independent model-API runner are not part of this screenshot-first release.
 
-## UI examples: design PNG versus Flutter
+## Codex-generated UI: simple, complex and advanced
 
-The bundled **Open Wellness** designs are original, free-to-reuse UI references
-released under CC0. They are rendered independently from editable design sources,
-then implemented as real Flutter widgets. All screenshots below use a 390×844
-app-content viewport. No screenshot is embedded as the Flutter UI.
+Codex created three original CC0 design references, then implemented the Flutter
+UI using our screenshot-to-Flutter, typography, visual-repair and verification
+skills. The images below show the **unchanged design PNG on the left** and the
+**actual Flutter UI captured on Android on the right**, at390×844 app-content size.
+References were created before Dart UI implementation; the app uses real text,
+controls and vector drawing, with no screen-sized image asset.
 
-### Daily pulse
+### Simple · Focus today
 
-Progress ring, gradient hero, activity bars, step updates and a routine sheet.
+Task list, completion states, progress summary and task creation.
 
-| Original CC0 design PNG | Flutter UI · Android |
-| --- | --- |
-| <img src="demos/open-wellness/design/today.png" width="300" alt="Daily pulse design reference" /> | <img src="demos/open-wellness/artifacts/today-android.png" width="300" alt="Daily pulse implemented in Flutter on Android" /> |
+![Simple Codex design versus Flutter UI](demos/codex-gallery/artifacts/simple-comparison.png)
 
-### Weekly insights
+### Complex · Wallet overview
 
-Recovery chart with selectable days, activity metrics, goal progress and navigation.
+Balance summary, interactive chart, range selection, transaction rows and demo payments.
 
-| Original CC0 design PNG | Flutter UI · Android |
-| --- | --- |
-| <img src="demos/open-wellness/design/insights.png" width="300" alt="Weekly insights design reference" /> | <img src="demos/open-wellness/artifacts/insights-android.png" width="300" alt="Weekly insights implemented in Flutter on Android" /> |
+![Complex Codex design versus Flutter UI](demos/codex-gallery/artifacts/complex-comparison.png)
 
-### Training lab — advanced dashboard
+### Advanced · Operations
 
-Two linked chart series, readiness gauge, three metric cards, four training-zone
-indicators, chart selection and Overview/Load/Recovery filters.
+Route visualization, layered vehicle status, telemetry cards, traffic advisory,
+delivery progress and vehicle tracking interactions.
 
-| Original CC0 design PNG | Flutter UI · Android |
-| --- | --- |
-| <img src="demos/open-wellness/design/training.png" width="300" alt="Training lab advanced design reference" /> | <img src="demos/open-wellness/artifacts/training-android.png" width="300" alt="Training lab advanced Flutter UI on Android" /> |
+![Advanced Codex design versus Flutter UI](demos/codex-gallery/artifacts/advanced-comparison.png)
 
-| Screen | Android tolerant pixel mismatch | Fidelity gate |
+| Level | Android tolerant pixel mismatch | Fidelity gate |
 | --- | --- | --- |
-| Daily pulse | 5.203% | Failed |
-| Weekly insights | 4.232% | Failed |
-| Training lab | 2.841% | Failed |
+| Simple | 2.770% | Failed |
+| Complex | 3.517% | Failed |
+| Advanced | 2.724% | Failed |
 
-These controlled examples demonstrate the workflow, not general model accuracy.
-The whole-screen acceptance limit is 1%; required regions have separate gates.
-Differences in text placement, chart geometry and effects remain visible.
-[Demo source, verification and reports](demos/open-wellness/README.md) includes
-30 passing widget tests, responsive scenarios and actual accessibility findings.
-Android captures verify native rendering; native interaction tests were not run
-for these replacements. iOS was not tested for these replacements.
+All31 widget tests, static analysis and three native Android interaction tests
+pass. Accessibility findings are recorded separately and retain failures. The
+screens still fail our1% whole-screen fidelity gate; this is a measured demo,
+not a claim of universal pixel-perfect generation. iOS was not tested.
 
-For more complex multi-screen references, [verified CC0 UI kit options](docs/free-ui-resources.md)
-include large component and mobile-screen libraries. These kits are candidates;
-the bundled screenshots above are original designs.
+[Run the gallery and inspect the reports](demos/codex-gallery/README.md).
+The earlier [Open Wellness examples](demos/open-wellness/README.md) remain available.
+For other multi-screen references, see [verified CC0 UI kit options](docs/free-ui-resources.md).
 
 ## Repository layout
 
@@ -178,9 +171,9 @@ in capture configuration with your installed SDK or `flutter` on PATH.
 
 ## Licensing
 
-Project code is covered by the [MIT license](LICENSE). Open Wellness design
+Project code is covered by the [MIT license](LICENSE). Open Wellness and Codex Gallery design
 sources and reference PNGs are dedicated to the public domain under
-[CC0](demos/open-wellness/design/LICENSE), allowing personal and commercial reuse
+CC0 ([Wellness](demos/open-wellness/design/LICENSE), [Gallery](demos/codex-gallery/design/LICENSE)), allowing personal and commercial reuse
 without attribution. Bundled fonts retain their included OFL licenses, and
 dependencies retain their own required notices. The design dedication does not
 change those software/font licenses.

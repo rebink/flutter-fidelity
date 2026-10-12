@@ -1,0 +1,104 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Flutter fidelity report</title>
+<style>body{font:16px system-ui;margin:0;background:#111827;color:#e5e7eb}main{max-width:1200px;margin:auto;padding:28px}h1{margin:0 0 8px}a{color:#93c5fd}.summary{display:flex;gap:16px;flex-wrap:wrap}.card{background:#1f2937;padding:16px;border-radius:12px;margin:16px 0}.card strong{display:block;font-size:24px}.images{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}img{max-width:100%;height:auto;background:repeating-conic-gradient(#eee 0% 25%,#ddd 0% 50%) 50%/12px 12px}figure{margin:0}figcaption{padding:8px 0}.stage{position:relative;max-width:440px}.stage img{display:block;width:100%}.stage .actual{position:absolute;inset:0;opacity:.5}.blink .actual{animation:blink 1s steps(1) infinite}@keyframes blink{50%{opacity:0}100%{opacity:1}}button,input{margin:8px}table{border-collapse:collapse;width:100%;font-size:14px}th,td{text-align:left;padding:10px;border-bottom:1px solid #374151}.scroll{overflow:auto}pre{white-space:pre-wrap;overflow-wrap:anywhere}small{color:#9ca3af}</style>
+<main><h1>Flutter fidelity: failed</h1><small>2026-10-12T05:25:52.125Z · design-fidelity check; interaction, accessibility and responsive checks are separate.</small>
+<div class="summary"><div class="card"><strong>3.171%</strong>Tolerant pixel mismatch</div><div class="card"><strong>7.065%</strong>Exact RGBA mismatch</div><div class="card"><strong>0.83600</strong>SSIM (diagnostic)</div><div class="card"><strong>No</strong>Exact pixel equality</div></div>
+<div class="card"><ul><li>Whole-screen mismatch 3.171% exceeds 1.000%</li><li>Region hero: Region pixel mismatch exceeds policy</li><li>Region content: Region pixel mismatch exceeds policy</li><li>Region navigation: Region pixel mismatch exceeds policy</li></ul></div>
+<section class="card"><h2>Overlay inspection</h2><label>Actual opacity <input id="opacity" type="range" min="0" max="1" step="0.01" value="0.5"></label><button id="blink" type="button">Toggle blink</button><div class="stage" id="stage"><img src="reference.png" alt="Reference"><img class="actual" id="actual" src="actual.png" alt="Actual"></div></section>
+<section class="images"><figure><a href="reference.png"><img src="reference.png" alt="Reference" loading="lazy"></a><figcaption>Reference</figcaption></figure><figure><a href="actual.png"><img src="actual.png" alt="Flutter capture" loading="lazy"></a><figcaption>Flutter capture</figcaption></figure><figure><a href="strict-diff.png"><img src="strict-diff.png" alt="Strict difference" loading="lazy"></a><figcaption>Strict difference</figcaption></figure><figure><a href="tolerant-diff.png"><img src="tolerant-diff.png" alt="Tolerant difference" loading="lazy"></a><figcaption>Tolerant difference</figcaption></figure></section>
+<section class="card scroll"><h2>Regions</h2><table><thead><tr><th>Region</th><th>Status</th><th>Tolerant mismatch</th><th>Exact mismatch</th><th>Geometry error (logical px)</th><th>Text matches</th><th>Issues</th></tr></thead><tbody><tr><td>hero</td><td>failed</td><td>6.192%</td><td>11.204%</td><td>0.00</td><td>unverified / n/a</td><td>Region pixel mismatch exceeds policy</td></tr><tr><td>content</td><td>failed</td><td>4.449%</td><td>8.702%</td><td>0.00</td><td>unverified / n/a</td><td>Region pixel mismatch exceeds policy</td></tr><tr><td>navigation</td><td>failed</td><td>7.566%</td><td>10.969%</td><td>0.00</td><td>unverified / n/a</td><td>Region pixel mismatch exceeds policy</td></tr></tbody></table></section>
+<section class="card"><h2>Policy and environment</h2><pre>{
+  &quot;profile&quot;: {
+    &quot;width&quot;: 390,
+    &quot;height&quot;: 844,
+    &quot;pixelRatio&quot;: 1,
+    &quot;locale&quot;: &quot;en-US&quot;,
+    &quot;textScale&quot;: 1,
+    &quot;brightness&quot;: &quot;light&quot;,
+    &quot;safeInsets&quot;: {
+      &quot;top&quot;: 0,
+      &quot;right&quot;: 0,
+      &quot;bottom&quot;: 0,
+      &quot;left&quot;: 0
+    }
+  },
+  &quot;policy&quot;: {
+    &quot;version&quot;: 2,
+    &quot;regionThreshold&quot;: 0.01,
+    &quot;threshold&quot;: 0.1,
+    &quot;screenMismatch&quot;: 0.01,
+    &quot;regionMismatch&quot;: 0.03,
+    &quot;geometryTolerance&quot;: 1
+  },
+  &quot;capture&quot;: {
+    &quot;version&quot;: 1,
+    &quot;profile&quot;: {
+      &quot;width&quot;: 390,
+      &quot;height&quot;: 844,
+      &quot;pixelRatio&quot;: 1,
+      &quot;locale&quot;: &quot;en-US&quot;,
+      &quot;textScale&quot;: 1,
+      &quot;brightness&quot;: &quot;light&quot;,
+      &quot;safeInsets&quot;: {
+        &quot;top&quot;: 0,
+        &quot;right&quot;: 0,
+        &quot;bottom&quot;: 0,
+        &quot;left&quot;: 0
+      }
+    },
+    &quot;mode&quot;: &quot;widget&quot;,
+    &quot;platform&quot;: &quot;widget-macos&quot;,
+    &quot;flutterVersion&quot;: &quot;3.24.0&quot;,
+    &quot;createdAt&quot;: &quot;2026-10-12T05:25:51.644714Z&quot;,
+    &quot;referenceSha256&quot;: &quot;0c87cda18a48f06e5d7db60bb1d295dfdef01bc913efb6aa3c2204836d90809a&quot;,
+    &quot;imageSha256&quot;: &quot;52667e375066f0359f9c5aa0d431b5219352cc3aa9050746946d12a240c58551&quot;,
+    &quot;fontSha256&quot;: [
+      &quot;d636e4683231f931eda222d588e944d082bfd3bdba02f928bee461c0f185b251&quot;,
+      &quot;8a0aace75d33794eece4b28187bfc1df0bbd2888b5d8a56e01788c8d65d16be1&quot;
+    ],
+    &quot;regions&quot;: [
+      {
+        &quot;id&quot;: &quot;hero&quot;,
+        &quot;bounds&quot;: {
+          &quot;x&quot;: 24,
+          &quot;y&quot;: 112,
+          &quot;width&quot;: 342,
+          &quot;height&quot;: 120
+        },
+        &quot;text&quot;: &quot;YOUR DAILY PLAN\n2 of 3 complete&quot;
+      },
+      {
+        &quot;id&quot;: &quot;content&quot;,
+        &quot;bounds&quot;: {
+          &quot;x&quot;: 24,
+          &quot;y&quot;: 296,
+          &quot;width&quot;: 342,
+          &quot;height&quot;: 240
+        },
+        &quot;text&quot;: &quot;Read for 20 minutes\nPersonal growth\nTake a short walk\nHealth &amp; movement\nPlan tomorrow\nA little preparation&quot;
+      },
+      {
+        &quot;id&quot;: &quot;navigation&quot;,
+        &quot;bounds&quot;: {
+          &quot;x&quot;: 24,
+          &quot;y&quot;: 752,
+          &quot;width&quot;: 342,
+          &quot;height&quot;: 64
+        },
+        &quot;text&quot;: &quot;Focus\nWallet\nControl&quot;
+      }
+    ],
+    &quot;fontsLoaded&quot;: true,
+    &quot;settled&quot;: true,
+    &quot;runtimeErrors&quot;: [],
+    &quot;checks&quot;: {
+      &quot;analysis&quot;: &quot;passed&quot;,
+      &quot;interactions&quot;: &quot;not-run&quot;,
+      &quot;accessibility&quot;: &quot;not-run&quot;,
+      &quot;responsive&quot;: &quot;not-run&quot;
+    }
+  },
+  &quot;referenceSha256&quot;: &quot;0c87cda18a48f06e5d7db60bb1d295dfdef01bc913efb6aa3c2204836d90809a&quot;,
+  &quot;actualSha256&quot;: &quot;52667e375066f0359f9c5aa0d431b5219352cc3aa9050746946d12a240c58551&quot;,
+  &quot;specSha256&quot;: &quot;a755026ddf2d336edf34add7d09d8161ddd92c0ed6e98692feac635da6f14959&quot;
+}</pre><a href="comparison.json">Download machine-readable report</a></section></main>
+<script>document.getElementById('opacity').addEventListener('input',e=>{document.getElementById('stage').classList.remove('blink');document.getElementById('actual').style.opacity=e.target.value});document.getElementById('blink').addEventListener('click',()=>{document.getElementById('actual').style.opacity='';document.getElementById('stage').classList.toggle('blink')})</script></html>

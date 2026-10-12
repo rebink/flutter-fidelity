@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "profile": {
+    "width": 390,
+    "height": 844,
+    "pixelRatio": 1,
+    "locale": "en-US",
+    "textScale": 1,
+    "brightness": "dark",
+    "safeInsets": {
+      "top": 0,
+      "right": 0,
+      "bottom": 0,
+      "left": 0
+    }
+  },
+  "mode": "widget",
+  "platform": "widget-macos",
+  "flutterVersion": "3.24.0",
+  "createdAt": "2026-10-12T05:25:58.068356Z",
+  "referenceSha256": "218a0573a57dd55acfcf4e94b3245b18024f7cc29000ab21eb65f0188dab0dcd",
+  "imageSha256": "67c1c6fe1f436c43189592b7c800ac6fea17936cc8e46e17f933a6076358588f",
+  "fontSha256": [
+    "d636e4683231f931eda222d588e944d082bfd3bdba02f928bee461c0f185b251",
+    "8a0aace75d33794eece4b28187bfc1df0bbd2888b5d8a56e01788c8d65d16be1"
+  ],
+  "regions": [
+    {
+      "id": "hero",
+      "bounds": {
+        "x": 24,
+        "y": 112,
+        "width": 342,
+        "height": 144
+      },
+      "text": "Total balance\n$8,425.60\n+7.2% this month\nSend"
+    },
+    {
+      "id": "content",
+      "bounds": {
+        "x": 24,
+        "y": 280,
+        "width": 342,
+        "height": 156
+      },
+      "text": "Balance trend\n1W\n1M\n1Y"
+    },
+    {
+      "id": "navigation",
+      "bounds": {
+        "x": 24,
+        "y": 752,
+        "width": 342,
+        "height": 64
+      },
+      "text": "Focus\nWallet\nControl"
+    }
+  ],
+  "fontsLoaded": true,
+  "settled": true,
+  "runtimeErrors": [],
+  "checks": {
+    "analysis": "passed",
+    "interactions": "not-run",
+    "accessibility": "not-run",
+    "responsive": "not-run"
+  }
+}

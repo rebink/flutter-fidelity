@@ -1,0 +1,6 @@
+{
+  "projectRoot": "demos/codex-gallery/app",
+  "target": "test/advanced_capture_test.dart",
+  "mode": "widget",
+  "flutter": "flutter"
+}

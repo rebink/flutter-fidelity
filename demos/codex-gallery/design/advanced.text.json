@@ -1,0 +1,162 @@
+[
+  {
+    "s": "Operations",
+    "x": 24,
+    "y": 32,
+    "size": 28,
+    "bold": true,
+    "color": "#edf3fa"
+  },
+  {
+    "s": "Live fleet telemetry",
+    "x": 24,
+    "y": 70,
+    "size": 14,
+    "bold": false,
+    "color": "#9faabd"
+  },
+  {
+    "s": "12 vehicles online",
+    "x": 52,
+    "y": 140,
+    "size": 14,
+    "bold": true,
+    "color": "#edf3fa"
+  },
+  {
+    "s": "Last sync · just now",
+    "x": 52,
+    "y": 162,
+    "size": 11,
+    "bold": false,
+    "color": "#9faabd"
+  },
+  {
+    "s": "Route A · 8 stops",
+    "x": 50,
+    "y": 331,
+    "size": 11,
+    "bold": true,
+    "color": "#c3f27a"
+  },
+  {
+    "s": "Active",
+    "x": 40,
+    "y": 409,
+    "size": 11,
+    "bold": false,
+    "color": "#9faabd"
+  },
+  {
+    "s": "12",
+    "x": 40,
+    "y": 437,
+    "size": 26,
+    "bold": true,
+    "color": "#edf3fa"
+  },
+  {
+    "s": "On time",
+    "x": 159,
+    "y": 409,
+    "size": 11,
+    "bold": false,
+    "color": "#9faabd"
+  },
+  {
+    "s": "98%",
+    "x": 159,
+    "y": 437,
+    "size": 26,
+    "bold": true,
+    "color": "#edf3fa"
+  },
+  {
+    "s": "Distance",
+    "x": 278,
+    "y": 409,
+    "size": 11,
+    "bold": false,
+    "color": "#9faabd"
+  },
+  {
+    "s": "184 km",
+    "x": 278,
+    "y": 437,
+    "size": 19,
+    "bold": true,
+    "color": "#edf3fa"
+  },
+  {
+    "s": "Traffic advisory",
+    "x": 40,
+    "y": 516,
+    "size": 15,
+    "bold": true,
+    "color": "#c3f27a"
+  },
+  {
+    "s": "Route B · 6 minute delay",
+    "x": 40,
+    "y": 540,
+    "size": 12,
+    "bold": false,
+    "color": "#bfc6ab"
+  },
+  {
+    "s": "Priority delivery",
+    "x": 24,
+    "y": 592,
+    "size": 18,
+    "bold": true,
+    "color": "#edf3fa"
+  },
+  {
+    "s": "Vehicle 07",
+    "x": 40,
+    "y": 644,
+    "size": 17,
+    "bold": true,
+    "color": "#edf3fa"
+  },
+  {
+    "s": "North hub → Downtown",
+    "x": 40,
+    "y": 672,
+    "size": 12,
+    "bold": false,
+    "color": "#9faabd"
+  },
+  {
+    "s": "Track",
+    "x": 296,
+    "y": 653,
+    "size": 12,
+    "bold": true,
+    "color": "#17231e"
+  },
+  {
+    "s": "Focus",
+    "x": 63,
+    "y": 777,
+    "size": 14,
+    "bold": true,
+    "color": "#9faabd"
+  },
+  {
+    "s": "Wallet",
+    "x": 172,
+    "y": 777,
+    "size": 14,
+    "bold": true,
+    "color": "#9faabd"
+  },
+  {
+    "s": "Control",
+    "x": 281,
+    "y": 777,
+    "size": 14,
+    "bold": true,
+    "color": "#c3f27a"
+  }
+]

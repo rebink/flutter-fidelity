@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "output": "/Users/mohamedrebink/Documents/myapp/AI UI flutter dev/demos/codex-gallery/runs/simple/round-2/capture",
+  "profile": {
+    "width": 390,
+    "height": 844,
+    "pixelRatio": 1,
+    "locale": "en-US",
+    "textScale": 1,
+    "brightness": "light",
+    "safeInsets": {
+      "top": 0,
+      "right": 0,
+      "bottom": 0,
+      "left": 0
+    }
+  },
+  "referenceSha256": "0c87cda18a48f06e5d7db60bb1d295dfdef01bc913efb6aa3c2204836d90809a",
+  "fonts": [
+    {
+      "path": "/Users/mohamedrebink/Documents/myapp/AI UI flutter dev/demos/codex-gallery/bundles/simple/fonts/Lato-Regular.ttf",
+      "sha256": "d636e4683231f931eda222d588e944d082bfd3bdba02f928bee461c0f185b251",
+      "name": "Lato-Regular.ttf"
+    },
+    {
+      "path": "/Users/mohamedrebink/Documents/myapp/AI UI flutter dev/demos/codex-gallery/bundles/simple/fonts/Lato-Bold.ttf",
+      "sha256": "8a0aace75d33794eece4b28187bfc1df0bbd2888b5d8a56e01788c8d65d16be1",
+      "name": "Lato-Bold.ttf"
+    }
+  ],
+  "mode": "widget",
+  "flutterVersion": "3.24.0"
+}

@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "profile": {
+    "width": 390,
+    "height": 844,
+    "pixelRatio": 1,
+    "locale": "en-US",
+    "textScale": 1,
+    "brightness": "light",
+    "safeInsets": {
+      "top": 0,
+      "right": 0,
+      "bottom": 0,
+      "left": 0
+    }
+  },
+  "mode": "integration",
+  "platform": "android",
+  "flutterVersion": "3.24.0",
+  "createdAt": "2026-10-12T05:30:22.007608Z",
+  "referenceSha256": "0c87cda18a48f06e5d7db60bb1d295dfdef01bc913efb6aa3c2204836d90809a",
+  "imageSha256": "ea0f30ed38f83927b5b491f7d91787f5aba1f58080f52a2210b9c88cff82ad7d",
+  "fontSha256": [
+    "d636e4683231f931eda222d588e944d082bfd3bdba02f928bee461c0f185b251",
+    "8a0aace75d33794eece4b28187bfc1df0bbd2888b5d8a56e01788c8d65d16be1"
+  ],
+  "regions": [
+    {
+      "id": "hero",
+      "bounds": {
+        "x": 24,
+        "y": 112,
+        "width": 342,
+        "height": 120
+      },
+      "text": "YOUR DAILY PLAN\n2 of 3 complete"
+    },
+    {
+      "id": "content",
+      "bounds": {
+        "x": 24,
+        "y": 296,
+        "width": 342,
+        "height": 240
+      },
+      "text": "Read for 20 minutes\nPersonal growth\nTake a short walk\nHealth & movement\nPlan tomorrow\nA little preparation"
+    },
+    {
+      "id": "navigation",
+      "bounds": {
+        "x": 24,
+        "y": 752,
+        "width": 342,
+        "height": 64
+      },
+      "text": "Focus\nWallet\nControl"
+    }
+  ],
+  "fontsLoaded": true,
+  "settled": true,
+  "runtimeErrors": [],
+  "checks": {
+    "analysis": "passed",
+    "interactions": "passed",
+    "accessibility": "not-run",
+    "responsive": "not-run"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "regions": [
+    {
+      "id": "hero",
+      "kind": "layout",
+      "bounds": {
+        "x": 24,
+        "y": 112,
+        "width": 342,
+        "height": 144
+      },
+      "confidence": "high",
+      "provenance": "Original controlled design box",
+      "required": true
+    },
+    {
+      "id": "content",
+      "kind": "layout",
+      "bounds": {
+        "x": 24,
+        "y": 280,
+        "width": 342,
+        "height": 156
+      },
+      "confidence": "high",
+      "provenance": "Original controlled design box",
+      "required": true
+    },
+    {
+      "id": "navigation",
+      "kind": "control",
+      "bounds": {
+        "x": 24,
+        "y": 752,
+        "width": 342,
+        "height": 64
+      },
+      "confidence": "high",
+      "provenance": "Original controlled design box",
+      "required": true
+    }
+  ],
+  "layoutNotes": [
+    "Original Codex-authored reference, 390 x 844, export ratio 1. Independently rendered before Flutter implementation."
+  ],
+  "uncertainties": [],
+  "assets": []
+}
