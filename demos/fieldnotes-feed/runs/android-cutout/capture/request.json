@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "output": "/Users/mohamedrebink/Documents/myapp/AI UI flutter dev/demos/fieldnotes-feed/runs/android-cutout/capture",
+  "profile": {
+    "width": 400,
+    "height": 800,
+    "pixelRatio": 2.2175,
+    "locale": "en-US",
+    "textScale": 1,
+    "brightness": "light",
+    "safeInsets": {
+      "top": 0,
+      "right": 0,
+      "bottom": 0,
+      "left": 0
+    }
+  },
+  "referenceSha256": "6932b9e0b2cee7e765f28cd74fb65d8c017a174174130d8b5d5b94279dc064ec",
+  "fonts": [
+    {
+      "path": "/Users/mohamedrebink/Documents/myapp/AI UI flutter dev/demos/fieldnotes-feed/bundle/fonts/Lato-Regular.ttf",
+      "sha256": "d636e4683231f931eda222d588e944d082bfd3bdba02f928bee461c0f185b251",
+      "name": "Lato-Regular.ttf"
+    },
+    {
+      "path": "/Users/mohamedrebink/Documents/myapp/AI UI flutter dev/demos/fieldnotes-feed/bundle/fonts/Lato-Bold.ttf",
+      "sha256": "8a0aace75d33794eece4b28187bfc1df0bbd2888b5d8a56e01788c8d65d16be1",
+      "name": "Lato-Bold.ttf"
+    }
+  ],
+  "mode": "integration",
+  "flutterVersion": "3.24.0"
+}

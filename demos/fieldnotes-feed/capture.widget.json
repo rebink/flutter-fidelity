@@ -1,0 +1,7 @@
+{
+  "projectRoot": "/Users/mohamedrebink/Documents/myapp/AI UI flutter dev/demos/fieldnotes-feed/app",
+  "target": "test/fidelity_test.dart",
+  "mode": "widget",
+  "flutter": "/Users/mohamedrebink/fvm/versions/3.24.0/bin/flutter",
+  "timeoutMs": 300000
+}

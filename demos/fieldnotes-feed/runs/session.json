@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "referenceSha256": "6932b9e0b2cee7e765f28cd74fb65d8c017a174174130d8b5d5b94279dc064ec",
+  "specSha256": "02bb6103809eb41a8ae92e22bc49ea84f282f3b3280995d5cc68563235e67d62",
+  "policySha256": "b67d039007e44a5b61dbbeaa357656200064d3940887641b0542f72e61fe0186",
+  "best": 4,
+  "stalled": 0,
+  "stop": true,
+  "reason": "Five repair rounds exhausted.",
+  "runs": [
+    {
+      "report": "/Users/mohamedrebink/Documents/myapp/AI UI flutter dev/demos/fieldnotes-feed/runs/round-1/report",
+      "ratio": 0.34015765745727145,
+      "valid": true,
+      "status": "failed",
+      "regions": []
+    },
+    {
+      "report": "/Users/mohamedrebink/Documents/myapp/AI UI flutter dev/demos/fieldnotes-feed/runs/round-2/report",
+      "ratio": 0.18262348923254476,
+      "valid": true,
+      "status": "failed",
+      "regions": []
+    },
+    {
+      "report": "/Users/mohamedrebink/Documents/myapp/AI UI flutter dev/demos/fieldnotes-feed/runs/round-3/report",
+      "ratio": 0.0705893343535396,
+      "valid": true,
+      "status": "failed",
+      "regions": [
+        "trail"
+      ]
+    },
+    {
+      "report": "/Users/mohamedrebink/Documents/myapp/AI UI flutter dev/demos/fieldnotes-feed/runs/round-4/report",
+      "ratio": 0.07054357759393164,
+      "valid": true,
+      "status": "failed",
+      "regions": [
+        "trail"
+      ]
+    },
+    {
+      "report": "/Users/mohamedrebink/Documents/myapp/AI UI flutter dev/demos/fieldnotes-feed/runs/round-5/report",
+      "ratio": 0.06486401980759282,
+      "valid": true,
+      "status": "failed",
+      "regions": [
+        "trail"
+      ]
+    }
+  ]
+}

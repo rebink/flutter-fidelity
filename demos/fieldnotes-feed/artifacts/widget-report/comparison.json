@@ -1,0 +1,758 @@
+{
+  "version": 1,
+  "createdAt": "2026-10-12T19:22:18.282Z",
+  "scope": "design-fidelity",
+  "status": "failed",
+  "exactPixelEquality": false,
+  "metric": {
+    "pixels": 1573538,
+    "exactMismatch": 1109830,
+    "exactRatio": 0.7053086738292942,
+    "tolerantMismatch": 102066,
+    "tolerantRatio": 0.06486401980759282,
+    "ssim": 0.8528596775829808
+  },
+  "policy": {
+    "version": 2,
+    "regionThreshold": 0.01,
+    "threshold": 0.1,
+    "screenMismatch": 0.01,
+    "regionMismatch": 0.03,
+    "geometryTolerance": 1
+  },
+  "profile": {
+    "width": 400,
+    "height": 800,
+    "pixelRatio": 2.2175,
+    "locale": "en-US",
+    "textScale": 1,
+    "brightness": "light",
+    "safeInsets": {
+      "top": 0,
+      "right": 0,
+      "bottom": 0,
+      "left": 0
+    }
+  },
+  "referenceSha256": "6932b9e0b2cee7e765f28cd74fb65d8c017a174174130d8b5d5b94279dc064ec",
+  "actualSha256": "e6397a7629da31e7de61e4fc760b1faa7cb10c46871915dd64e9e5631ff4cd81",
+  "specSha256": "02bb6103809eb41a8ae92e22bc49ea84f282f3b3280995d5cc68563235e67d62",
+  "capture": {
+    "version": 1,
+    "profile": {
+      "width": 400,
+      "height": 800,
+      "pixelRatio": 2.2175,
+      "locale": "en-US",
+      "textScale": 1,
+      "brightness": "light",
+      "safeInsets": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      }
+    },
+    "mode": "widget",
+    "platform": "widget-macos",
+    "flutterVersion": "3.24.0",
+    "createdAt": "2026-10-12T19:21:54.141062Z",
+    "referenceSha256": "6932b9e0b2cee7e765f28cd74fb65d8c017a174174130d8b5d5b94279dc064ec",
+    "imageSha256": "e6397a7629da31e7de61e4fc760b1faa7cb10c46871915dd64e9e5631ff4cd81",
+    "fontSha256": [
+      "d636e4683231f931eda222d588e944d082bfd3bdba02f928bee461c0f185b251",
+      "8a0aace75d33794eece4b28187bfc1df0bbd2888b5d8a56e01788c8d65d16be1"
+    ],
+    "regions": [
+      {
+        "id": "masthead",
+        "bounds": {
+          "x": 18.5,
+          "y": 7,
+          "width": 363,
+          "height": 38
+        },
+        "text": "Fieldnotes\n\n"
+      },
+      {
+        "id": "heading",
+        "bounds": {
+          "x": 18.5,
+          "y": 55,
+          "width": 363,
+          "height": 30
+        },
+        "text": "Your daily inspiration"
+      },
+      {
+        "id": "subtitle",
+        "bounds": {
+          "x": 18.5,
+          "y": 90,
+          "width": 363,
+          "height": 17
+        },
+        "text": "A little curiosity goes a long way."
+      },
+      {
+        "id": "filters",
+        "bounds": {
+          "x": 18.5,
+          "y": 122.2,
+          "width": 349.9356353759766,
+          "height": 30.6
+        },
+        "text": "For you\nFollowing\nOutdoors\nDesign"
+      },
+      {
+        "id": "stories",
+        "bounds": {
+          "x": 14.5,
+          "y": 166.8,
+          "width": 377,
+          "height": 79.5
+        },
+        "text": "\nYour story\nMaya\nLeo\nNoor\nAlex"
+      },
+      {
+        "id": "post",
+        "bounds": {
+          "x": 8.1,
+          "y": 259.75,
+          "width": 383.8,
+          "height": 368.8005975264741
+        },
+        "text": "Maya Chen\nPortland, OR · 24 min\nFollowing\n\nTake the scenic route.\nNo signal. No rush. Just the trail ahead.\n#weekendwander\n\n128\n\n24\n\n"
+      },
+      {
+        "id": "trail",
+        "bounds": {
+          "x": 13.0777903,
+          "y": 317.9255355,
+          "width": 374.746336,
+          "height": 204.73506202647414
+        }
+      },
+      {
+        "id": "post_title",
+        "bounds": {
+          "x": 21.6,
+          "y": 531.5105975264742,
+          "width": 356.8,
+          "height": 17
+        },
+        "text": "Take the scenic route."
+      },
+      {
+        "id": "post_caption",
+        "bounds": {
+          "x": 21.6,
+          "y": 551.2105975264742,
+          "width": 356.8,
+          "height": 16
+        },
+        "text": "No signal. No rush. Just the trail ahead."
+      },
+      {
+        "id": "post_actions",
+        "bounds": {
+          "x": 21.6,
+          "y": 588.5505975264741,
+          "width": 356.8,
+          "height": 39
+        },
+        "text": "\n128\n\n24\n\n"
+      },
+      {
+        "id": "event",
+        "bounds": {
+          "x": 8.1,
+          "y": 636.6505975264741,
+          "width": 383.8,
+          "height": 103.27
+        },
+        "text": "NEAR YOU\nSunday trail club\nOct 18 · 8:30 AM · Forest Park\n12 going\nJoin"
+      },
+      {
+        "id": "event_title",
+        "bounds": {
+          "x": 23.15,
+          "y": 660.6005975264742,
+          "width": 222,
+          "height": 19
+        },
+        "text": "Sunday trail club"
+      },
+      {
+        "id": "navigation",
+        "bounds": {
+          "x": 0,
+          "y": 749,
+          "width": 400,
+          "height": 51
+        },
+        "text": "\nFeed\n\nExplore\n\n\nSaved\n\nYou"
+      }
+    ],
+    "fontsLoaded": true,
+    "settled": true,
+    "runtimeErrors": [],
+    "checks": {
+      "analysis": "passed",
+      "interactions": "not-run",
+      "accessibility": "not-run",
+      "responsive": "not-run"
+    }
+  },
+  "regions": [
+    {
+      "id": "masthead",
+      "bounds": {
+        "x": 18.5,
+        "y": 7,
+        "width": 363,
+        "height": 38
+      },
+      "metric": {
+        "pixels": 68425,
+        "exactMismatch": 64042,
+        "exactRatio": 0.9359444647424187,
+        "tolerantMismatch": 10462,
+        "tolerantRatio": 0.15289733284618195,
+        "ssim": 0.805115496046097
+      },
+      "geometryError": 0,
+      "status": "failed",
+      "issues": [
+        "Region pixel mismatch exceeds policy"
+      ]
+    },
+    {
+      "id": "heading",
+      "bounds": {
+        "x": 18.5,
+        "y": 55,
+        "width": 363,
+        "height": 36
+      },
+      "metric": {
+        "pixels": 65205,
+        "exactMismatch": 60584,
+        "exactRatio": 0.9291312015949698,
+        "tolerantMismatch": 19385,
+        "tolerantRatio": 0.29729315236561615,
+        "ssim": 0.7581824702630796
+      },
+      "geometryError": 6,
+      "textMatches": true,
+      "status": "failed",
+      "issues": [
+        "Region pixel mismatch exceeds policy",
+        "Inferred bounds require review; confidence is not high",
+        "Geometry differs by 6.00 logical pixels"
+      ]
+    },
+    {
+      "id": "subtitle",
+      "bounds": {
+        "x": 18.5,
+        "y": 91.5,
+        "width": 363,
+        "height": 20
+      },
+      "metric": {
+        "pixels": 37030,
+        "exactMismatch": 34385,
+        "exactRatio": 0.9285714285714286,
+        "tolerantMismatch": 9562,
+        "tolerantRatio": 0.25822306238185255,
+        "ssim": 0.6535214063165742
+      },
+      "geometryError": 3,
+      "textMatches": true,
+      "status": "failed",
+      "issues": [
+        "Region pixel mismatch exceeds policy",
+        "Inferred bounds require review; confidence is not high",
+        "Geometry differs by 3.00 logical pixels"
+      ]
+    },
+    {
+      "id": "filters",
+      "bounds": {
+        "x": 18.5,
+        "y": 122.2,
+        "width": 350,
+        "height": 30.7
+      },
+      "metric": {
+        "pixels": 54390,
+        "exactMismatch": 49796,
+        "exactRatio": 0.9155359441073727,
+        "tolerantMismatch": 21644,
+        "tolerantRatio": 0.39794079794079795,
+        "ssim": 0.6319760956338313
+      },
+      "geometryError": 0.09999999999999787,
+      "status": "failed",
+      "issues": [
+        "Region pixel mismatch exceeds policy"
+      ]
+    },
+    {
+      "id": "stories",
+      "bounds": {
+        "x": 14.5,
+        "y": 166.9,
+        "width": 377,
+        "height": 79
+      },
+      "metric": {
+        "pixels": 147312,
+        "exactMismatch": 138738,
+        "exactRatio": 0.9417970022808733,
+        "tolerantMismatch": 69231,
+        "tolerantRatio": 0.4699617139133268,
+        "ssim": 0.7231355738053106
+      },
+      "geometryError": 0.5,
+      "status": "failed",
+      "issues": [
+        "Region pixel mismatch exceeds policy"
+      ]
+    },
+    {
+      "id": "post",
+      "bounds": {
+        "x": 8.1,
+        "y": 259.75,
+        "width": 383.8,
+        "height": 369.3
+      },
+      "metric": {
+        "pixels": 699460,
+        "exactMismatch": 310845,
+        "exactRatio": 0.44440711405941724,
+        "tolerantMismatch": 66288,
+        "tolerantRatio": 0.09477025133674549,
+        "ssim": 0.9252808201008258
+      },
+      "geometryError": 0.4994024735258904,
+      "status": "failed",
+      "issues": [
+        "Region pixel mismatch exceeds policy"
+      ]
+    },
+    {
+      "id": "post_title",
+      "bounds": {
+        "x": 21.7,
+        "y": 531.5,
+        "width": 356,
+        "height": 22
+      },
+      "metric": {
+        "pixels": 39500,
+        "exactMismatch": 37610,
+        "exactRatio": 0.9521518987341772,
+        "tolerantMismatch": 8624,
+        "tolerantRatio": 0.21832911392405063,
+        "ssim": 0.8693595664545087
+      },
+      "geometryError": 5,
+      "textMatches": true,
+      "status": "failed",
+      "issues": [
+        "Region pixel mismatch exceeds policy",
+        "Inferred bounds require review; confidence is not high",
+        "Geometry differs by 5.00 logical pixels"
+      ]
+    },
+    {
+      "id": "post_caption",
+      "bounds": {
+        "x": 21.7,
+        "y": 554.5,
+        "width": 356,
+        "height": 18
+      },
+      "metric": {
+        "pixels": 32390,
+        "exactMismatch": 30724,
+        "exactRatio": 0.9485643717196666,
+        "tolerantMismatch": 8683,
+        "tolerantRatio": 0.2680765668416178,
+        "ssim": 0.637479180777609
+      },
+      "geometryError": 3.289402473525797,
+      "textMatches": true,
+      "status": "failed",
+      "issues": [
+        "Region pixel mismatch exceeds policy",
+        "Inferred bounds require review; confidence is not high",
+        "Geometry differs by 3.29 logical pixels"
+      ]
+    },
+    {
+      "id": "post_actions",
+      "bounds": {
+        "x": 21.7,
+        "y": 595.5,
+        "width": 356,
+        "height": 28
+      },
+      "metric": {
+        "pixels": 49770,
+        "exactMismatch": 48692,
+        "exactRatio": 0.9783403656821378,
+        "tolerantMismatch": 6736,
+        "tolerantRatio": 0.13534257584890497,
+        "ssim": 0.8275310615699334
+      },
+      "geometryError": 11,
+      "status": "failed",
+      "issues": [
+        "Region pixel mismatch exceeds policy",
+        "Geometry differs by 11.00 logical pixels"
+      ]
+    },
+    {
+      "id": "event",
+      "bounds": {
+        "x": 8.1,
+        "y": 637.65,
+        "width": 383.8,
+        "height": 103.27
+      },
+      "metric": {
+        "pixels": 196190,
+        "exactMismatch": 176958,
+        "exactRatio": 0.9019725776033437,
+        "tolerantMismatch": 49442,
+        "tolerantRatio": 0.2520108058514705,
+        "ssim": 0.709939948690726
+      },
+      "geometryError": 0.9994024735258336,
+      "status": "failed",
+      "issues": [
+        "Region pixel mismatch exceeds policy"
+      ]
+    },
+    {
+      "id": "event_title",
+      "bounds": {
+        "x": 23.5,
+        "y": 662.5,
+        "width": 222,
+        "height": 23
+      },
+      "metric": {
+        "pixels": 25636,
+        "exactMismatch": 22962,
+        "exactRatio": 0.8956935559369636,
+        "tolerantMismatch": 8492,
+        "tolerantRatio": 0.3312529255734124,
+        "ssim": 0.6115387079521284
+      },
+      "geometryError": 4,
+      "textMatches": true,
+      "status": "failed",
+      "issues": [
+        "Region pixel mismatch exceeds policy",
+        "Inferred bounds require review; confidence is not high",
+        "Geometry differs by 4.00 logical pixels"
+      ]
+    },
+    {
+      "id": "navigation",
+      "bounds": {
+        "x": 0,
+        "y": 749.5,
+        "width": 400,
+        "height": 50.5
+      },
+      "metric": {
+        "pixels": 99344,
+        "exactMismatch": 97368,
+        "exactRatio": 0.9801095184409728,
+        "tolerantMismatch": 16986,
+        "tolerantRatio": 0.17098163955548398,
+        "ssim": 0.7992617352003162
+      },
+      "geometryError": 0.5,
+      "status": "failed",
+      "issues": [
+        "Region pixel mismatch exceeds policy"
+      ]
+    },
+    {
+      "id": "trail",
+      "bounds": {
+        "x": 13.077790304396844,
+        "y": 317.9255918827509,
+        "width": 374.74633596392334,
+        "height": 204.7350620067644
+      },
+      "metric": {
+        "pixels": 377274,
+        "exactMismatch": 243,
+        "exactRatio": 0.0006440942126942223,
+        "tolerantMismatch": 188,
+        "tolerantRatio": 0.0004983115719609621,
+        "ssim": 0.9999852058478603
+      },
+      "geometryError": 0.000056382750869943266,
+      "status": "passed",
+      "issues": []
+    },
+    {
+      "id": "leaf",
+      "bounds": {
+        "x": 18.489289740698986,
+        "y": 14.881623449830892,
+        "width": 19.842164599774524,
+        "height": 23.90078917700113
+      },
+      "metric": {
+        "pixels": 2385,
+        "exactMismatch": 2234,
+        "exactRatio": 0.9366876310272537,
+        "tolerantMismatch": 1098,
+        "tolerantRatio": 0.46037735849056605,
+        "ssim": 0.6854250088337174
+      },
+      "status": "failed",
+      "issues": [
+        "Region pixel mismatch exceeds policy",
+        "Widget region was not measured"
+      ]
+    },
+    {
+      "id": "maya",
+      "bounds": {
+        "x": 94.70124013528749,
+        "y": 170.913190529876,
+        "width": 55.91882750845547,
+        "height": 55.91882750845547
+      },
+      "metric": {
+        "pixels": 15376,
+        "exactMismatch": 15216,
+        "exactRatio": 0.9895941727367326,
+        "tolerantMismatch": 12743,
+        "tolerantRatio": 0.8287591050988553,
+        "ssim": 0.7141286952423527
+      },
+      "status": "failed",
+      "issues": [
+        "Region pixel mismatch exceeds policy",
+        "Widget region was not measured"
+      ]
+    },
+    {
+      "id": "leo",
+      "bounds": {
+        "x": 173.61894024802706,
+        "y": 170.913190529876,
+        "width": 55.91882750845547,
+        "height": 55.91882750845547
+      },
+      "metric": {
+        "pixels": 15500,
+        "exactMismatch": 15314,
+        "exactRatio": 0.988,
+        "tolerantMismatch": 12727,
+        "tolerantRatio": 0.8210967741935484,
+        "ssim": 0.7301175176392981
+      },
+      "status": "failed",
+      "issues": [
+        "Region pixel mismatch exceeds policy",
+        "Widget region was not measured"
+      ]
+    },
+    {
+      "id": "noor",
+      "bounds": {
+        "x": 252.53664036076665,
+        "y": 170.913190529876,
+        "width": 55.91882750845547,
+        "height": 55.91882750845547
+      },
+      "metric": {
+        "pixels": 15376,
+        "exactMismatch": 15210,
+        "exactRatio": 0.98920395421436,
+        "tolerantMismatch": 13056,
+        "tolerantRatio": 0.8491155046826223,
+        "ssim": 0.4250153872753609
+      },
+      "status": "failed",
+      "issues": [
+        "Region pixel mismatch exceeds policy",
+        "Widget region was not measured"
+      ]
+    },
+    {
+      "id": "alex",
+      "bounds": {
+        "x": 330.5524239007892,
+        "y": 170.913190529876,
+        "width": 55.91882750845547,
+        "height": 55.91882750845547
+      },
+      "metric": {
+        "pixels": 15376,
+        "exactMismatch": 15150,
+        "exactRatio": 0.9853017689906347,
+        "tolerantMismatch": 11584,
+        "tolerantRatio": 0.7533818938605619,
+        "ssim": 0.750361247702358
+      },
+      "status": "failed",
+      "issues": [
+        "Region pixel mismatch exceeds policy",
+        "Widget region was not measured"
+      ]
+    },
+    {
+      "id": "author",
+      "bounds": {
+        "x": 22.096956031567082,
+        "y": 268.77113866967306,
+        "width": 42.390078917700116,
+        "height": 42.84103720405863
+      },
+      "metric": {
+        "pixels": 8930,
+        "exactMismatch": 8519,
+        "exactRatio": 0.9539753639417693,
+        "tolerantMismatch": 6006,
+        "tolerantRatio": 0.6725643896976484,
+        "ssim": 0.8634682456835857
+      },
+      "status": "failed",
+      "issues": [
+        "Region pixel mismatch exceeds policy",
+        "Widget region was not measured"
+      ]
+    },
+    {
+      "id": "attendee_one",
+      "bounds": {
+        "x": 23.90078917700113,
+        "y": 705.7497181510711,
+        "width": 28.41037204058625,
+        "height": 28.41037204058625
+      },
+      "metric": {
+        "pixels": 4032,
+        "exactMismatch": 4001,
+        "exactRatio": 0.9923115079365079,
+        "tolerantMismatch": 3547,
+        "tolerantRatio": 0.8797123015873016,
+        "ssim": 0.04599475730166024
+      },
+      "status": "failed",
+      "issues": [
+        "Region pixel mismatch exceeds policy",
+        "Widget region was not measured"
+      ]
+    },
+    {
+      "id": "attendee_two",
+      "bounds": {
+        "x": 51.409244644870356,
+        "y": 705.7497181510711,
+        "width": 28.41037204058625,
+        "height": 28.41037204058625
+      },
+      "metric": {
+        "pixels": 3969,
+        "exactMismatch": 3951,
+        "exactRatio": 0.9954648526077098,
+        "tolerantMismatch": 3489,
+        "tolerantRatio": 0.8790627362055934,
+        "ssim": 0.06863072659591693
+      },
+      "status": "failed",
+      "issues": [
+        "Region pixel mismatch exceeds policy",
+        "Widget region was not measured"
+      ]
+    },
+    {
+      "id": "attendee_three",
+      "bounds": {
+        "x": 79.81961668545661,
+        "y": 705.7497181510711,
+        "width": 29.312288613303274,
+        "height": 28.41037204058625
+      },
+      "metric": {
+        "pixels": 4095,
+        "exactMismatch": 4068,
+        "exactRatio": 0.9934065934065934,
+        "tolerantMismatch": 3553,
+        "tolerantRatio": 0.8676434676434677,
+        "ssim": 0.17516895805203167
+      },
+      "status": "failed",
+      "issues": [
+        "Region pixel mismatch exceeds policy",
+        "Widget region was not measured"
+      ]
+    },
+    {
+      "id": "mountain",
+      "bounds": {
+        "x": 261.1048478015784,
+        "y": 652.9875986471252,
+        "width": 120.40586245772268,
+        "height": 48.25253664036077
+      },
+      "metric": {
+        "pixels": 28569,
+        "exactMismatch": 25480,
+        "exactRatio": 0.8918758094438027,
+        "tolerantMismatch": 6650,
+        "tolerantRatio": 0.2327697854317617,
+        "ssim": 0.7008231640007186
+      },
+      "status": "failed",
+      "issues": [
+        "Region pixel mismatch exceeds policy",
+        "Widget region was not measured"
+      ]
+    }
+  ],
+  "failures": [
+    "Whole-screen mismatch 6.486% exceeds 1.000%",
+    "Region masthead: Region pixel mismatch exceeds policy",
+    "Region heading: Region pixel mismatch exceeds policy; Inferred bounds require review; confidence is not high; Geometry differs by 6.00 logical pixels",
+    "Region subtitle: Region pixel mismatch exceeds policy; Inferred bounds require review; confidence is not high; Geometry differs by 3.00 logical pixels",
+    "Region filters: Region pixel mismatch exceeds policy",
+    "Region stories: Region pixel mismatch exceeds policy",
+    "Region post: Region pixel mismatch exceeds policy",
+    "Region post_title: Region pixel mismatch exceeds policy; Inferred bounds require review; confidence is not high; Geometry differs by 5.00 logical pixels",
+    "Region post_caption: Region pixel mismatch exceeds policy; Inferred bounds require review; confidence is not high; Geometry differs by 3.29 logical pixels",
+    "Region post_actions: Region pixel mismatch exceeds policy; Geometry differs by 11.00 logical pixels",
+    "Region event: Region pixel mismatch exceeds policy",
+    "Region event_title: Region pixel mismatch exceeds policy; Inferred bounds require review; confidence is not high; Geometry differs by 4.00 logical pixels",
+    "Region navigation: Region pixel mismatch exceeds policy"
+  ],
+  "incomplete": [
+    "The generated raster supplies no original font bytes; bundled Lato is an explicitly selected inferred match, not proven exact source typography.",
+    "Original icon vectors are unavailable; the delegated demo uses Flutter outline icons with their visual differences retained.",
+    "Text layout-box bounds are inferred from visible ink and flow; medium confidence is preserved.",
+    "ImageGen backgrounds contain subtle nonuniform raster color/texture not reproduced by flat Flutter fills."
+  ],
+  "artifacts": {
+    "reference": "reference.png",
+    "actual": "actual.png",
+    "strictDiff": "strict-diff.png",
+    "tolerantDiff": "tolerant-diff.png",
+    "overlay": "overlay.png",
+    "html": "index.html"
+  }
+}

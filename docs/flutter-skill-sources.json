@@ -1,0 +1,753 @@
+{
+  "version": 1,
+  "researchedOn": "2026-10-12",
+  "scope": "Public Flutter/UI skill discovery and selected guidance synthesis; not exhaustive.",
+  "reviewDepthMeaning": {
+    "selected-guidance": "Selected entrypoint prose/examples reviewed; not every line or linked resource.",
+    "catalogued-only": "Retrieved for inventory/context; no claim of full guidance review."
+  },
+  "repositories": [
+    {
+      "repository": "AbdulManan-official/flutter-production-skill",
+      "status": "retrieved",
+      "retrievedRevision": "bc2f39c341be1b0e02ef28eae997051f6807b0c3",
+      "verifiedCommitRevision": "bc2f39c341be1b0e02ef28eae997051f6807b0c3",
+      "revisionVerification": "commit-verified",
+      "repositoryLicenseAsReported": "unreported",
+      "cataloguedSkillCount": 1,
+      "entrypoints": [
+        {
+          "path": "SKILL.md",
+          "source": "https://raw.githubusercontent.com/AbdulManan-official/flutter-production-skill/bc2f39c341be1b0e02ef28eae997051f6807b0c3/SKILL.md",
+          "sha256": "0dea7525ec00e9e4073ab313f079ea49196aba7e2a3741a5e6b73e2b12e9f32f",
+          "reviewDepth": "selected-guidance"
+        }
+      ],
+      "selectedReferences": [
+        {
+          "path": "references/ui.md",
+          "source": "https://raw.githubusercontent.com/AbdulManan-official/flutter-production-skill/bc2f39c341be1b0e02ef28eae997051f6807b0c3/references/ui.md",
+          "sha256": "eb0dbf52dcb2f545f6d1bd6fc763a8b4a41684a757d4cb2193d25533c1f2a531",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": "references/ux_states.md",
+          "source": "https://raw.githubusercontent.com/AbdulManan-official/flutter-production-skill/bc2f39c341be1b0e02ef28eae997051f6807b0c3/references/ux_states.md",
+          "sha256": "bb2dd6b4f418a046829066039b61b9ad2e917b3e3a07504acf988e1ab76fbc45",
+          "reviewDepth": "selected-guidance"
+        }
+      ]
+    },
+    {
+      "repository": "ajianaz/skills-collection",
+      "status": "retrieved",
+      "retrievedRevision": "f1d8f59331cdc81888fc730a04366370ece51361",
+      "verifiedCommitRevision": "f1d8f59331cdc81888fc730a04366370ece51361",
+      "revisionVerification": "commit-verified",
+      "repositoryLicenseAsReported": "NOASSERTION",
+      "cataloguedSkillCount": 21,
+      "entrypoints": [
+        {
+          "path": "skills/flutter-enterprise/SKILL.md",
+          "source": "https://raw.githubusercontent.com/ajianaz/skills-collection/f1d8f59331cdc81888fc730a04366370ece51361/skills/flutter-enterprise/SKILL.md",
+          "sha256": "32e99ebaeca5a10856e7b2ef73afcb90ef53b648901c8df71e994606fb00cce2",
+          "reviewDepth": "catalogued-only"
+        },
+        {
+          "path": "skills/flutter-ui-ux/SKILL.md",
+          "source": "https://raw.githubusercontent.com/ajianaz/skills-collection/f1d8f59331cdc81888fc730a04366370ece51361/skills/flutter-ui-ux/SKILL.md",
+          "sha256": "41f6808642dff818351cd674b0d88113799508f04849c635fbc112c18f570f38",
+          "reviewDepth": "selected-guidance"
+        }
+      ],
+      "selectedReferences": [
+        {
+          "path": "skills/flutter-ui-ux/references/widget-patterns.md",
+          "source": "https://raw.githubusercontent.com/ajianaz/skills-collection/f1d8f59331cdc81888fc730a04366370ece51361/skills/flutter-ui-ux/references/widget-patterns.md",
+          "sha256": "aa0e82bf7b6e2a837c7a0df17fdc6f177221abd06404fceb33ebacdfdd8b95bd",
+          "reviewDepth": "selected-guidance"
+        }
+      ]
+    },
+    {
+      "repository": "chunkytofustudios/flutter-skills",
+      "status": "retrieved",
+      "retrievedRevision": "5db2b8ca817b0163deac5c5a09adda80dc62652c",
+      "verifiedCommitRevision": "5db2b8ca817b0163deac5c5a09adda80dc62652c",
+      "revisionVerification": "commit-verified",
+      "repositoryLicenseAsReported": "MIT",
+      "cataloguedSkillCount": 4,
+      "entrypoints": [
+        {
+          "path": "skills/android-emulator/SKILL.md",
+          "source": "https://raw.githubusercontent.com/chunkytofustudios/flutter-skills/5db2b8ca817b0163deac5c5a09adda80dc62652c/skills/android-emulator/SKILL.md",
+          "sha256": "9f67a87ae5e3778f43f6f64fce72ddde0be3d8cefdaef6d621f10282828d925e",
+          "reviewDepth": "catalogued-only"
+        },
+        {
+          "path": "skills/design-polish/SKILL.md",
+          "source": "https://raw.githubusercontent.com/chunkytofustudios/flutter-skills/5db2b8ca817b0163deac5c5a09adda80dc62652c/skills/design-polish/SKILL.md",
+          "sha256": "9273255ef417787b8772a43d49a0f3a315774a715f17da1a5d1f1bad55aec9dd",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": "skills/preview-widget/SKILL.md",
+          "source": "https://raw.githubusercontent.com/chunkytofustudios/flutter-skills/5db2b8ca817b0163deac5c5a09adda80dc62652c/skills/preview-widget/SKILL.md",
+          "sha256": "23b6c47ac3c05344d5848f4d8058a647f70295d66f031b692ae778dd9179c3f2",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": "skills/symbolize-android-stacktrace/SKILL.md",
+          "source": "https://raw.githubusercontent.com/chunkytofustudios/flutter-skills/5db2b8ca817b0163deac5c5a09adda80dc62652c/skills/symbolize-android-stacktrace/SKILL.md",
+          "sha256": "ebeb414f5610a1bbe422980f68cce23b96523bac60c7c65f5124d2d2a739e4e8",
+          "reviewDepth": "catalogued-only"
+        }
+      ],
+      "selectedReferences": []
+    },
+    {
+      "repository": "dart-lang/skills",
+      "status": "retrieved",
+      "retrievedRevision": "0d9f1c4a0ae29d6f5180bf6143d7997ec3bacf49",
+      "verifiedCommitRevision": "0d9f1c4a0ae29d6f5180bf6143d7997ec3bacf49",
+      "revisionVerification": "commit-verified",
+      "repositoryLicenseAsReported": "BSD-3-Clause",
+      "cataloguedSkillCount": 15,
+      "entrypoints": [
+        {
+          "path": "skills/dart-add-unit-test/SKILL.md",
+          "source": "https://raw.githubusercontent.com/dart-lang/skills/0d9f1c4a0ae29d6f5180bf6143d7997ec3bacf49/skills/dart-add-unit-test/SKILL.md",
+          "sha256": "02428fa20c2cb90afcaf17a52c559641b85eb04f2765a54da2bc72ca858c1fce",
+          "reviewDepth": "catalogued-only"
+        },
+        {
+          "path": "skills/dart-generate-test-mocks/SKILL.md",
+          "source": "https://raw.githubusercontent.com/dart-lang/skills/0d9f1c4a0ae29d6f5180bf6143d7997ec3bacf49/skills/dart-generate-test-mocks/SKILL.md",
+          "sha256": "ca58b0e0d045595aa99990715bbf48fc75b1c5dca4053bc1940ef289cbcf2f00",
+          "reviewDepth": "catalogued-only"
+        }
+      ],
+      "selectedReferences": []
+    },
+    {
+      "repository": "dhruvanbhalara/skills",
+      "status": "retrieved",
+      "retrievedRevision": "a74a6fbe04a0d13ce5e10242bb5560cd73ca109e",
+      "verifiedCommitRevision": null,
+      "revisionVerification": "retrieved-content-only",
+      "repositoryLicenseAsReported": "MIT",
+      "cataloguedSkillCount": 43,
+      "entrypoints": [
+        {
+          "path": "skills/flutter/flutter-add-integration-test/SKILL.md",
+          "source": "https://raw.githubusercontent.com/dhruvanbhalara/skills/a74a6fbe04a0d13ce5e10242bb5560cd73ca109e/skills/flutter/flutter-add-integration-test/SKILL.md",
+          "sha256": "a242b5448d6a7a20ead032638386f39300b4750f176362a9b4e2c0412ef61480",
+          "reviewDepth": "catalogued-only"
+        },
+        {
+          "path": "skills/flutter/flutter-add-widget-preview/SKILL.md",
+          "source": "https://raw.githubusercontent.com/dhruvanbhalara/skills/a74a6fbe04a0d13ce5e10242bb5560cd73ca109e/skills/flutter/flutter-add-widget-preview/SKILL.md",
+          "sha256": "03ca628d45463238d2f4bd5746d280a6295e747b42416949e9c08f0fbe3af383",
+          "reviewDepth": "catalogued-only"
+        },
+        {
+          "path": "skills/flutter/flutter-add-widget-test/SKILL.md",
+          "source": "https://raw.githubusercontent.com/dhruvanbhalara/skills/a74a6fbe04a0d13ce5e10242bb5560cd73ca109e/skills/flutter/flutter-add-widget-test/SKILL.md",
+          "sha256": "65e2e720ee384a87ec02a2d1dd80f33f16bf74caa0db82893ac31109c1c05b33",
+          "reviewDepth": "catalogued-only"
+        },
+        {
+          "path": "skills/flutter/flutter-apply-architecture-best-practices/SKILL.md",
+          "source": "https://raw.githubusercontent.com/dhruvanbhalara/skills/a74a6fbe04a0d13ce5e10242bb5560cd73ca109e/skills/flutter/flutter-apply-architecture-best-practices/SKILL.md",
+          "sha256": "8253cdadcd255cb04b328724efac50367293a35f00914111668eb2a2f12e97bc",
+          "reviewDepth": "catalogued-only"
+        },
+        {
+          "path": "skills/flutter/flutter-bloc-forms/SKILL.md",
+          "source": "https://raw.githubusercontent.com/dhruvanbhalara/skills/a74a6fbe04a0d13ce5e10242bb5560cd73ca109e/skills/flutter/flutter-bloc-forms/SKILL.md",
+          "sha256": "d7289e1a18fe7aba80df257509018ccbc2a6d4c73e36cbe6e1e6fca00735e108",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": "skills/flutter/flutter-bloc/SKILL.md",
+          "source": "https://raw.githubusercontent.com/dhruvanbhalara/skills/a74a6fbe04a0d13ce5e10242bb5560cd73ca109e/skills/flutter/flutter-bloc/SKILL.md",
+          "sha256": "75e22ae918835b515e5ef6dc059581160ddfe3e216dd8fa9f2878e66ebb4a1ba",
+          "reviewDepth": "catalogued-only"
+        },
+        {
+          "path": "skills/flutter/flutter-build-responsive-layout/SKILL.md",
+          "source": "https://raw.githubusercontent.com/dhruvanbhalara/skills/a74a6fbe04a0d13ce5e10242bb5560cd73ca109e/skills/flutter/flutter-build-responsive-layout/SKILL.md",
+          "sha256": "178dfd7320ea6b5b2a4ae9b4362370a94ef8139e7c10dac0fab68c388cea316d",
+          "reviewDepth": "catalogued-only"
+        },
+        {
+          "path": "skills/flutter/flutter-devtools/SKILL.md",
+          "source": "https://raw.githubusercontent.com/dhruvanbhalara/skills/a74a6fbe04a0d13ce5e10242bb5560cd73ca109e/skills/flutter/flutter-devtools/SKILL.md",
+          "sha256": "dee6bb1123737acc21db0a6ed1ff418fb709a3132f8c0fc4346e950a881f724f",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": "skills/flutter/flutter-dio/SKILL.md",
+          "source": "https://raw.githubusercontent.com/dhruvanbhalara/skills/a74a6fbe04a0d13ce5e10242bb5560cd73ca109e/skills/flutter/flutter-dio/SKILL.md",
+          "sha256": "ad2f4cad910902849efa2910cdca9bf6211cf88e7d4a8f1dfc03c4c233c64b37",
+          "reviewDepth": "catalogued-only"
+        },
+        {
+          "path": "skills/flutter/flutter-fix-layout-issues/SKILL.md",
+          "source": "https://raw.githubusercontent.com/dhruvanbhalara/skills/a74a6fbe04a0d13ce5e10242bb5560cd73ca109e/skills/flutter/flutter-fix-layout-issues/SKILL.md",
+          "sha256": "c02808617b418cf33c1899f17b42348c418b7fb25f19e64d687258f87c6d75f2",
+          "reviewDepth": "catalogued-only"
+        },
+        {
+          "path": "skills/flutter/flutter-implement-json-serialization/SKILL.md",
+          "source": "https://raw.githubusercontent.com/dhruvanbhalara/skills/a74a6fbe04a0d13ce5e10242bb5560cd73ca109e/skills/flutter/flutter-implement-json-serialization/SKILL.md",
+          "sha256": "868155ab12568126b1bd9b3d2bb071172ee9810262fd22a4e065bf86d5be1428",
+          "reviewDepth": "catalogued-only"
+        },
+        {
+          "path": "skills/flutter/flutter-isar/SKILL.md",
+          "source": "https://raw.githubusercontent.com/dhruvanbhalara/skills/a74a6fbe04a0d13ce5e10242bb5560cd73ca109e/skills/flutter/flutter-isar/SKILL.md",
+          "sha256": "e64fee3fa62a60642fef90a426b50168e51390daf6b8c21fd76862ad5bd68bc5",
+          "reviewDepth": "catalogued-only"
+        },
+        {
+          "path": "skills/flutter/flutter-native/SKILL.md",
+          "source": "https://raw.githubusercontent.com/dhruvanbhalara/skills/a74a6fbe04a0d13ce5e10242bb5560cd73ca109e/skills/flutter/flutter-native/SKILL.md",
+          "sha256": "be8aea81155efdaea9c34d34a2fa0be438c8dcc2f5b7a3a2eeae7ed03d291394",
+          "reviewDepth": "catalogued-only"
+        },
+        {
+          "path": "skills/flutter/flutter-setup-declarative-routing/SKILL.md",
+          "source": "https://raw.githubusercontent.com/dhruvanbhalara/skills/a74a6fbe04a0d13ce5e10242bb5560cd73ca109e/skills/flutter/flutter-setup-declarative-routing/SKILL.md",
+          "sha256": "9b5d096acbd4876c43ab3b094f8bb904ba687e271ee4975115f8d3806c79ecdd",
+          "reviewDepth": "catalogued-only"
+        },
+        {
+          "path": "skills/flutter/flutter-setup-localization/SKILL.md",
+          "source": "https://raw.githubusercontent.com/dhruvanbhalara/skills/a74a6fbe04a0d13ce5e10242bb5560cd73ca109e/skills/flutter/flutter-setup-localization/SKILL.md",
+          "sha256": "a812b66e13b3379bd33c12e3771046fb768196a9df662d143247d50792a611fb",
+          "reviewDepth": "catalogued-only"
+        },
+        {
+          "path": "skills/flutter/flutter-testing/SKILL.md",
+          "source": "https://raw.githubusercontent.com/dhruvanbhalara/skills/a74a6fbe04a0d13ce5e10242bb5560cd73ca109e/skills/flutter/flutter-testing/SKILL.md",
+          "sha256": "3211f23fdaa48103d3415fe51c398bf3b6e42c1afa5fdb1cdc0a8e0cd22478fa",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": "skills/flutter/flutter-ui/SKILL.md",
+          "source": "https://raw.githubusercontent.com/dhruvanbhalara/skills/a74a6fbe04a0d13ce5e10242bb5560cd73ca109e/skills/flutter/flutter-ui/SKILL.md",
+          "sha256": "3db9d92274c4fcd46b1f8ee5505b36ff69c6179c26dccc5e70b2dc7a19ca689e",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": "skills/flutter/flutter-wasm-web/SKILL.md",
+          "source": "https://raw.githubusercontent.com/dhruvanbhalara/skills/a74a6fbe04a0d13ce5e10242bb5560cd73ca109e/skills/flutter/flutter-wasm-web/SKILL.md",
+          "sha256": "5f6f5c969653253d68472371ff7817f3d98e769ef10ac65c8221b3c3ad3a2e52",
+          "reviewDepth": "catalogued-only"
+        }
+      ],
+      "selectedReferences": [],
+      "revisionVerificationLimit": "HTTP Error 403: rate limit exceeded"
+    },
+    {
+      "repository": "flutter/agent-plugins",
+      "status": "retrieved",
+      "retrievedRevision": "0ef3972f93e2baa4156ba1cbb1e515cd53079c68",
+      "verifiedCommitRevision": "0ef3972f93e2baa4156ba1cbb1e515cd53079c68",
+      "revisionVerification": "commit-verified",
+      "repositoryLicenseAsReported": "BSD-3-Clause",
+      "cataloguedSkillCount": 31,
+      "entrypoints": [
+        {
+          "path": "skills/flutter-add-integration-test/SKILL.md",
+          "source": "https://raw.githubusercontent.com/flutter/agent-plugins/0ef3972f93e2baa4156ba1cbb1e515cd53079c68/skills/flutter-add-integration-test/SKILL.md",
+          "sha256": "8d81b053c5fdf5b61aa7d0165cbc35e7a9a1c5bdcd7a301b8293a108771e6bab",
+          "reviewDepth": "catalogued-only"
+        },
+        {
+          "path": "skills/flutter-add-widget-preview/SKILL.md",
+          "source": "https://raw.githubusercontent.com/flutter/agent-plugins/0ef3972f93e2baa4156ba1cbb1e515cd53079c68/skills/flutter-add-widget-preview/SKILL.md",
+          "sha256": "88cfeb7084e798714f5ac59cff62e5441759bcbe096c0fdc37abd21111b20212",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": "skills/flutter-add-widget-test/SKILL.md",
+          "source": "https://raw.githubusercontent.com/flutter/agent-plugins/0ef3972f93e2baa4156ba1cbb1e515cd53079c68/skills/flutter-add-widget-test/SKILL.md",
+          "sha256": "6c449ebd844e331e661b12630b6ad2a218e84d1bd8ea8377ba9dbd62ffe2798a",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": "skills/flutter-apply-architecture-best-practices/SKILL.md",
+          "source": "https://raw.githubusercontent.com/flutter/agent-plugins/0ef3972f93e2baa4156ba1cbb1e515cd53079c68/skills/flutter-apply-architecture-best-practices/SKILL.md",
+          "sha256": "00497869976a903c83f509a59d4b6a501d409fa711eb8e1f89945921e1983b65",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": "skills/flutter-build-responsive-layout/SKILL.md",
+          "source": "https://raw.githubusercontent.com/flutter/agent-plugins/0ef3972f93e2baa4156ba1cbb1e515cd53079c68/skills/flutter-build-responsive-layout/SKILL.md",
+          "sha256": "c7a5d18071c625137cad2def9b13f3579d9bdf0aae29621a1825f12b560394c0",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": "skills/flutter-fix-layout-issues/SKILL.md",
+          "source": "https://raw.githubusercontent.com/flutter/agent-plugins/0ef3972f93e2baa4156ba1cbb1e515cd53079c68/skills/flutter-fix-layout-issues/SKILL.md",
+          "sha256": "e82c82b4245ef502bd93bc543d4f5968f4ee8043fa7556ffebcb34f30651fc9b",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": "skills/flutter-implement-json-serialization/SKILL.md",
+          "source": "https://raw.githubusercontent.com/flutter/agent-plugins/0ef3972f93e2baa4156ba1cbb1e515cd53079c68/skills/flutter-implement-json-serialization/SKILL.md",
+          "sha256": "05a4478e0a3d119f26ae6e6983da3d5c2ea134763aeff59a06cef346bef391b1",
+          "reviewDepth": "catalogued-only"
+        },
+        {
+          "path": "skills/flutter-setup-declarative-routing/SKILL.md",
+          "source": "https://raw.githubusercontent.com/flutter/agent-plugins/0ef3972f93e2baa4156ba1cbb1e515cd53079c68/skills/flutter-setup-declarative-routing/SKILL.md",
+          "sha256": "3a52fc5663cf37d68b6e096ef3e59f5056a01e9151b64cdf0728672a13398953",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": "skills/flutter-setup-localization/SKILL.md",
+          "source": "https://raw.githubusercontent.com/flutter/agent-plugins/0ef3972f93e2baa4156ba1cbb1e515cd53079c68/skills/flutter-setup-localization/SKILL.md",
+          "sha256": "dda4ef8b74976a3e51faa43d7ad00f03eab64d6d5ed0ef89cf4184a04196da17",
+          "reviewDepth": "selected-guidance"
+        }
+      ],
+      "selectedReferences": []
+    },
+    {
+      "repository": "Jeffallan/claude-skills",
+      "status": "retrieved",
+      "retrievedRevision": "1be15d8064f88fc25216442406d40add8fd23b53",
+      "verifiedCommitRevision": "1be15d8064f88fc25216442406d40add8fd23b53",
+      "revisionVerification": "commit-verified",
+      "repositoryLicenseAsReported": "MIT",
+      "cataloguedSkillCount": 67,
+      "entrypoints": [
+        {
+          "path": "skills/flutter-expert/SKILL.md",
+          "source": "https://raw.githubusercontent.com/Jeffallan/claude-skills/1be15d8064f88fc25216442406d40add8fd23b53/skills/flutter-expert/SKILL.md",
+          "sha256": "79b80928e5220637cf0a99e070f167dd2f3a6fa6a9bc6372875d3216a5199e9c",
+          "reviewDepth": "selected-guidance"
+        }
+      ],
+      "selectedReferences": [
+        {
+          "path": "skills/flutter-expert/references/widget-patterns.md",
+          "source": "https://raw.githubusercontent.com/Jeffallan/claude-skills/1be15d8064f88fc25216442406d40add8fd23b53/skills/flutter-expert/references/widget-patterns.md",
+          "sha256": "2e3737c470b7d6c41655cd2505eb4d363a0f7e30d41d1126fb9c4bd7eeaad540",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": "skills/flutter-expert/references/performance.md",
+          "source": "https://raw.githubusercontent.com/Jeffallan/claude-skills/1be15d8064f88fc25216442406d40add8fd23b53/skills/flutter-expert/references/performance.md",
+          "sha256": "a16c8c76f49213a3ed08bde55d849cba247cf1fb58e66a94e21b3f3000946eda",
+          "reviewDepth": "selected-guidance"
+        }
+      ]
+    },
+    {
+      "repository": "k9i-0/ccpocket",
+      "status": "retrieved",
+      "retrievedRevision": "d929b44d625b1a0dbc6a0651f5d97850f46f66d3",
+      "verifiedCommitRevision": null,
+      "revisionVerification": "retrieved-content-only",
+      "repositoryLicenseAsReported": "MIT",
+      "cataloguedSkillCount": 18,
+      "entrypoints": [
+        {
+          "path": ".claude/skills/flutter-ui-design/SKILL.md",
+          "source": "https://raw.githubusercontent.com/k9i-0/ccpocket/d929b44d625b1a0dbc6a0651f5d97850f46f66d3/.claude/skills/flutter-ui-design/SKILL.md",
+          "sha256": "d24b3585f36d9ed6c152bd19eb8f00b30b803afc3adb03fe20c0f5a8165996c2",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": ".claude/skills/flutter-upgrade/SKILL.md",
+          "source": "https://raw.githubusercontent.com/k9i-0/ccpocket/d929b44d625b1a0dbc6a0651f5d97850f46f66d3/.claude/skills/flutter-upgrade/SKILL.md",
+          "sha256": "4836dc76f807a7d43a6f87a317fa6a1df105d693102d0f11ca17d852fb6f8930",
+          "reviewDepth": "catalogued-only"
+        },
+        {
+          "path": ".claude/skills/test-flutter/SKILL.md",
+          "source": "https://raw.githubusercontent.com/k9i-0/ccpocket/d929b44d625b1a0dbc6a0651f5d97850f46f66d3/.claude/skills/test-flutter/SKILL.md",
+          "sha256": "539c14f72e3715420c9ada4a21bf9bd8f4ef1be4f1260ee01a8b1698333be799",
+          "reviewDepth": "catalogued-only"
+        }
+      ],
+      "selectedReferences": [],
+      "revisionVerificationLimit": "HTTP Error 403: rate limit exceeded"
+    },
+    {
+      "repository": "k9i-0/flutter_autonomous_template",
+      "status": "retrieved",
+      "retrievedRevision": "091e72158531333cd38d8869e51d79929000c561",
+      "verifiedCommitRevision": "091e72158531333cd38d8869e51d79929000c561",
+      "revisionVerification": "commit-verified",
+      "repositoryLicenseAsReported": "unreported",
+      "cataloguedSkillCount": 5,
+      "entrypoints": [
+        {
+          "path": ".claude/skills/flutter-mobile-automation/SKILL.md",
+          "source": "https://raw.githubusercontent.com/k9i-0/flutter_autonomous_template/091e72158531333cd38d8869e51d79929000c561/.claude/skills/flutter-mobile-automation/SKILL.md",
+          "sha256": "9f01b9a163dc0cc23db75b4cb560b20cd91e4261b3a74505958ab83467373f82",
+          "reviewDepth": "catalogued-only"
+        },
+        {
+          "path": ".claude/skills/flutter-ui-design/SKILL.md",
+          "source": "https://raw.githubusercontent.com/k9i-0/flutter_autonomous_template/091e72158531333cd38d8869e51d79929000c561/.claude/skills/flutter-ui-design/SKILL.md",
+          "sha256": "a62ab9ece158168dd2259ecf0438be96698d4922996ecee7558e25caa73d750c",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": ".claude/skills/ui-theming/SKILL.md",
+          "source": "https://raw.githubusercontent.com/k9i-0/flutter_autonomous_template/091e72158531333cd38d8869e51d79929000c561/.claude/skills/ui-theming/SKILL.md",
+          "sha256": "e64f091439444ac600d016a49587b4dbc94879b0cda2f090e349747f8bd19b2e",
+          "reviewDepth": "catalogued-only"
+        }
+      ],
+      "selectedReferences": []
+    },
+    {
+      "repository": "kamranbekirovyz/skills",
+      "status": "retrieved",
+      "retrievedRevision": "136d2c480eb5157e6d1c228f36e63cf9ea7e05c9",
+      "verifiedCommitRevision": "136d2c480eb5157e6d1c228f36e63cf9ea7e05c9",
+      "revisionVerification": "commit-verified",
+      "repositoryLicenseAsReported": "unreported",
+      "cataloguedSkillCount": 1,
+      "entrypoints": [
+        {
+          "path": "flutter-improve-design/SKILL.md",
+          "source": "https://raw.githubusercontent.com/kamranbekirovyz/skills/136d2c480eb5157e6d1c228f36e63cf9ea7e05c9/flutter-improve-design/SKILL.md",
+          "sha256": "a90155e8b7cb4f71c7799bbfffb690813a4d4e82866f79e1e95606b508e477c4",
+          "reviewDepth": "selected-guidance"
+        }
+      ],
+      "selectedReferences": [
+        {
+          "path": "flutter-improve-design/DETAILS.md",
+          "source": "https://raw.githubusercontent.com/kamranbekirovyz/skills/136d2c480eb5157e6d1c228f36e63cf9ea7e05c9/flutter-improve-design/DETAILS.md",
+          "sha256": "f8ae15e56a5badb86ccf5b2568733903d5640b8274cf5b796756850b503cbf30",
+          "reviewDepth": "selected-guidance"
+        }
+      ]
+    },
+    {
+      "repository": "MADTeacher/mad-agents-skills",
+      "status": "retrieved",
+      "retrievedRevision": "2fb67e384c6d91f32025bd96400d33b73f21bdc7",
+      "verifiedCommitRevision": "2fb67e384c6d91f32025bd96400d33b73f21bdc7",
+      "revisionVerification": "commit-verified",
+      "repositoryLicenseAsReported": "MIT",
+      "cataloguedSkillCount": 11,
+      "entrypoints": [
+        {
+          "path": "flutter-adaptive-ui/SKILL.md",
+          "source": "https://raw.githubusercontent.com/MADTeacher/mad-agents-skills/2fb67e384c6d91f32025bd96400d33b73f21bdc7/flutter-adaptive-ui/SKILL.md",
+          "sha256": "05a1c497aa0b6cb270b5b30695baa2c9ceaf06927f5fd59f086d45811128c742",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": "flutter-animations/SKILL.md",
+          "source": "https://raw.githubusercontent.com/MADTeacher/mad-agents-skills/2fb67e384c6d91f32025bd96400d33b73f21bdc7/flutter-animations/SKILL.md",
+          "sha256": "4eb286279b302262d36b2e0a5b29bb1eb27a960dfd81ffc2e343473de2c137b6",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": "flutter-architecture/SKILL.md",
+          "source": "https://raw.githubusercontent.com/MADTeacher/mad-agents-skills/2fb67e384c6d91f32025bd96400d33b73f21bdc7/flutter-architecture/SKILL.md",
+          "sha256": "905b50dc903709381c9c084b22a421c4269f42b81a737a69a4ce272915db7fb5",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": "flutter-drift/SKILL.md",
+          "source": "https://raw.githubusercontent.com/MADTeacher/mad-agents-skills/2fb67e384c6d91f32025bd96400d33b73f21bdc7/flutter-drift/SKILL.md",
+          "sha256": "c8939af45bca0862fd087aef404a4575b39064ccb8f017a8f1a7f3287f801e23",
+          "reviewDepth": "catalogued-only"
+        },
+        {
+          "path": "flutter-duit-bdui/SKILL.md",
+          "source": "https://raw.githubusercontent.com/MADTeacher/mad-agents-skills/2fb67e384c6d91f32025bd96400d33b73f21bdc7/flutter-duit-bdui/SKILL.md",
+          "sha256": "fe74969685b3ac98646acf780f4d873d56c0c66f8a9dd1b8f45956db8a97acc6",
+          "reviewDepth": "catalogued-only"
+        },
+        {
+          "path": "flutter-internationalization/SKILL.md",
+          "source": "https://raw.githubusercontent.com/MADTeacher/mad-agents-skills/2fb67e384c6d91f32025bd96400d33b73f21bdc7/flutter-internationalization/SKILL.md",
+          "sha256": "3d2c8764754f21b6b80a5b81309ce52e3f22e0c006b87e80b90b97b8b181bf23",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": "flutter-navigation/SKILL.md",
+          "source": "https://raw.githubusercontent.com/MADTeacher/mad-agents-skills/2fb67e384c6d91f32025bd96400d33b73f21bdc7/flutter-navigation/SKILL.md",
+          "sha256": "183d5eadf80d02f524839e56fe261f1b0d5e908d72800cdb18c4afc402b6e0be",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": "flutter-testing/SKILL.md",
+          "source": "https://raw.githubusercontent.com/MADTeacher/mad-agents-skills/2fb67e384c6d91f32025bd96400d33b73f21bdc7/flutter-testing/SKILL.md",
+          "sha256": "a3ce731b8d2e88c9a6fd6fcf1462393313ed02cdba7d9e14840e8f8229c5b590",
+          "reviewDepth": "selected-guidance"
+        }
+      ],
+      "selectedReferences": []
+    },
+    {
+      "repository": "Mic-360/material3-expressive-flutter",
+      "status": "retrieved",
+      "retrievedRevision": "5e7f45af7a755a0a4dd0a0961ceca5394c0e2582",
+      "verifiedCommitRevision": "5e7f45af7a755a0a4dd0a0961ceca5394c0e2582",
+      "revisionVerification": "commit-verified",
+      "repositoryLicenseAsReported": "MIT",
+      "cataloguedSkillCount": 1,
+      "entrypoints": [
+        {
+          "path": "skills/SKILL.md",
+          "source": "https://raw.githubusercontent.com/Mic-360/material3-expressive-flutter/5e7f45af7a755a0a4dd0a0961ceca5394c0e2582/skills/SKILL.md",
+          "sha256": "b44817a40cfefc14f343773aab9afbed98a8d4a8d0f8d3f4ca77ca396269ac9a",
+          "reviewDepth": "selected-guidance"
+        }
+      ],
+      "selectedReferences": []
+    },
+    {
+      "repository": "muheun/claude-code-marketplace",
+      "status": "unavailable",
+      "retrievalError": "HTTP Error 404: Not Found",
+      "entrypoints": []
+    },
+    {
+      "repository": "TheSimpleApp/flutter-app-skills",
+      "status": "retrieved",
+      "retrievedRevision": "90502edc25ec2100ce54d12c8d8538d2928be414",
+      "verifiedCommitRevision": "90502edc25ec2100ce54d12c8d8538d2928be414",
+      "revisionVerification": "commit-verified",
+      "repositoryLicenseAsReported": "MIT",
+      "cataloguedSkillCount": 4,
+      "entrypoints": [
+        {
+          "path": "skills/flutter-building-forms/SKILL.md",
+          "source": "https://raw.githubusercontent.com/TheSimpleApp/flutter-app-skills/90502edc25ec2100ce54d12c8d8538d2928be414/skills/flutter-building-forms/SKILL.md",
+          "sha256": "2754d4c2e067f216c888b3b00f39ba256895f12f57b81ab1a8f19745ef6d0f04",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": "skills/flutter-custom-design-system/SKILL.md",
+          "source": "https://raw.githubusercontent.com/TheSimpleApp/flutter-app-skills/90502edc25ec2100ce54d12c8d8538d2928be414/skills/flutter-custom-design-system/SKILL.md",
+          "sha256": "6ed8f4de607ce4ddacc13b281f7f341069f92f91a7ce5407f5ade0fd252c1a65",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": "skills/flutter-improving-accessibility/SKILL.md",
+          "source": "https://raw.githubusercontent.com/TheSimpleApp/flutter-app-skills/90502edc25ec2100ce54d12c8d8538d2928be414/skills/flutter-improving-accessibility/SKILL.md",
+          "sha256": "9f44f84455ebd009d212a3a636c2eb0c62ad00e59328caf2ff61ad4e2a2d369a",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": "skills/flutter-native-ui/SKILL.md",
+          "source": "https://raw.githubusercontent.com/TheSimpleApp/flutter-app-skills/90502edc25ec2100ce54d12c8d8538d2928be414/skills/flutter-native-ui/SKILL.md",
+          "sha256": "226e76735dfa2d8a86c9871b1f99035c01d4e64b95a6de0e3a0f962b28c8c744",
+          "reviewDepth": "selected-guidance"
+        }
+      ],
+      "selectedReferences": []
+    },
+    {
+      "repository": "VeryGoodOpenSource/vgv-ai-flutter-plugin",
+      "status": "retrieved",
+      "retrievedRevision": "496a3c6d857476b3f75bc7bca292eff9ba18c7d1",
+      "verifiedCommitRevision": "496a3c6d857476b3f75bc7bca292eff9ba18c7d1",
+      "revisionVerification": "commit-verified",
+      "repositoryLicenseAsReported": "MIT",
+      "cataloguedSkillCount": 15,
+      "entrypoints": [
+        {
+          "path": "skills/accessibility/SKILL.md",
+          "source": "https://raw.githubusercontent.com/VeryGoodOpenSource/vgv-ai-flutter-plugin/496a3c6d857476b3f75bc7bca292eff9ba18c7d1/skills/accessibility/SKILL.md",
+          "sha256": "437705703430b70a1f129f8c6718a09f24452a4e37f7f3f6ea6f639ca1389969",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": "skills/animations/SKILL.md",
+          "source": "https://raw.githubusercontent.com/VeryGoodOpenSource/vgv-ai-flutter-plugin/496a3c6d857476b3f75bc7bca292eff9ba18c7d1/skills/animations/SKILL.md",
+          "sha256": "f7d992cb04bdc8b42a0b7661d354ad1fe68d60149184d8e862c570529bb08bdc",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": "skills/bloc/SKILL.md",
+          "source": "https://raw.githubusercontent.com/VeryGoodOpenSource/vgv-ai-flutter-plugin/496a3c6d857476b3f75bc7bca292eff9ba18c7d1/skills/bloc/SKILL.md",
+          "sha256": "703f2480db1165001d69a091e7f428629ee6a1d1a130683c28f3851207ecd1cf",
+          "reviewDepth": "catalogued-only"
+        },
+        {
+          "path": "skills/create-project/SKILL.md",
+          "source": "https://raw.githubusercontent.com/VeryGoodOpenSource/vgv-ai-flutter-plugin/496a3c6d857476b3f75bc7bca292eff9ba18c7d1/skills/create-project/SKILL.md",
+          "sha256": "06f5497b39de71352e34eedc87ec119567ae628a85af08fcd808dbf664221efb",
+          "reviewDepth": "catalogued-only"
+        },
+        {
+          "path": "skills/dart-flutter-sdk-upgrade/SKILL.md",
+          "source": "https://raw.githubusercontent.com/VeryGoodOpenSource/vgv-ai-flutter-plugin/496a3c6d857476b3f75bc7bca292eff9ba18c7d1/skills/dart-flutter-sdk-upgrade/SKILL.md",
+          "sha256": "8ff6d0b3222ef1a639aab0e8c1593b73ce3ce416c250002b8607538308f21cad",
+          "reviewDepth": "catalogued-only"
+        },
+        {
+          "path": "skills/green-gate/SKILL.md",
+          "source": "https://raw.githubusercontent.com/VeryGoodOpenSource/vgv-ai-flutter-plugin/496a3c6d857476b3f75bc7bca292eff9ba18c7d1/skills/green-gate/SKILL.md",
+          "sha256": "78496d2b937301b9e240d9d009279e2b7e075a024f8bb3131bd135d9ac3640d1",
+          "reviewDepth": "catalogued-only"
+        },
+        {
+          "path": "skills/internationalization/SKILL.md",
+          "source": "https://raw.githubusercontent.com/VeryGoodOpenSource/vgv-ai-flutter-plugin/496a3c6d857476b3f75bc7bca292eff9ba18c7d1/skills/internationalization/SKILL.md",
+          "sha256": "c76c64a07bf105fb1da9bb362ab4506f709d2fb6a18becb56d00c801c87e5326",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": "skills/layered-architecture/SKILL.md",
+          "source": "https://raw.githubusercontent.com/VeryGoodOpenSource/vgv-ai-flutter-plugin/496a3c6d857476b3f75bc7bca292eff9ba18c7d1/skills/layered-architecture/SKILL.md",
+          "sha256": "0376d7dbd3c11f4947a83e6bfbc4977576e44dfd967d186c19c2ebf127b8352b",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": "skills/license-compliance/SKILL.md",
+          "source": "https://raw.githubusercontent.com/VeryGoodOpenSource/vgv-ai-flutter-plugin/496a3c6d857476b3f75bc7bca292eff9ba18c7d1/skills/license-compliance/SKILL.md",
+          "sha256": "b7202ec31b182f43d3016a5aaadfa74b03251b2fe7f03d68b92de050349f3fc0",
+          "reviewDepth": "catalogued-only"
+        },
+        {
+          "path": "skills/material-theming/SKILL.md",
+          "source": "https://raw.githubusercontent.com/VeryGoodOpenSource/vgv-ai-flutter-plugin/496a3c6d857476b3f75bc7bca292eff9ba18c7d1/skills/material-theming/SKILL.md",
+          "sha256": "f319b459851c4d41d494e450bb472f621255daba407fce58ff94517630769838",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": "skills/navigation/SKILL.md",
+          "source": "https://raw.githubusercontent.com/VeryGoodOpenSource/vgv-ai-flutter-plugin/496a3c6d857476b3f75bc7bca292eff9ba18c7d1/skills/navigation/SKILL.md",
+          "sha256": "7d50ecab45535bd6d0e36476ae101db36020dd6784e4cedf26494b1e30140008",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": "skills/static-security/SKILL.md",
+          "source": "https://raw.githubusercontent.com/VeryGoodOpenSource/vgv-ai-flutter-plugin/496a3c6d857476b3f75bc7bca292eff9ba18c7d1/skills/static-security/SKILL.md",
+          "sha256": "0baad8fb27548c79fc8518c7bda1e48a9a812aee103806fda072a8cf4da1a977",
+          "reviewDepth": "catalogued-only"
+        },
+        {
+          "path": "skills/testing/SKILL.md",
+          "source": "https://raw.githubusercontent.com/VeryGoodOpenSource/vgv-ai-flutter-plugin/496a3c6d857476b3f75bc7bca292eff9ba18c7d1/skills/testing/SKILL.md",
+          "sha256": "9bb191ffbed462f5bbb29ea53ca196c29482239bb4b885a37b81f8a8f00370fd",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": "skills/ui-package/SKILL.md",
+          "source": "https://raw.githubusercontent.com/VeryGoodOpenSource/vgv-ai-flutter-plugin/496a3c6d857476b3f75bc7bca292eff9ba18c7d1/skills/ui-package/SKILL.md",
+          "sha256": "ccc320a91e41f03c63fc749f8ceaf934003b6029233b7af803008cf118de43a5",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": "skills/very-good-analysis-upgrade/SKILL.md",
+          "source": "https://raw.githubusercontent.com/VeryGoodOpenSource/vgv-ai-flutter-plugin/496a3c6d857476b3f75bc7bca292eff9ba18c7d1/skills/very-good-analysis-upgrade/SKILL.md",
+          "sha256": "8f39485150b445715ae4bd15e189f48a11c53fb75f42b20bee31c8ec34e62a6f",
+          "reviewDepth": "catalogued-only"
+        }
+      ],
+      "selectedReferences": [
+        {
+          "path": "skills/ui-package/reference.md",
+          "source": "https://raw.githubusercontent.com/VeryGoodOpenSource/vgv-ai-flutter-plugin/496a3c6d857476b3f75bc7bca292eff9ba18c7d1/skills/ui-package/reference.md",
+          "sha256": "482ed9bcb48e39ed87f6d556ceffdb56710dc755c89d696162b08c7d811b30e7",
+          "reviewDepth": "selected-guidance"
+        }
+      ]
+    },
+    {
+      "repository": "zakariaf/Flutter-Skills",
+      "status": "retrieved",
+      "retrievedRevision": "e073e5ea10c963d2c52ab1e423bd314c28a56154",
+      "verifiedCommitRevision": null,
+      "revisionVerification": "retrieved-content-only",
+      "repositoryLicenseAsReported": "MIT",
+      "cataloguedSkillCount": 40,
+      "entrypoints": [
+        {
+          "path": "skills/accessibility-as-code/SKILL.md",
+          "source": "https://raw.githubusercontent.com/zakariaf/Flutter-Skills/e073e5ea10c963d2c52ab1e423bd314c28a56154/skills/accessibility-as-code/SKILL.md",
+          "sha256": "121fc6ac78eb24c03c8d92a25fb0eeecc3ed8a89ebd358d9613e7c37ec50e496",
+          "reviewDepth": "catalogued-only"
+        },
+        {
+          "path": "skills/adaptive-layout/SKILL.md",
+          "source": "https://raw.githubusercontent.com/zakariaf/Flutter-Skills/e073e5ea10c963d2c52ab1e423bd314c28a56154/skills/adaptive-layout/SKILL.md",
+          "sha256": "c2b33266ac12ab33ba7daa84bfe38767ca2101b3cf741e75372d772b19bd10c9",
+          "reviewDepth": "catalogued-only"
+        },
+        {
+          "path": "skills/custom-canvas-and-gestures/SKILL.md",
+          "source": "https://raw.githubusercontent.com/zakariaf/Flutter-Skills/e073e5ea10c963d2c52ab1e423bd314c28a56154/skills/custom-canvas-and-gestures/SKILL.md",
+          "sha256": "36de200b1426e075d6d945d2b6e23b818f549c0bb45013161219dc1d8867a72f",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": "skills/design-system-structure/SKILL.md",
+          "source": "https://raw.githubusercontent.com/zakariaf/Flutter-Skills/e073e5ea10c963d2c52ab1e423bd314c28a56154/skills/design-system-structure/SKILL.md",
+          "sha256": "cae59a80a8d3a2a2ee9f870836ef3b955545765f92544de976ef153837f38624",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": "skills/flutter-architecture/SKILL.md",
+          "source": "https://raw.githubusercontent.com/zakariaf/Flutter-Skills/e073e5ea10c963d2c52ab1e423bd314c28a56154/skills/flutter-architecture/SKILL.md",
+          "sha256": "0da4b8a86f39ae83d8943d66eb682e8a0d4bc1c815d5e17474fadaad9ba788a9",
+          "reviewDepth": "catalogued-only"
+        },
+        {
+          "path": "skills/flutter-conventions-index/SKILL.md",
+          "source": "https://raw.githubusercontent.com/zakariaf/Flutter-Skills/e073e5ea10c963d2c52ab1e423bd314c28a56154/skills/flutter-conventions-index/SKILL.md",
+          "sha256": "84237da880701aa344aba64676d7a787ae37618dff3f55466704b44c6d1818bf",
+          "reviewDepth": "catalogued-only"
+        },
+        {
+          "path": "skills/flutter-performance/SKILL.md",
+          "source": "https://raw.githubusercontent.com/zakariaf/Flutter-Skills/e073e5ea10c963d2c52ab1e423bd314c28a56154/skills/flutter-performance/SKILL.md",
+          "sha256": "d45c271c652cecd174cc4b68913fa3580457b5c97f564868f363f95d6d7aabd7",
+          "reviewDepth": "catalogued-only"
+        },
+        {
+          "path": "skills/forms-and-input/SKILL.md",
+          "source": "https://raw.githubusercontent.com/zakariaf/Flutter-Skills/e073e5ea10c963d2c52ab1e423bd314c28a56154/skills/forms-and-input/SKILL.md",
+          "sha256": "2792cc29083e72463e2786de6fdc4a5bdd5651540c0e446a90793af98a1ae47a",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": "skills/motion-and-haptics/SKILL.md",
+          "source": "https://raw.githubusercontent.com/zakariaf/Flutter-Skills/e073e5ea10c963d2c52ab1e423bd314c28a56154/skills/motion-and-haptics/SKILL.md",
+          "sha256": "67af5255794df8d00cd1d63d42e67735b6f73879bd80988410d01801d51a517a",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": "skills/widget-composition/SKILL.md",
+          "source": "https://raw.githubusercontent.com/zakariaf/Flutter-Skills/e073e5ea10c963d2c52ab1e423bd314c28a56154/skills/widget-composition/SKILL.md",
+          "sha256": "9e68d217590452d189c9edeb5ace3e2ca38b04a491e6dcdfa2078ffa55eceeb2",
+          "reviewDepth": "selected-guidance"
+        },
+        {
+          "path": "skills/widget-golden-and-a11y-testing/SKILL.md",
+          "source": "https://raw.githubusercontent.com/zakariaf/Flutter-Skills/e073e5ea10c963d2c52ab1e423bd314c28a56154/skills/widget-golden-and-a11y-testing/SKILL.md",
+          "sha256": "ee8df72098ca980c642b6f2ccb34e79566a86a0c8e9a9609674544b38975a99a",
+          "reviewDepth": "selected-guidance"
+        }
+      ],
+      "selectedReferences": [],
+      "revisionVerificationLimit": "HTTP Error 403: rate limit exceeded"
+    }
+  ],
+  "counts": {
+    "repositoriesSearched": 16,
+    "repositoriesRetrieved": 15,
+    "entrypointsRetrieved": 83,
+    "entrypointsWithSelectedGuidanceReview": 44,
+    "selectedReferencesRetrieved": 7,
+    "commitRevisionsVerified": 12
+  }
+}

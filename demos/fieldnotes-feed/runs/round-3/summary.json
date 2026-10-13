@@ -1,0 +1,160 @@
+{
+  "round": "3",
+  "status": "failed",
+  "tolerantMismatch": 0.0705893343535396,
+  "exactMismatch": 0.7043210904344223,
+  "best": 3,
+  "stop": false,
+  "reason": "",
+  "regions": [
+    {
+      "id": "masthead",
+      "status": "failed",
+      "mismatch": 0.15437340153452686,
+      "geometryError": 0
+    },
+    {
+      "id": "heading",
+      "status": "failed",
+      "mismatch": 0.30147994785675947,
+      "geometryError": 5
+    },
+    {
+      "id": "subtitle",
+      "status": "failed",
+      "mismatch": 0.26300297056440725,
+      "geometryError": 1.5
+    },
+    {
+      "id": "filters",
+      "status": "failed",
+      "mismatch": 0.39794079794079795,
+      "geometryError": 0.09999999999999787
+    },
+    {
+      "id": "stories",
+      "status": "failed",
+      "mismatch": 0.49328635820571304,
+      "geometryError": 0.5
+    },
+    {
+      "id": "post",
+      "status": "failed",
+      "mismatch": 0.09452005833071227,
+      "geometryError": 1.2605975264741005
+    },
+    {
+      "id": "post_title",
+      "status": "failed",
+      "mismatch": 0.2242025316455696,
+      "geometryError": 3
+    },
+    {
+      "id": "post_caption",
+      "status": "failed",
+      "mismatch": 0.2571472676752084,
+      "geometryError": 2.289402473525797
+    },
+    {
+      "id": "post_actions",
+      "status": "failed",
+      "mismatch": 0.14804098854731765,
+      "geometryError": 11
+    },
+    {
+      "id": "event",
+      "status": "failed",
+      "mismatch": 0.24493093429838422,
+      "geometryError": 0.7605975264741573
+    },
+    {
+      "id": "event_title",
+      "status": "failed",
+      "mismatch": 0.31701513496645345,
+      "geometryError": 4
+    },
+    {
+      "id": "navigation",
+      "status": "failed",
+      "mismatch": 0.17098163955548398,
+      "geometryError": 0.5
+    },
+    {
+      "id": "trail",
+      "status": "passed",
+      "mismatch": 0.0004983115719609621,
+      "geometryError": 0.000056382750869943266
+    },
+    {
+      "id": "leaf",
+      "status": "failed",
+      "mismatch": 0.46037735849056605
+    },
+    {
+      "id": "maya",
+      "status": "failed",
+      "mismatch": 0.912656087408949
+    },
+    {
+      "id": "leo",
+      "status": "failed",
+      "mismatch": 0.8751612903225806
+    },
+    {
+      "id": "noor",
+      "status": "failed",
+      "mismatch": 0.8080124869927159
+    },
+    {
+      "id": "alex",
+      "status": "failed",
+      "mismatch": 0.8453433922996878
+    },
+    {
+      "id": "author",
+      "status": "failed",
+      "mismatch": 0.6725643896976484
+    },
+    {
+      "id": "attendee_one",
+      "status": "failed",
+      "mismatch": 0.8541666666666666
+    },
+    {
+      "id": "attendee_two",
+      "status": "failed",
+      "mismatch": 0.9075333837238599
+    },
+    {
+      "id": "attendee_three",
+      "status": "failed",
+      "mismatch": 0.8854700854700854
+    },
+    {
+      "id": "mountain",
+      "status": "failed",
+      "mismatch": 0.19993699464454479
+    }
+  ],
+  "failures": [
+    "Whole-screen mismatch 7.059% exceeds 1.000%",
+    "Region masthead: Region pixel mismatch exceeds policy",
+    "Region heading: Region pixel mismatch exceeds policy; Inferred bounds require review; confidence is not high; Geometry differs by 5.00 logical pixels",
+    "Region subtitle: Region pixel mismatch exceeds policy; Inferred bounds require review; confidence is not high; Geometry differs by 1.50 logical pixels",
+    "Region filters: Region pixel mismatch exceeds policy",
+    "Region stories: Region pixel mismatch exceeds policy",
+    "Region post: Region pixel mismatch exceeds policy; Geometry differs by 1.26 logical pixels",
+    "Region post_title: Region pixel mismatch exceeds policy; Inferred bounds require review; confidence is not high; Geometry differs by 3.00 logical pixels",
+    "Region post_caption: Region pixel mismatch exceeds policy; Inferred bounds require review; confidence is not high; Geometry differs by 2.29 logical pixels",
+    "Region post_actions: Region pixel mismatch exceeds policy; Geometry differs by 11.00 logical pixels",
+    "Region event: Region pixel mismatch exceeds policy",
+    "Region event_title: Region pixel mismatch exceeds policy; Inferred bounds require review; confidence is not high; Geometry differs by 4.00 logical pixels",
+    "Region navigation: Region pixel mismatch exceeds policy"
+  ],
+  "incomplete": [
+    "The generated raster supplies no original font bytes; bundled Lato is an explicitly selected inferred match, not proven exact source typography.",
+    "Original icon vectors are unavailable; the delegated demo uses Flutter outline icons with their visual differences retained.",
+    "Text layout-box bounds are inferred from visible ink and flow; medium confidence is preserved.",
+    "ImageGen backgrounds contain subtle nonuniform raster color/texture not reproduced by flat Flutter fills."
+  ]
+}

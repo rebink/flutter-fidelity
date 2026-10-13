@@ -1,0 +1,88 @@
+{
+  "version": 1,
+  "screenId": "fieldnotes-complex-feed",
+  "reference": "design/reference.png",
+  "authorization": "User requested a random complex feed UI image and its Flutter implementation; demo design and local behavior choices delegated to the assistant.",
+  "profile": {
+    "width": 400,
+    "height": 800,
+    "pixelRatio": 2.2175,
+    "safeInsets": 0,
+    "imageSize": [
+      887,
+      1774
+    ]
+  },
+  "implementationPlan": {
+    "entrypoint": "app/lib/main.dart",
+    "stateOwner": "app/lib/feed/feed_controller.dart",
+    "themeOwner": "app/lib/theme/feed_theme.dart",
+    "components": [
+      "FeedHeader",
+      "CategoryChip",
+      "StoryRail",
+      "StoryTile",
+      "PostCard",
+      "PostAuthor",
+      "PostActions",
+      "EventCard",
+      "AttendeeAvatars",
+      "FeedNavigation",
+      "TextEntrySheet",
+      "FeedSearchSheet",
+      "InfoSheet"
+    ],
+    "layout": "Scrollable flow with reference-sized artwork, content-sized text, fixed bottom navigation, keyboard-aware local sheets.",
+    "data": "One immutable reference post and in-memory session mutations; no backend or external messaging."
+  },
+  "confirmedDemoChoices": [
+    {
+      "choice": "Category filters show posts with matching local category; Following uses the fixture following flag.",
+      "source": "Assistant-selected local demo contract within creative delegation"
+    },
+    {
+      "choice": "Likes and saves toggle by stable post ID. Saved tab contains saved posts only.",
+      "source": "Assistant-selected local demo contract"
+    },
+    {
+      "choice": "Comment submission trims nonempty local text and increments the displayed comment count.",
+      "source": "Assistant-selected local demo contract"
+    },
+    {
+      "choice": "Create validates nonempty text and prepends a unique local post. No uploads.",
+      "source": "Assistant-selected local demo contract"
+    },
+    {
+      "choice": "Join toggles the local event from 12 to 13 attendees.",
+      "source": "Assistant-selected local demo contract"
+    },
+    {
+      "choice": "Search filters a local reference-post preview; story/profile/notification/share overlays are labeled local previews. No external share occurs.",
+      "source": "Assistant-selected local demo contract"
+    },
+    {
+      "choice": "Use supplied repository Lato fonts as the inferred image match and cupertino_icons 1.0.8 for consistent thin outline controls.",
+      "source": "Assistant design choice; original ImageGen font/icon source files do not exist"
+    },
+    {
+      "choice": "Crop only isolated photography, avatars, leaf logo and mountain decoration through crop_asset. Raster text and controls prohibited.",
+      "source": "screenshot-to-flutter skill; no original independent asset exports provided"
+    }
+  ],
+  "limits": [
+    "Font identity and text layout boxes remain inferred; no exact-match claim.",
+    "ImageGen raster texture and icon shapes differ from flat/native reproduction.",
+    "Source-faithful compact control sizes and event eyebrow contrast retain accessibility findings.",
+    "No server persistence, external social integration, native screen-reader walkthrough or profile performance claim."
+  ],
+  "checks": {
+    "analysis": "passed",
+    "unitAndWidget": "19 passed; 9 independent width/text-scale cases included",
+    "android": "Fresh native capture accepted at exact dimensions; local interaction assertions passed. Native fidelity still failed.",
+    "ios": "not-run",
+    "performance": "not-run",
+    "accessibility": "Labels passed; Android/iOS target guidelines and contrast failed. See artifacts/accessibility.json."
+  },
+  "repairStop": "Five candidate captures exhausted; round 5 retained by record_iteration.",
+  "nativeWindowPolicy": "API 28+ Android window shortEdges; production SafeArea remains enabled."
+}

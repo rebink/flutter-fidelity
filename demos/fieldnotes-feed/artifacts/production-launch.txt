@@ -1,0 +1,7 @@
+Starting: Intent { cmp=com.fidelity.demo.fieldnotes_feed/.MainActivity }
+Status: ok
+LaunchState: COLD
+Activity: com.fidelity.demo.fieldnotes_feed/.MainActivity
+TotalTime: 2113
+WaitTime: 2128
+Complete

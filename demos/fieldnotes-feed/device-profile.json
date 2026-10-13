@@ -1,0 +1,32 @@
+{
+  "avd": "Pixel_8_API_36",
+  "serial": "emulator-5554",
+  "SDK": "Flutter 3.24.0 / Dart 3.5.0",
+  "logicalAppContent": [
+    400,
+    800
+  ],
+  "capturePixelSize": [
+    887,
+    1774
+  ],
+  "exportRatio": 2.2175,
+  "safeInsets": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "cutoutPolicy": "API 28+ Android window shortEdges; production SafeArea remains enabled.",
+  "renderer": "No renderer override; Flutter 3.24.0 Android configuration",
+  "nativeFailuresPreserved": [
+    "runs/android/capture",
+    "runs/android-retry-2/capture",
+    "runs/android-final/capture"
+  ],
+  "size": "Physical size: 1080x2400\nOverride size: 1200x2400",
+  "density": "Physical density: 420\nOverride density: 480",
+  "androidVersion": "16",
+  "api": "36",
+  "model": "sdk_gphone64_arm64"
+}

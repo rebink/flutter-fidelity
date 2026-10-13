@@ -1,0 +1,8 @@
+{
+  "apk": "fieldnotes-debug.apk",
+  "entrypoint": "lib/main.dart",
+  "sha256": "f29446fe4b504111a542d5ac2c7155682cf6dcf7d9bbf21a578914b2dbf35a1f",
+  "sizeBytes": 93069064,
+  "launch": "passed",
+  "device": "Pixel_8_API_36"
+}

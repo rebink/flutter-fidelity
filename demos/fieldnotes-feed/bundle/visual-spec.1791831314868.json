@@ -1,0 +1,459 @@
+{
+  "version": 1,
+  "regions": [
+    {
+      "id": "masthead",
+      "kind": "layout",
+      "bounds": {
+        "x": 18.5,
+        "y": 7,
+        "width": 363,
+        "height": 38
+      },
+      "confidence": "high",
+      "provenance": "Assistant reviewed unchanged ImageGen PNG; logical widget boxes inferred from visible flow and pixel boundaries.",
+      "required": true
+    },
+    {
+      "id": "heading",
+      "kind": "text",
+      "bounds": {
+        "x": 18.5,
+        "y": 55,
+        "width": 363,
+        "height": 36
+      },
+      "confidence": "medium",
+      "provenance": "Assistant reviewed unchanged ImageGen PNG; logical widget boxes inferred from visible flow and pixel boundaries.",
+      "required": true,
+      "text": "Your daily inspiration"
+    },
+    {
+      "id": "subtitle",
+      "kind": "text",
+      "bounds": {
+        "x": 18.5,
+        "y": 91.5,
+        "width": 363,
+        "height": 20
+      },
+      "confidence": "medium",
+      "provenance": "Assistant reviewed unchanged ImageGen PNG; logical widget boxes inferred from visible flow and pixel boundaries.",
+      "required": true,
+      "text": "A little curiosity goes a long way."
+    },
+    {
+      "id": "filters",
+      "kind": "control",
+      "bounds": {
+        "x": 18.5,
+        "y": 122.2,
+        "width": 350,
+        "height": 30.7
+      },
+      "confidence": "high",
+      "provenance": "Assistant reviewed unchanged ImageGen PNG; logical widget boxes inferred from visible flow and pixel boundaries.",
+      "required": true
+    },
+    {
+      "id": "stories",
+      "kind": "layout",
+      "bounds": {
+        "x": 14.5,
+        "y": 166.9,
+        "width": 377,
+        "height": 79
+      },
+      "confidence": "high",
+      "provenance": "Assistant reviewed unchanged ImageGen PNG; logical widget boxes inferred from visible flow and pixel boundaries.",
+      "required": true
+    },
+    {
+      "id": "post",
+      "kind": "layout",
+      "bounds": {
+        "x": 8.1,
+        "y": 259.75,
+        "width": 383.8,
+        "height": 369.3
+      },
+      "confidence": "high",
+      "provenance": "Assistant reviewed unchanged ImageGen PNG; logical widget boxes inferred from visible flow and pixel boundaries.",
+      "required": true
+    },
+    {
+      "id": "post_title",
+      "kind": "text",
+      "bounds": {
+        "x": 21.7,
+        "y": 531.5,
+        "width": 356,
+        "height": 22
+      },
+      "confidence": "medium",
+      "provenance": "Assistant reviewed unchanged ImageGen PNG; logical widget boxes inferred from visible flow and pixel boundaries.",
+      "required": true,
+      "text": "Take the scenic route."
+    },
+    {
+      "id": "post_caption",
+      "kind": "text",
+      "bounds": {
+        "x": 21.7,
+        "y": 554.5,
+        "width": 356,
+        "height": 18
+      },
+      "confidence": "medium",
+      "provenance": "Assistant reviewed unchanged ImageGen PNG; logical widget boxes inferred from visible flow and pixel boundaries.",
+      "required": true,
+      "text": "No signal. No rush. Just the trail ahead."
+    },
+    {
+      "id": "post_actions",
+      "kind": "control",
+      "bounds": {
+        "x": 21.7,
+        "y": 595.5,
+        "width": 356,
+        "height": 28
+      },
+      "confidence": "high",
+      "provenance": "Assistant reviewed unchanged ImageGen PNG; logical widget boxes inferred from visible flow and pixel boundaries.",
+      "required": true
+    },
+    {
+      "id": "event",
+      "kind": "layout",
+      "bounds": {
+        "x": 8.1,
+        "y": 637.65,
+        "width": 383.8,
+        "height": 103.27
+      },
+      "confidence": "high",
+      "provenance": "Assistant reviewed unchanged ImageGen PNG; logical widget boxes inferred from visible flow and pixel boundaries.",
+      "required": true
+    },
+    {
+      "id": "event_title",
+      "kind": "text",
+      "bounds": {
+        "x": 23.5,
+        "y": 662.5,
+        "width": 222,
+        "height": 23
+      },
+      "confidence": "medium",
+      "provenance": "Assistant reviewed unchanged ImageGen PNG; logical widget boxes inferred from visible flow and pixel boundaries.",
+      "required": true,
+      "text": "Sunday trail club"
+    },
+    {
+      "id": "navigation",
+      "kind": "control",
+      "bounds": {
+        "x": 0,
+        "y": 749.5,
+        "width": 400,
+        "height": 50.5
+      },
+      "confidence": "high",
+      "provenance": "Assistant reviewed unchanged ImageGen PNG; logical widget boxes inferred from visible flow and pixel boundaries.",
+      "required": true
+    },
+    {
+      "id": "trail",
+      "kind": "asset",
+      "bounds": {
+        "x": 13.077790304396844,
+        "y": 317.9255918827509,
+        "width": 374.74633596392334,
+        "height": 204.7350620067644
+      },
+      "confidence": "high",
+      "provenance": "Assistant reviewed unchanged ImageGen PNG; logical widget boxes inferred from visible flow and pixel boundaries.",
+      "required": true,
+      "notes": "Isolated photo/artwork crop; baked edge/background pixels retained. No text or controls are rasterized."
+    },
+    {
+      "id": "leaf",
+      "kind": "asset",
+      "bounds": {
+        "x": 18.489289740698986,
+        "y": 14.881623449830892,
+        "width": 19.842164599774524,
+        "height": 23.90078917700113
+      },
+      "confidence": "high",
+      "provenance": "Assistant reviewed unchanged ImageGen PNG; logical widget boxes inferred from visible flow and pixel boundaries.",
+      "required": false,
+      "notes": "Isolated photo/artwork crop; baked edge/background pixels retained. No text or controls are rasterized."
+    },
+    {
+      "id": "maya",
+      "kind": "asset",
+      "bounds": {
+        "x": 94.70124013528749,
+        "y": 170.913190529876,
+        "width": 55.91882750845547,
+        "height": 55.91882750845547
+      },
+      "confidence": "high",
+      "provenance": "Assistant reviewed unchanged ImageGen PNG; logical widget boxes inferred from visible flow and pixel boundaries.",
+      "required": false,
+      "notes": "Isolated photo/artwork crop; baked edge/background pixels retained. No text or controls are rasterized."
+    },
+    {
+      "id": "leo",
+      "kind": "asset",
+      "bounds": {
+        "x": 173.61894024802706,
+        "y": 170.913190529876,
+        "width": 55.91882750845547,
+        "height": 55.91882750845547
+      },
+      "confidence": "high",
+      "provenance": "Assistant reviewed unchanged ImageGen PNG; logical widget boxes inferred from visible flow and pixel boundaries.",
+      "required": false,
+      "notes": "Isolated photo/artwork crop; baked edge/background pixels retained. No text or controls are rasterized."
+    },
+    {
+      "id": "noor",
+      "kind": "asset",
+      "bounds": {
+        "x": 252.53664036076665,
+        "y": 170.913190529876,
+        "width": 55.91882750845547,
+        "height": 55.91882750845547
+      },
+      "confidence": "high",
+      "provenance": "Assistant reviewed unchanged ImageGen PNG; logical widget boxes inferred from visible flow and pixel boundaries.",
+      "required": false,
+      "notes": "Isolated photo/artwork crop; baked edge/background pixels retained. No text or controls are rasterized."
+    },
+    {
+      "id": "alex",
+      "kind": "asset",
+      "bounds": {
+        "x": 330.5524239007892,
+        "y": 170.913190529876,
+        "width": 55.91882750845547,
+        "height": 55.91882750845547
+      },
+      "confidence": "high",
+      "provenance": "Assistant reviewed unchanged ImageGen PNG; logical widget boxes inferred from visible flow and pixel boundaries.",
+      "required": false,
+      "notes": "Isolated photo/artwork crop; baked edge/background pixels retained. No text or controls are rasterized."
+    },
+    {
+      "id": "author",
+      "kind": "asset",
+      "bounds": {
+        "x": 22.096956031567082,
+        "y": 268.77113866967306,
+        "width": 42.390078917700116,
+        "height": 42.84103720405863
+      },
+      "confidence": "high",
+      "provenance": "Assistant reviewed unchanged ImageGen PNG; logical widget boxes inferred from visible flow and pixel boundaries.",
+      "required": false,
+      "notes": "Isolated photo/artwork crop; baked edge/background pixels retained. No text or controls are rasterized."
+    },
+    {
+      "id": "attendee_one",
+      "kind": "asset",
+      "bounds": {
+        "x": 23.90078917700113,
+        "y": 705.7497181510711,
+        "width": 28.41037204058625,
+        "height": 28.41037204058625
+      },
+      "confidence": "high",
+      "provenance": "Assistant reviewed unchanged ImageGen PNG; logical widget boxes inferred from visible flow and pixel boundaries.",
+      "required": false,
+      "notes": "Isolated photo/artwork crop; baked edge/background pixels retained. No text or controls are rasterized."
+    },
+    {
+      "id": "attendee_two",
+      "kind": "asset",
+      "bounds": {
+        "x": 51.409244644870356,
+        "y": 705.7497181510711,
+        "width": 28.41037204058625,
+        "height": 28.41037204058625
+      },
+      "confidence": "high",
+      "provenance": "Assistant reviewed unchanged ImageGen PNG; logical widget boxes inferred from visible flow and pixel boundaries.",
+      "required": false,
+      "notes": "Isolated photo/artwork crop; baked edge/background pixels retained. No text or controls are rasterized."
+    },
+    {
+      "id": "attendee_three",
+      "kind": "asset",
+      "bounds": {
+        "x": 79.81961668545661,
+        "y": 705.7497181510711,
+        "width": 29.312288613303274,
+        "height": 28.41037204058625
+      },
+      "confidence": "high",
+      "provenance": "Assistant reviewed unchanged ImageGen PNG; logical widget boxes inferred from visible flow and pixel boundaries.",
+      "required": false,
+      "notes": "Isolated photo/artwork crop; baked edge/background pixels retained. No text or controls are rasterized."
+    },
+    {
+      "id": "mountain",
+      "kind": "asset",
+      "bounds": {
+        "x": 261.1048478015784,
+        "y": 652.9875986471252,
+        "width": 120.40586245772268,
+        "height": 48.25253664036077
+      },
+      "confidence": "high",
+      "provenance": "Assistant reviewed unchanged ImageGen PNG; logical widget boxes inferred from visible flow and pixel boundaries.",
+      "required": false,
+      "notes": "Isolated photo/artwork crop; baked edge/background pixels retained. No text or controls are rasterized."
+    }
+  ],
+  "layoutNotes": [
+    "Flow-based scrollable feed with a fixed bottom navigation surface.",
+    "400x800 logical benchmark profile, full uncropped 887x1774 PNG, zero safe insets, export ratio 2.2175.",
+    "Photography and decorative artwork can be extracted; text/control implementation stays native Flutter."
+  ],
+  "uncertainties": [
+    "The generated raster supplies no original font bytes; bundled Lato is an explicitly selected inferred match, not proven exact source typography.",
+    "Original icon vectors are unavailable; the delegated demo uses Flutter outline icons with their visual differences retained.",
+    "Text layout-box bounds are inferred from visible ink and flow; medium confidence is preserved.",
+    "ImageGen backgrounds contain subtle nonuniform raster color/texture not reproduced by flat Flutter fills."
+  ],
+  "assets": [
+    {
+      "regionId": "trail",
+      "asset": "assets/trail-1791831314654.png",
+      "source": "crop",
+      "crop": {
+        "x": 29,
+        "y": 705,
+        "width": 831,
+        "height": 454
+      },
+      "warnings": [
+        "Screenshot crop may contain baked-in background/shadows; verify at target sizes."
+      ]
+    },
+    {
+      "regionId": "leaf",
+      "asset": "assets/leaf-1791831314701.png",
+      "source": "crop",
+      "crop": {
+        "x": 41,
+        "y": 33,
+        "width": 44,
+        "height": 53
+      },
+      "warnings": [
+        "Screenshot crop may contain baked-in background/shadows; verify at target sizes."
+      ]
+    },
+    {
+      "regionId": "maya",
+      "asset": "assets/maya-1791831314714.png",
+      "source": "crop",
+      "crop": {
+        "x": 210,
+        "y": 379,
+        "width": 124,
+        "height": 124
+      },
+      "warnings": [
+        "Screenshot crop may contain baked-in background/shadows; verify at target sizes."
+      ]
+    },
+    {
+      "regionId": "leo",
+      "asset": "assets/leo-1791831314732.png",
+      "source": "crop",
+      "crop": {
+        "x": 385,
+        "y": 379,
+        "width": 124,
+        "height": 124
+      },
+      "warnings": [
+        "Screenshot crop may contain baked-in background/shadows; verify at target sizes."
+      ]
+    },
+    {
+      "regionId": "noor",
+      "asset": "assets/noor-1791831314749.png",
+      "source": "crop",
+      "crop": {
+        "x": 560,
+        "y": 379,
+        "width": 124,
+        "height": 124
+      },
+      "warnings": [
+        "Screenshot crop may contain baked-in background/shadows; verify at target sizes."
+      ]
+    },
+    {
+      "regionId": "alex",
+      "asset": "assets/alex-1791831314766.png",
+      "source": "crop",
+      "crop": {
+        "x": 733,
+        "y": 379,
+        "width": 124,
+        "height": 124
+      },
+      "warnings": [
+        "Screenshot crop may contain baked-in background/shadows; verify at target sizes."
+      ]
+    },
+    {
+      "regionId": "author",
+      "asset": "assets/author-1791831314782.png",
+      "source": "crop",
+      "crop": {
+        "x": 49,
+        "y": 596,
+        "width": 94,
+        "height": 95
+      },
+      "warnings": [
+        "Screenshot crop may contain baked-in background/shadows; verify at target sizes."
+      ]
+    },
+    {
+      "regionId": "attendee_one",
+      "asset": "assets/attendee_one-1791831314800.png",
+      "source": "crop",
+      "crop": {
+        "x": 53,
+        "y": 1565,
+        "width": 63,
+        "height": 63
+      },
+      "warnings": [
+        "Screenshot crop may contain baked-in background/shadows; verify at target sizes."
+      ]
+    },
+    {
+      "regionId": "attendee_two",
+      "asset": "assets/attendee_two-1791831314824.png",
+      "source": "crop",
+      "crop": {
+        "x": 114,
+        "y": 1565,
+        "width": 63,
+        "height": 63
+      },
+      "warnings": [
+        "Screenshot crop may contain baked-in background/shadows; verify at target sizes."
+      ]
+    }
+  ]
+}

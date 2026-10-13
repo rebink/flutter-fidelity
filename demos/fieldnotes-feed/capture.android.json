@@ -1,0 +1,9 @@
+{
+  "projectRoot": "/Users/mohamedrebink/Documents/myapp/AI UI flutter dev/demos/fieldnotes-feed/app",
+  "target": "integration_test/feed_test.dart",
+  "mode": "integration",
+  "flutter": "/Users/mohamedrebink/fvm/versions/3.24.0/bin/flutter",
+  "timeoutMs": 300000,
+  "driver": "test_driver/fidelity_driver.dart",
+  "deviceId": "emulator-5554"
+}

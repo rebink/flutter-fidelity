@@ -1,0 +1,31 @@
+{
+  "status": "failed",
+  "tolerantMismatch": 0.06474136627142148,
+  "exactMismatch": 0.7051358149596642,
+  "checks": {
+    "analysis": "passed",
+    "interactions": "passed",
+    "accessibility": "not-run",
+    "responsive": "not-run"
+  },
+  "trail": {
+    "id": "trail",
+    "bounds": {
+      "x": 13.077790304396844,
+      "y": 317.9255918827509,
+      "width": 374.74633596392334,
+      "height": 204.7350620067644
+    },
+    "metric": {
+      "pixels": 377274,
+      "exactMismatch": 235,
+      "exactRatio": 0.0006228894649512026,
+      "tolerantMismatch": 178,
+      "tolerantRatio": 0.00047180563728218747,
+      "ssim": 0.9999850445445311
+    },
+    "geometryError": 0.000056382750869943266,
+    "status": "passed",
+    "issues": []
+  }
+}

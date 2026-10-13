@@ -1,0 +1,110 @@
+{
+  "version": 1,
+  "createdAt": "2026-10-12T18:55:14.637Z",
+  "reference": {
+    "path": "reference.png",
+    "sha256": "6932b9e0b2cee7e765f28cd74fb65d8c017a174174130d8b5d5b94279dc064ec",
+    "name": "reference.png"
+  },
+  "original": {
+    "path": "original.png",
+    "sha256": "b8dc80955dea46cb7dbc3af4e9f548bbf13b97deef6d51054add55dd95a1643a",
+    "name": "reference.png"
+  },
+  "image": {
+    "width": 887,
+    "height": 1774,
+    "crop": {
+      "x": 0,
+      "y": 0,
+      "width": 887,
+      "height": 1774
+    }
+  },
+  "profile": {
+    "width": 400,
+    "height": 800,
+    "pixelRatio": 2.2175,
+    "locale": "en-US",
+    "textScale": 1,
+    "brightness": "light",
+    "safeInsets": {
+      "top": 0,
+      "right": 0,
+      "bottom": 0,
+      "left": 0
+    }
+  },
+  "confirmed": true,
+  "fonts": [
+    {
+      "path": "fonts/Lato-Regular.ttf",
+      "sha256": "d636e4683231f931eda222d588e944d082bfd3bdba02f928bee461c0f185b251",
+      "name": "Lato-Regular.ttf"
+    },
+    {
+      "path": "fonts/Lato-Bold.ttf",
+      "sha256": "8a0aace75d33794eece4b28187bfc1df0bbd2888b5d8a56e01788c8d65d16be1",
+      "name": "Lato-Bold.ttf"
+    }
+  ],
+  "assets": [
+    {
+      "path": "assets/trail-1791831314654.png",
+      "sha256": "e11e51682f65308c59a75620e2f54cc91a1b637a00342e1ce165c2bea253ba25",
+      "name": "trail-1791831314654.png"
+    },
+    {
+      "path": "assets/leaf-1791831314701.png",
+      "sha256": "ab43b022d9ec4a4537f746196b3467a8c6e78b7fbaa67d8c67861404b9cce329",
+      "name": "leaf-1791831314701.png"
+    },
+    {
+      "path": "assets/maya-1791831314714.png",
+      "sha256": "04b3328cad1c314ce27a4185718da7b5718dc3893b42a183777c097e91971958",
+      "name": "maya-1791831314714.png"
+    },
+    {
+      "path": "assets/leo-1791831314732.png",
+      "sha256": "9b723af1b63bb2f8d4b3b5a65534cdbb58932dca1a875b43d44da6dbe59945f0",
+      "name": "leo-1791831314732.png"
+    },
+    {
+      "path": "assets/noor-1791831314749.png",
+      "sha256": "e41c9e88ae5bc602c7f1f09e605439cbe8eda0fb2f1cbdf3ba8f0291b81f58b9",
+      "name": "noor-1791831314749.png"
+    },
+    {
+      "path": "assets/alex-1791831314766.png",
+      "sha256": "fa9419fb06858257da32aa72d7f878f773e1c9572f4c4db2b1f0ab85fcb31ba1",
+      "name": "alex-1791831314766.png"
+    },
+    {
+      "path": "assets/author-1791831314782.png",
+      "sha256": "d7c48a86026d12471a09d764f65794ea517ac90901731c01bad15c36c5b9d1d2",
+      "name": "author-1791831314782.png"
+    },
+    {
+      "path": "assets/attendee_one-1791831314800.png",
+      "sha256": "93aede8dcfb687c99cb1f8b71409030fe844e90b930a438f476f28109a926c74",
+      "name": "attendee_one-1791831314800.png"
+    },
+    {
+      "path": "assets/attendee_two-1791831314824.png",
+      "sha256": "58cf8929f6c9dee336a647a1d683f8c1b2acfa8977249607ce87cdf3f5060c6d",
+      "name": "attendee_two-1791831314824.png"
+    },
+    {
+      "path": "assets/attendee_three-1791831314850.png",
+      "sha256": "26e486310bffeeb55c1e925ac57958c24dc49bbfc3452f6584ef5c970bd31698",
+      "name": "attendee_three-1791831314850.png"
+    },
+    {
+      "name": "mountain-1791831314875.png",
+      "path": "assets/mountain-1791831314875.png",
+      "sha256": "31c606e3837ccbefb68483cb6fba846d1d0b5a6f46e9d23f9ee976e04df6bf0d"
+    }
+  ],
+  "warnings": [],
+  "spec": "visual-spec.json"
+}

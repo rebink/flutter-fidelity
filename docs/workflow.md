@@ -61,6 +61,28 @@ remove uncertainties without supporting evidence.
 in the spec. The tool refuses text/control/layout crops. Original assets are
 preferred. Crops retain baked pixels; there is no AI background removal.
 
+## Architecture and implementation
+
+Follow [Flutter UI architecture](flutter-ui-architecture.md) before generating
+Dart. Record existing component/theme/state conventions and a small plan mapping
+regions to widget owners, styles, state/actions and layout constraints alongside
+the visual spec. This plan is an agent record, not an extension to VisualSpec.
+Choose the smallest fitting structure: composable views for isolated screens,
+existing state/data boundaries for integrated features, and additional layers
+only when confirmed behavior needs them.
+
+Use explicit data/callback inputs, semantic styles and constraint-driven layout.
+Review lifecycle ownership, rebuild scope, scalable text and input semantics
+before capture. Preserve these boundaries during visual repair. At delivery,
+record architecture review and measured performance separately from the numeric
+design-fidelity result; policy v2 is unchanged.
+
+Read only the applicable [UI patterns](flutter-ui-patterns.md) for component
+states, forms/focus, loading/media, motion, navigation, drawings, localization or
+previews/tests. Record those confirmed state/interaction contracts in the same
+decision record. [Research provenance](flutter-skill-research.md) is available
+for maintaining this guidance; third-party skills are not runtime dependencies.
+
 ## Capture entrypoint
 
 Add `fidelity_harness` as a path **dev_dependency**, and register a test entrypoint

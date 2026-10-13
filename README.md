@@ -43,10 +43,24 @@ manifests after `npm ci && npm run build`. See [setup](docs/setup.md) and
 
 The repository-owned skills are:
 
-- [Screenshot to Flutter](skills/screenshot-to-flutter/SKILL.md): PNG intake, layout generation and vector chart reconstruction.
+- [Screenshot to Flutter](skills/screenshot-to-flutter/SKILL.md): PNG intake, composable UI architecture, adaptive layout and vector chart reconstruction.
 - [Typography fidelity](skills/flutter-typography-fidelity/SKILL.md): font bytes, weights, glyphs and measured text.
 - [Visual repair](skills/flutter-visual-repair/SKILL.md): bounded corrections, retained candidates and behavioral verification.
-- [Fidelity verification](skills/flutter-fidelity-verification/SKILL.md): native captures, interactions, accessibility and runnable deliverables.
+- [Fidelity verification](skills/flutter-fidelity-verification/SKILL.md): architecture review, native captures, interactions, accessibility and runnable deliverables.
+
+Generation follows [Flutter UI architecture](docs/flutter-ui-architecture.md):
+inspect existing conventions, choose feature/component boundaries, reuse semantic
+tokens, keep business state outside presentation, and derive adaptive layouts
+from constraints. The guide compares the previous skill pattern with these
+standards and links official Flutter guidance. Architecture and performance
+evidence accompany visual reports; the CLI's design-fidelity gates retain their
+existing scope.
+
+Optional [UI patterns](docs/flutter-ui-patterns.md) cover forms/focus, component
+states, media/loading, motion/haptics, navigation/overlays, canvas gestures,
+localization and reliable previews/tests. They synthesize a
+[public Flutter skill survey](docs/flutter-skill-research.md) with primary sources
+and explicit selection limits, while preserving the target app's conventions.
 
 Before generating ambiguous interactions or chart behavior, the agent inspects
 existing widgets/dependencies and [asks the developer for the missing decisions](docs/design-clarification.md).
@@ -164,6 +178,12 @@ The earlier [Open Wellness examples](demos/open-wellness/README.md) remain avail
 For other multi-screen references, see [verified CC0 UI kit options](docs/free-ui-resources.md).
 
 ## Repository layout
+
+The [Fieldnotes feed demo](demos/fieldnotes-feed/README.md) implements a newly
+generated ImageGen reference with the updated skills. It includes a runnable
+Flutter app, 19 state/widget tests, Android interaction/capture evidence and
+preserved repair rounds. Native tolerant mismatch is 6.474%, so it retains a
+failing fidelity result and separate accessibility findings.
 
 - `src/`: CLI, MCP server, reference intake, capture and comparison implementation.
 - `skills/`: four reusable screenshot-to-Flutter agent skills.

@@ -1,0 +1,167 @@
+{
+  "version": 1,
+  "profile": {
+    "width": 400,
+    "height": 800,
+    "pixelRatio": 2.2175,
+    "locale": "en-US",
+    "textScale": 1,
+    "brightness": "light",
+    "safeInsets": {
+      "top": 0,
+      "right": 0,
+      "bottom": 0,
+      "left": 0
+    }
+  },
+  "mode": "widget",
+  "platform": "widget-macos",
+  "flutterVersion": "3.24.0",
+  "createdAt": "2026-10-12T19:06:29.407018Z",
+  "referenceSha256": "6932b9e0b2cee7e765f28cd74fb65d8c017a174174130d8b5d5b94279dc064ec",
+  "imageSha256": "50005315bdddbe52f54df909b59dd2935437b16d204cb4b398c4ac2dfeb0a324",
+  "fontSha256": [
+    "d636e4683231f931eda222d588e944d082bfd3bdba02f928bee461c0f185b251",
+    "8a0aace75d33794eece4b28187bfc1df0bbd2888b5d8a56e01788c8d65d16be1"
+  ],
+  "regions": [
+    {
+      "id": "masthead",
+      "bounds": {
+        "x": 18.5,
+        "y": 7,
+        "width": 363,
+        "height": 38
+      },
+      "text": "Fieldnotes\n󰄽\n󰀧"
+    },
+    {
+      "id": "heading",
+      "bounds": {
+        "x": 18.5,
+        "y": 55,
+        "width": 265.97003173828125,
+        "height": 36
+      },
+      "text": "Your daily inspiration"
+    },
+    {
+      "id": "subtitle",
+      "bounds": {
+        "x": 18.5,
+        "y": 92,
+        "width": 215.28076171875,
+        "height": 20
+      },
+      "text": "A little curiosity goes a long way."
+    },
+    {
+      "id": "filters",
+      "bounds": {
+        "x": 18.5,
+        "y": 123.7,
+        "width": 357.13563537597656,
+        "height": 30.6
+      },
+      "text": "For you\nFollowing\nOutdoors\nDesign"
+    },
+    {
+      "id": "stories",
+      "bounds": {
+        "x": 14.5,
+        "y": 168.3,
+        "width": 371,
+        "height": 79.5
+      },
+      "text": "\nYour story\nMaya\nLeo\nNoor\nAlex"
+    },
+    {
+      "id": "post",
+      "bounds": {
+        "x": 8.1,
+        "y": 260.8,
+        "width": 383.8,
+        "height": 368.42731648616126
+      },
+      "text": "Maya Chen\nPortland, OR · 24 min\nFollowing\n\nTake the scenic route.\nNo signal. No rush. Just the trail ahead.\n#weekendwander\n\n128\n\n24\n\n"
+    },
+    {
+      "id": "trail",
+      "bounds": {
+        "x": 13,
+        "y": 318.9,
+        "width": 374,
+        "height": 204.32731648616127
+      }
+    },
+    {
+      "id": "post_title",
+      "bounds": {
+        "x": 21.6,
+        "y": 533.2273164861613,
+        "width": 159.4440460205078,
+        "height": 20
+      },
+      "text": "Take the scenic route."
+    },
+    {
+      "id": "post_caption",
+      "bounds": {
+        "x": 21.6,
+        "y": 555.7273164861613,
+        "width": 206.0606231689453,
+        "height": 16
+      },
+      "text": "No signal. No rush. Just the trail ahead."
+    },
+    {
+      "id": "post_actions",
+      "bounds": {
+        "x": 21.6,
+        "y": 589.2273164861613,
+        "width": 356.8,
+        "height": 39
+      },
+      "text": "\n128\n\n24\n\n"
+    },
+    {
+      "id": "event",
+      "bounds": {
+        "x": 8.1,
+        "y": 637.3273164861613,
+        "width": 383.8,
+        "height": 108.6
+      },
+      "text": "NEAR YOU\nSunday trail club\nOct 18 · 8:30 AM · Forest Park\n12 going\nJoin"
+    },
+    {
+      "id": "event_title",
+      "bounds": {
+        "x": 23.15,
+        "y": 663.3773164861612,
+        "width": 121.48200988769531,
+        "height": 19
+      },
+      "text": "Sunday trail club"
+    },
+    {
+      "id": "navigation",
+      "bounds": {
+        "x": 0,
+        "y": 749,
+        "width": 400,
+        "height": 51
+      },
+      "text": "\nFeed\n\nExplore\n\n\nSaved\n󰁬\nYou"
+    }
+  ],
+  "fontsLoaded": true,
+  "settled": true,
+  "runtimeErrors": [],
+  "checks": {
+    "analysis": "passed",
+    "interactions": "not-run",
+    "accessibility": "not-run",
+    "responsive": "not-run"
+  }
+}

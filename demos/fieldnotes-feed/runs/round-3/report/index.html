@@ -1,0 +1,203 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Flutter fidelity report</title>
+<style>body{font:16px system-ui;margin:0;background:#111827;color:#e5e7eb}main{max-width:1200px;margin:auto;padding:28px}h1{margin:0 0 8px}a{color:#93c5fd}.summary{display:flex;gap:16px;flex-wrap:wrap}.card{background:#1f2937;padding:16px;border-radius:12px;margin:16px 0}.card strong{display:block;font-size:24px}.images{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}img{max-width:100%;height:auto;background:repeating-conic-gradient(#eee 0% 25%,#ddd 0% 50%) 50%/12px 12px}figure{margin:0}figcaption{padding:8px 0}.stage{position:relative;max-width:440px}.stage img{display:block;width:100%}.stage .actual{position:absolute;inset:0;opacity:.5}.blink .actual{animation:blink 1s steps(1) infinite}@keyframes blink{50%{opacity:0}100%{opacity:1}}button,input{margin:8px}table{border-collapse:collapse;width:100%;font-size:14px}th,td{text-align:left;padding:10px;border-bottom:1px solid #374151}.scroll{overflow:auto}pre{white-space:pre-wrap;overflow-wrap:anywhere}small{color:#9ca3af}</style>
+<main><h1>Flutter fidelity: failed</h1><small>2026-10-12T19:13:40.943Z · design-fidelity check; interaction, accessibility and responsive checks are separate.</small>
+<div class="summary"><div class="card"><strong>7.059%</strong>Tolerant pixel mismatch</div><div class="card"><strong>70.432%</strong>Exact RGBA mismatch</div><div class="card"><strong>0.83151</strong>SSIM (diagnostic)</div><div class="card"><strong>No</strong>Exact pixel equality</div></div>
+<div class="card"><ul><li>Whole-screen mismatch 7.059% exceeds 1.000%</li><li>Region masthead: Region pixel mismatch exceeds policy</li><li>Region heading: Region pixel mismatch exceeds policy; Inferred bounds require review; confidence is not high; Geometry differs by 5.00 logical pixels</li><li>Region subtitle: Region pixel mismatch exceeds policy; Inferred bounds require review; confidence is not high; Geometry differs by 1.50 logical pixels</li><li>Region filters: Region pixel mismatch exceeds policy</li><li>Region stories: Region pixel mismatch exceeds policy</li><li>Region post: Region pixel mismatch exceeds policy; Geometry differs by 1.26 logical pixels</li><li>Region post_title: Region pixel mismatch exceeds policy; Inferred bounds require review; confidence is not high; Geometry differs by 3.00 logical pixels</li><li>Region post_caption: Region pixel mismatch exceeds policy; Inferred bounds require review; confidence is not high; Geometry differs by 2.29 logical pixels</li><li>Region post_actions: Region pixel mismatch exceeds policy; Geometry differs by 11.00 logical pixels</li><li>Region event: Region pixel mismatch exceeds policy</li><li>Region event_title: Region pixel mismatch exceeds policy; Inferred bounds require review; confidence is not high; Geometry differs by 4.00 logical pixels</li><li>Region navigation: Region pixel mismatch exceeds policy</li><li>The generated raster supplies no original font bytes; bundled Lato is an explicitly selected inferred match, not proven exact source typography.</li><li>Original icon vectors are unavailable; the delegated demo uses Flutter outline icons with their visual differences retained.</li><li>Text layout-box bounds are inferred from visible ink and flow; medium confidence is preserved.</li><li>ImageGen backgrounds contain subtle nonuniform raster color/texture not reproduced by flat Flutter fills.</li></ul></div>
+<section class="card"><h2>Overlay inspection</h2><label>Actual opacity <input id="opacity" type="range" min="0" max="1" step="0.01" value="0.5"></label><button id="blink" type="button">Toggle blink</button><div class="stage" id="stage"><img src="reference.png" alt="Reference"><img class="actual" id="actual" src="actual.png" alt="Actual"></div></section>
+<section class="images"><figure><a href="reference.png"><img src="reference.png" alt="Reference" loading="lazy"></a><figcaption>Reference</figcaption></figure><figure><a href="actual.png"><img src="actual.png" alt="Flutter capture" loading="lazy"></a><figcaption>Flutter capture</figcaption></figure><figure><a href="strict-diff.png"><img src="strict-diff.png" alt="Strict difference" loading="lazy"></a><figcaption>Strict difference</figcaption></figure><figure><a href="tolerant-diff.png"><img src="tolerant-diff.png" alt="Tolerant difference" loading="lazy"></a><figcaption>Tolerant difference</figcaption></figure></section>
+<section class="card scroll"><h2>Regions</h2><table><thead><tr><th>Region</th><th>Status</th><th>Tolerant mismatch</th><th>Exact mismatch</th><th>Geometry error (logical px)</th><th>Text matches</th><th>Issues</th></tr></thead><tbody><tr><td>masthead</td><td>failed</td><td>15.437%</td><td>93.597%</td><td>0.00</td><td>unverified / n/a</td><td>Region pixel mismatch exceeds policy</td></tr><tr><td>heading</td><td>failed</td><td>30.148%</td><td>92.912%</td><td>5.00</td><td>true</td><td>Region pixel mismatch exceeds policy; Inferred bounds require review; confidence is not high; Geometry differs by 5.00 logical pixels</td></tr><tr><td>subtitle</td><td>failed</td><td>26.300%</td><td>92.890%</td><td>1.50</td><td>true</td><td>Region pixel mismatch exceeds policy; Inferred bounds require review; confidence is not high; Geometry differs by 1.50 logical pixels</td></tr><tr><td>filters</td><td>failed</td><td>39.794%</td><td>91.554%</td><td>0.10</td><td>unverified / n/a</td><td>Region pixel mismatch exceeds policy</td></tr><tr><td>stories</td><td>failed</td><td>49.329%</td><td>94.292%</td><td>0.50</td><td>unverified / n/a</td><td>Region pixel mismatch exceeds policy</td></tr><tr><td>post</td><td>failed</td><td>9.452%</td><td>44.425%</td><td>1.26</td><td>unverified / n/a</td><td>Region pixel mismatch exceeds policy; Geometry differs by 1.26 logical pixels</td></tr><tr><td>post_title</td><td>failed</td><td>22.420%</td><td>95.597%</td><td>3.00</td><td>true</td><td>Region pixel mismatch exceeds policy; Inferred bounds require review; confidence is not high; Geometry differs by 3.00 logical pixels</td></tr><tr><td>post_caption</td><td>failed</td><td>25.715%</td><td>94.230%</td><td>2.29</td><td>true</td><td>Region pixel mismatch exceeds policy; Inferred bounds require review; confidence is not high; Geometry differs by 2.29 logical pixels</td></tr><tr><td>post_actions</td><td>failed</td><td>14.804%</td><td>97.573%</td><td>11.00</td><td>unverified / n/a</td><td>Region pixel mismatch exceeds policy; Geometry differs by 11.00 logical pixels</td></tr><tr><td>event</td><td>failed</td><td>24.493%</td><td>89.327%</td><td>0.76</td><td>unverified / n/a</td><td>Region pixel mismatch exceeds policy</td></tr><tr><td>event_title</td><td>failed</td><td>31.702%</td><td>89.546%</td><td>4.00</td><td>true</td><td>Region pixel mismatch exceeds policy; Inferred bounds require review; confidence is not high; Geometry differs by 4.00 logical pixels</td></tr><tr><td>navigation</td><td>failed</td><td>17.098%</td><td>98.011%</td><td>0.50</td><td>unverified / n/a</td><td>Region pixel mismatch exceeds policy</td></tr><tr><td>trail</td><td>passed</td><td>0.050%</td><td>0.064%</td><td>0.00</td><td>unverified / n/a</td><td></td></tr><tr><td>leaf</td><td>failed</td><td>46.038%</td><td>93.669%</td><td>unverified</td><td>unverified / n/a</td><td>Region pixel mismatch exceeds policy; Widget region was not measured</td></tr><tr><td>maya</td><td>failed</td><td>91.266%</td><td>99.207%</td><td>unverified</td><td>unverified / n/a</td><td>Region pixel mismatch exceeds policy; Widget region was not measured</td></tr><tr><td>leo</td><td>failed</td><td>87.516%</td><td>99.045%</td><td>unverified</td><td>unverified / n/a</td><td>Region pixel mismatch exceeds policy; Widget region was not measured</td></tr><tr><td>noor</td><td>failed</td><td>80.801%</td><td>98.693%</td><td>unverified</td><td>unverified / n/a</td><td>Region pixel mismatch exceeds policy; Widget region was not measured</td></tr><tr><td>alex</td><td>failed</td><td>84.534%</td><td>99.122%</td><td>unverified</td><td>unverified / n/a</td><td>Region pixel mismatch exceeds policy; Widget region was not measured</td></tr><tr><td>author</td><td>failed</td><td>67.256%</td><td>95.398%</td><td>unverified</td><td>unverified / n/a</td><td>Region pixel mismatch exceeds policy; Widget region was not measured</td></tr><tr><td>attendee_one</td><td>failed</td><td>85.417%</td><td>99.082%</td><td>unverified</td><td>unverified / n/a</td><td>Region pixel mismatch exceeds policy; Widget region was not measured</td></tr><tr><td>attendee_two</td><td>failed</td><td>90.753%</td><td>99.647%</td><td>unverified</td><td>unverified / n/a</td><td>Region pixel mismatch exceeds policy; Widget region was not measured</td></tr><tr><td>attendee_three</td><td>failed</td><td>88.547%</td><td>99.463%</td><td>unverified</td><td>unverified / n/a</td><td>Region pixel mismatch exceeds policy; Widget region was not measured</td></tr><tr><td>mountain</td><td>failed</td><td>19.994%</td><td>83.206%</td><td>unverified</td><td>unverified / n/a</td><td>Region pixel mismatch exceeds policy; Widget region was not measured</td></tr></tbody></table></section>
+<section class="card"><h2>Policy and environment</h2><pre>{
+  &quot;profile&quot;: {
+    &quot;width&quot;: 400,
+    &quot;height&quot;: 800,
+    &quot;pixelRatio&quot;: 2.2175,
+    &quot;locale&quot;: &quot;en-US&quot;,
+    &quot;textScale&quot;: 1,
+    &quot;brightness&quot;: &quot;light&quot;,
+    &quot;safeInsets&quot;: {
+      &quot;top&quot;: 0,
+      &quot;right&quot;: 0,
+      &quot;bottom&quot;: 0,
+      &quot;left&quot;: 0
+    }
+  },
+  &quot;policy&quot;: {
+    &quot;version&quot;: 2,
+    &quot;regionThreshold&quot;: 0.01,
+    &quot;threshold&quot;: 0.1,
+    &quot;screenMismatch&quot;: 0.01,
+    &quot;regionMismatch&quot;: 0.03,
+    &quot;geometryTolerance&quot;: 1
+  },
+  &quot;capture&quot;: {
+    &quot;version&quot;: 1,
+    &quot;profile&quot;: {
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 800,
+      &quot;pixelRatio&quot;: 2.2175,
+      &quot;locale&quot;: &quot;en-US&quot;,
+      &quot;textScale&quot;: 1,
+      &quot;brightness&quot;: &quot;light&quot;,
+      &quot;safeInsets&quot;: {
+        &quot;top&quot;: 0,
+        &quot;right&quot;: 0,
+        &quot;bottom&quot;: 0,
+        &quot;left&quot;: 0
+      }
+    },
+    &quot;mode&quot;: &quot;widget&quot;,
+    &quot;platform&quot;: &quot;widget-macos&quot;,
+    &quot;flutterVersion&quot;: &quot;3.24.0&quot;,
+    &quot;createdAt&quot;: &quot;2026-10-12T19:12:23.889654Z&quot;,
+    &quot;referenceSha256&quot;: &quot;6932b9e0b2cee7e765f28cd74fb65d8c017a174174130d8b5d5b94279dc064ec&quot;,
+    &quot;imageSha256&quot;: &quot;04e48e4f76ec87dceb2ce46bc8581157b44ffc06f8671c763277579e24095e68&quot;,
+    &quot;fontSha256&quot;: [
+      &quot;d636e4683231f931eda222d588e944d082bfd3bdba02f928bee461c0f185b251&quot;,
+      &quot;8a0aace75d33794eece4b28187bfc1df0bbd2888b5d8a56e01788c8d65d16be1&quot;
+    ],
+    &quot;regions&quot;: [
+      {
+        &quot;id&quot;: &quot;masthead&quot;,
+        &quot;bounds&quot;: {
+          &quot;x&quot;: 18.5,
+          &quot;y&quot;: 7,
+          &quot;width&quot;: 363,
+          &quot;height&quot;: 38
+        },
+        &quot;text&quot;: &quot;Fieldnotes\n\n&quot;
+      },
+      {
+        &quot;id&quot;: &quot;heading&quot;,
+        &quot;bounds&quot;: {
+          &quot;x&quot;: 18.5,
+          &quot;y&quot;: 55,
+          &quot;width&quot;: 363,
+          &quot;height&quot;: 31
+        },
+        &quot;text&quot;: &quot;Your daily inspiration&quot;
+      },
+      {
+        &quot;id&quot;: &quot;subtitle&quot;,
+        &quot;bounds&quot;: {
+          &quot;x&quot;: 18.5,
+          &quot;y&quot;: 90,
+          &quot;width&quot;: 363,
+          &quot;height&quot;: 20
+        },
+        &quot;text&quot;: &quot;A little curiosity goes a long way.&quot;
+      },
+      {
+        &quot;id&quot;: &quot;filters&quot;,
+        &quot;bounds&quot;: {
+          &quot;x&quot;: 18.5,
+          &quot;y&quot;: 122.2,
+          &quot;width&quot;: 349.9356353759766,
+          &quot;height&quot;: 30.6
+        },
+        &quot;text&quot;: &quot;For you\nFollowing\nOutdoors\nDesign&quot;
+      },
+      {
+        &quot;id&quot;: &quot;stories&quot;,
+        &quot;bounds&quot;: {
+          &quot;x&quot;: 14.5,
+          &quot;y&quot;: 166.8,
+          &quot;width&quot;: 377,
+          &quot;height&quot;: 79.5
+        },
+        &quot;text&quot;: &quot;\nYour story\nMaya\nLeo\nNoor\nAlex&quot;
+      },
+      {
+        &quot;id&quot;: &quot;post&quot;,
+        &quot;bounds&quot;: {
+          &quot;x&quot;: 8.1,
+          &quot;y&quot;: 259.75,
+          &quot;width&quot;: 383.8,
+          &quot;height&quot;: 370.5605975264741
+        },
+        &quot;text&quot;: &quot;Maya Chen\nPortland, OR · 24 min\nFollowing\n\nTake the scenic route.\nNo signal. No rush. Just the trail ahead.\n#weekendwander\n\n128\n\n24\n\n&quot;
+      },
+      {
+        &quot;id&quot;: &quot;trail&quot;,
+        &quot;bounds&quot;: {
+          &quot;x&quot;: 13.0777903,
+          &quot;y&quot;: 317.9255355,
+          &quot;width&quot;: 374.746336,
+          &quot;height&quot;: 204.73506202647414
+        }
+      },
+      {
+        &quot;id&quot;: &quot;post_title&quot;,
+        &quot;bounds&quot;: {
+          &quot;x&quot;: 21.6,
+          &quot;y&quot;: 531.5105975264742,
+          &quot;width&quot;: 356.8,
+          &quot;height&quot;: 19
+        },
+        &quot;text&quot;: &quot;Take the scenic route.&quot;
+      },
+      {
+        &quot;id&quot;: &quot;post_caption&quot;,
+        &quot;bounds&quot;: {
+          &quot;x&quot;: 21.6,
+          &quot;y&quot;: 552.2105975264742,
+          &quot;width&quot;: 356.8,
+          &quot;height&quot;: 16
+        },
+        &quot;text&quot;: &quot;No signal. No rush. Just the trail ahead.&quot;
+      },
+      {
+        &quot;id&quot;: &quot;post_actions&quot;,
+        &quot;bounds&quot;: {
+          &quot;x&quot;: 21.6,
+          &quot;y&quot;: 590.3105975264741,
+          &quot;width&quot;: 356.8,
+          &quot;height&quot;: 39
+        },
+        &quot;text&quot;: &quot;\n128\n\n24\n\n&quot;
+      },
+      {
+        &quot;id&quot;: &quot;event&quot;,
+        &quot;bounds&quot;: {
+          &quot;x&quot;: 8.1,
+          &quot;y&quot;: 638.4105975264741,
+          &quot;width&quot;: 383.8,
+          &quot;height&quot;: 102.7
+        },
+        &quot;text&quot;: &quot;NEAR YOU\nSunday trail club\nOct 18 · 8:30 AM · Forest Park\n12 going\nJoin&quot;
+      },
+      {
+        &quot;id&quot;: &quot;event_title&quot;,
+        &quot;bounds&quot;: {
+          &quot;x&quot;: 23.15,
+          &quot;y&quot;: 662.7605975264742,
+          &quot;width&quot;: 222,
+          &quot;height&quot;: 19
+        },
+        &quot;text&quot;: &quot;Sunday trail club&quot;
+      },
+      {
+        &quot;id&quot;: &quot;navigation&quot;,
+        &quot;bounds&quot;: {
+          &quot;x&quot;: 0,
+          &quot;y&quot;: 749,
+          &quot;width&quot;: 400,
+          &quot;height&quot;: 51
+        },
+        &quot;text&quot;: &quot;\nFeed\n\nExplore\n\n\nSaved\n\nYou&quot;
+      }
+    ],
+    &quot;fontsLoaded&quot;: true,
+    &quot;settled&quot;: true,
+    &quot;runtimeErrors&quot;: [],
+    &quot;checks&quot;: {
+      &quot;analysis&quot;: &quot;passed&quot;,
+      &quot;interactions&quot;: &quot;not-run&quot;,
+      &quot;accessibility&quot;: &quot;not-run&quot;,
+      &quot;responsive&quot;: &quot;not-run&quot;
+    }
+  },
+  &quot;referenceSha256&quot;: &quot;6932b9e0b2cee7e765f28cd74fb65d8c017a174174130d8b5d5b94279dc064ec&quot;,
+  &quot;actualSha256&quot;: &quot;04e48e4f76ec87dceb2ce46bc8581157b44ffc06f8671c763277579e24095e68&quot;,
+  &quot;specSha256&quot;: &quot;02bb6103809eb41a8ae92e22bc49ea84f282f3b3280995d5cc68563235e67d62&quot;
+}</pre><a href="comparison.json">Download machine-readable report</a></section></main>
+<script>document.getElementById('opacity').addEventListener('input',e=>{document.getElementById('stage').classList.remove('blink');document.getElementById('actual').style.opacity=e.target.value});document.getElementById('blink').addEventListener('click',()=>{document.getElementById('actual').style.opacity='';document.getElementById('stage').classList.toggle('blink')})</script></html>
