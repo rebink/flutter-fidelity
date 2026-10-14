@@ -1,10 +1,25 @@
 # Flutter Fidelity
 
-Turn a design PNG into maintainable Flutter UI, then measure the result with
+The plugin, CLI and four skills share one release version. Check it with
+`node dist/cli.js --version`; see [release notes](CHANGELOG.md) for changes.
+
+Turn a design PNG or Figma link into maintainable Flutter UI, then measure the result with
 reproducible screenshots, pixel comparisons, and region-level reports.
 
 Screenshot-first Flutter UI development with an existing vision-capable coding
 assistant. PNGs are the visual authority; Figma/Sketch metadata is optional.
+
+For Figma links, the assistant tries connected design tools, then available
+Playwright/browser automation when details or assets are missing. It collects
+scoped originals in a batch, records provenance and validates formats before
+implementation. For screen references it prefers selecting the Figma frame and
+using **Copy as PNG**, saving verified clipboard image bytes locally, followed
+by **Copy as code → CSS** for styling evidence. Snippets retain their node
+coverage and inform native Flutter implementation. Connector PNG/export and
+inspector properties are fallbacks when copying is unavailable. If browser
+automation is unavailable, it explains what to connect and batches the remaining
+access or input request.
+See [design intake and asset recovery](docs/design-intake.md).
 
 This repository provides a working TypeScript CLI/MCP server, four agent skills,
 a Dart development capture harness, an example Flutter screen, twelve screenshot
@@ -25,14 +40,16 @@ npm ci
 npm run build
 npm test
 node dist/cli.js doctor
+node dist/cli.js validate-assets --files ./assets/hero.png ./fonts/Lato-Regular.ttf
 node dist/cli.js suggest-viewport --image your-screen.png
 node dist/cli.js import-image --image your-screen.png --out .fidelity/reference \
   --width 390 --height 844 --confirmed --fonts ./fonts/Lato-Regular.ttf ./fonts/Lato-Bold.ttf \
   --assets ./assets/hero.png
 ```
 
-Confirm logical dimensions and app-content crop with the developer; a PNG can be
-an export at 2x/3x. `--crop x,y,width,height` uses original PNG pixels. Inputs are
+Establish logical dimensions and app-content crop from the supplied profile or
+reliable frame/export evidence; ask when they remain unknown. A PNG can be an
+export at 2x/3x. `--crop x,y,width,height` uses original PNG pixels. Inputs are
 copied and hashed. Existing bundle/run directories are never overwritten.
 Missing fonts permit inspection, but the result remains incomplete.
 
@@ -43,18 +60,31 @@ manifests after `npm ci && npm run build`. See [setup](docs/setup.md) and
 
 The repository-owned skills are:
 
-- [Screenshot to Flutter](skills/screenshot-to-flutter/SKILL.md): PNG intake, composable UI architecture, adaptive layout and vector chart reconstruction.
+- [Screenshot to Flutter](skills/screenshot-to-flutter/SKILL.md): PNG/Figma intake, browser asset recovery, composable UI architecture, adaptive layout and vector chart reconstruction.
 - [Typography fidelity](skills/flutter-typography-fidelity/SKILL.md): font bytes, weights, glyphs and measured text.
 - [Visual repair](skills/flutter-visual-repair/SKILL.md): bounded corrections, retained candidates and behavioral verification.
 - [Fidelity verification](skills/flutter-fidelity-verification/SKILL.md): architecture review, native captures, interactions, accessibility and runnable deliverables.
 
 Generation follows [Flutter UI architecture](docs/flutter-ui-architecture.md):
-inspect existing conventions, choose feature/component boundaries, reuse semantic
-tokens, keep business state outside presentation, and derive adaptive layouts
-from constraints. The guide compares the previous skill pattern with these
+trace a comparable feature's route, state and data flow, record evidence for
+state management and layering, then place UI and confirmed logic in those
+existing boundaries. For BLoC/Cubit with clean architecture, this includes
+presentation state wiring, domain/data contracts and route/DI integration;
+other patterns follow their existing owners. Reuse semantic tokens and derive
+adaptive layouts from constraints. The guide compares the previous skill pattern with these
 standards and links official Flutter guidance. Architecture and performance
 evidence accompany visual reports; the CLI's design-fidelity gates retain their
-existing scope.
+visual scope, while report acceptance tracks analysis, interactions, accessibility
+and responsiveness separately. Required checks that were not run remain incomplete.
+
+The [autonomous workflow](docs/workflow.md#autonomous-execution-and-delivery)
+carries authorized work through asset intake, implementation, route/state
+integration, tests, capture and bounded repair. It reuses prior decisions and
+makes routine engineering choices without stage-by-stage approval. Original
+assets and authorized derivatives remain traceable in an optional
+[asset manifest](docs/asset-manifest.template.json). Runtime optimization uses
+[repeatable profile evidence](docs/performance.md);
+unmeasured performance remains explicit.
 
 Optional [UI patterns](docs/flutter-ui-patterns.md) cover forms/focus, component
 states, media/loading, motion/haptics, navigation/overlays, canvas gestures,
@@ -62,12 +92,18 @@ localization and reliable previews/tests. They synthesize a
 [public Flutter skill survey](docs/flutter-skill-research.md) with primary sources
 and explicit selection limits, while preserving the target app's conventions.
 
-Before generating ambiguous interactions or chart behavior, the agent inspects
+Choose the [task mode](docs/design-clarification.md#task-modes) from the request:
+visual prototypes may use labeled display fixtures; integrated features use
+production contracts; visual repairs preserve behavior.
+
+Before generating ambiguous integrated interactions or chart behavior, the agent inspects
 existing widgets/dependencies and [asks the developer for the missing decisions](docs/design-clarification.md).
 This includes chart-library reuse or selection, tappability/actions, data sources,
 range semantics, supported states and missing icon/image assets. If an SVG/PNG
-cannot be found or rendered, the agent diagnoses loading first, then asks for
-the original source, an existing component or an approved alternative.
+cannot be found or rendered, the agent diagnoses loading and attempts automatic
+source recovery first, then batches residual questions for originals, existing
+components or approved alternatives. Existing contracts and delegated choices
+do not require repeated confirmation.
 Required answers are recorded before the
 dependent implementation; screenshot appearance alone is not treated as proof
 of behavior. The CLI/MCP measures rendering and does not enforce these decisions.
@@ -87,14 +123,37 @@ Open `.fidelity/report-1/index.html` for overlay opacity, blink inspection,
 difference maps, region metrics, policy, environment and unresolved issues.
 Compare exits **0 = passed**, **1 = failed**, **2 = incomplete**. A design-fidelity
 pass is separate from interaction, accessibility and responsive acceptance.
+Policy v3 adds required text-overflow evidence without changing numeric pixel
+thresholds. Reports v2 expose `acceptance.status`; consumers requiring product
+acceptance must inspect it as well as the visual exit code. See
+[compatibility notes](docs/workflow.md#comparison-and-repair).
+
+Repair policy v2 protects passed product checks and retains separate visual and
+product-valid candidates. `bestReport` is the delivery/restoration choice;
+`bestVisualReport` can be diagnostic evidence of a broken candidate.
+Use `sourceCheckpoint` in capture config to bind each report to a scoped source
+snapshot. After restoring owned files, run `verify-source-checkpoint` before fresh
+verification. See [source binding](docs/workflow.md#source-checkpoint-binding).
+Legacy captures remain readable; legacy repair sessions require their matching
+tool release and cannot silently reset their budget.
 
 ## Validate and benchmark
 
+For users with a clean source clone, `npm run update:check` reports available
+upstream changes and `npm run update` fast-forwards, installs locked dependencies,
+builds and tests. Refresh/reload the plugin through your host afterward. This
+follows your tracked source branch; use a released Git tag to pin a version.
+See [versions and updates](docs/updates.md) for details and older-install bootstrap.
+
 ```sh
 npm run check
-npm run fixtures
-npm run benchmark
+npm run fixtures -- --out .fidelity/fixtures-new
+npm run benchmark -- --fixtures .fidelity/fixtures-new --out .fidelity/calibration-new
 ```
+
+Both commands require fresh output paths and preserve existing references.
+Omitting `--fixtures` benchmarks the checked-in corpus. See the
+[skill evaluation cases](docs/skill-evaluation.md) for realistic workflow exercises.
 
 The default benchmark is **comparator calibration**, not model generation
 accuracy: it checks twelve references against deliberate defects. Identical PNGs
@@ -131,8 +190,10 @@ the integration capture/driver. Native font bytes must match the bundle.
 
 Local assistant workflow, screenshot inputs, and Flutter mobile UI. Runtime code
 does not depend on the capture harness. Backend generation, native platform
-views and complex animation/shaders are outside v1. Figma/Sketch adapters and an
-independent model-API runner are not part of this screenshot-first release.
+views and complex animation/shaders are outside v1. Built-in Figma/Sketch API
+adapters and an independent model-API runner are not part of this release.
+Figma/browser recovery is orchestrated by the host assistant using available
+external tools; no browser plugin is installed or bundled by this package.
 
 ## Codex-generated UI: simple, complex and advanced
 

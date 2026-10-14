@@ -28,6 +28,17 @@ included for local plugin clients. Dependencies and dist must exist before
 starting the plugin. This repository does not install into your global assistant
 configuration or publish/upload anything automatically.
 
+## Updating
+
+From a clean source clone, run `npm run update:check` to inspect the tracked
+upstream, or `npm run update` to fast-forward, install locked dependencies and
+run checks. Then restart the MCP process and refresh/reload any cached plugin
+through the host. This follows the source branch; tagged installations remain
+pinned. See [versions and updates](updates.md) for bootstrap, release pinning,
+rollback and maintainer instructions, and [release notes](../CHANGELOG.md).
+
+## Optional tooling
+
 Optional official skills, as documented by the Flutter team:
 
 ```sh

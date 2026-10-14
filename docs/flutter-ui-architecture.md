@@ -13,7 +13,7 @@ and selection decisions; load it only when provenance or future updates matter.
 
 | Area | Previous guidance | Generation standard |
 | --- | --- | --- |
-| Visual evidence | Detailed regions, font hashes, fresh captures and bounded repair | Retain these controls and the existing policy v2 |
+| Visual evidence | Detailed regions, font hashes, fresh captures and bounded repair | Retain these controls under the versioned policy |
 | Architecture | Preserve architecture; separate presentation/business logic | Identify actual owners and dependencies before choosing files/state boundaries |
 | Widget structure | Reuse repeated patterns | Extract sections by responsibility, reuse and rebuild scope; explicit inputs/actions |
 | Styling | Match each visual property | Own semantic tokens/styles once, with measured local exceptions |
@@ -33,6 +33,37 @@ Bloc, Provider, ChangeNotifier or other architecture takes precedence over a new
 pattern. Do not migrate the app, install a state package or reorganize unrelated
 code merely to implement a screen.
 
+### Establish architecture from working code
+
+Before choosing files or implementing logic, inspect a comparable production
+feature in the target Flutter package. In a monorepo, identify the app and its
+shared packages first; demo or harness structure is not evidence of the app's
+architecture. Use repository instructions and architecture docs, then verify
+them against imports, constructors, registrations and tests. A dependency in
+pubspec or a folder called `domain` alone does not establish the pattern.
+
+Trace an existing action from route/page composition through widget callback,
+state owner, business operation and data boundary, then back to rendered state
+and UI effects. Record actual file paths and symbols for:
+
+| Concern | Evidence to inspect and carry forward |
+| --- | --- |
+| Organization and dependencies | Feature-first/layer-first/package boundaries, allowed import direction and public exports |
+| State management | Actual Bloc/Cubit, Riverpod, Provider, ChangeNotifier, controller or other owner; events/methods, state shape and subscriptions |
+| Business and data logic | Use cases when present, repository interfaces/implementations, services, entities/DTO mapping and error/result conventions |
+| Composition | Route registration/arguments, DI factories/scopes, ownership/disposal and initialization trigger |
+| Presentation conventions | Existing theme/tokens, reusable controls, localization and layout primitives |
+| Tooling and tests | Code generation, lint/import rules, state tests, fake data boundaries and route/widget test setup |
+
+Identify state management and architectural layering separately. BLoC does not
+by itself establish clean architecture; clean architecture does not prescribe
+a state package. Follow the target feature's actual conventions when the app
+uses more than one pattern. Prefer explicit applicable instructions and the
+nearest maintained comparable feature over a distant example. Record any
+conflict or uncertainty rather than calling a package scan architecture
+detection. Ask only when an unresolved conflict would change the implementation;
+continue independent visual work while it is unresolved.
+
 Record a brief plan in the existing decision record or a sidecar Markdown file
 beside the visual spec: feature entrypoint/conventions; sections mapped to
 required region IDs and widget owners; shared versus feature styles/assets;
@@ -40,6 +71,16 @@ state owner and approved actions/inputs; fixed/flexible/wrapping/scrollable/over
 layout rules; supported scenarios and uncertainties. VisualSpec has a strict
 schema. Keep this plan outside it; supported layoutNotes/region notes may contain
 relevant layout facts.
+
+Include an architecture summary with evidence paths and a concrete change map:
+which existing files/symbols are reused or extended, which new files are needed,
+their layer and dependencies, and where route/DI wiring will happen. Map each
+confirmed action to its event/method, operation, state outcome and UI effect.
+Map display data to its source of truth; distinguish existing contracts from
+unresolved data/behavior. Carry this record through generation, repair and
+verification, updating it when relevant app code changes. Do not infer logic
+from the screenshot or require the developer to choose a pattern already
+established by the repository.
 
 For an isolated screen, widgets receiving immutable display data and callbacks
 can be sufficient. Local selected/focus/animation state can be widget-owned.
@@ -70,6 +111,77 @@ test/
 Names/directories are examples, not required folders. Omit unused entries and
 use the repository's organization. Feature-first and layer-first structures can
 both express sound dependency boundaries.
+
+### Apply the detected state and layer conventions
+
+Reuse the current feature's state owner when it already owns the requested
+behavior. Add a new owner only for a distinct responsibility following the
+app's conventions. Connect the generated screen to that owner and the actual
+route/composition boundary; a standalone fixture screen alone does not complete
+an integrated feature. Keep pure section widgets reusable through typed inputs
+and callbacks while the page adapts application state and forwards actions.
+
+| Detected convention | Implementation decision |
+| --- | --- |
+| Bloc/Cubit | Follow the feature's event-driven Bloc or method-driven Cubit choice, state/equality convention, provider scope and effect handling |
+| Riverpod | Extend/reuse the existing provider/notifier, scope, async-state and override conventions; do not introduce a parallel controller |
+| Provider/ChangeNotifier | Use the existing notifier/model and provider ownership; preserve the app's notification and subscription conventions |
+| MVVM/MVC/controller or another pattern | Follow the observed view-to-owner contract, dependency direction and lifecycle rather than translating it into a preferred pattern |
+| No established pattern | Use the smallest structure justified by confirmed behavior; record the choice without creating speculative layers |
+
+These are routing decisions, not a requirement to install any of these
+packages. Preserve pinned APIs, existing generated-state conventions and test
+helpers. Run required generation only for changed annotated sources using the
+repository's scoped command; do not hand-edit generated files or upgrade tooling
+as a side effect.
+
+### BLoC/Cubit with clean architecture
+
+When both are established, place page/widgets and Bloc/Cubit state wiring in
+presentation. Forward callbacks to existing Bloc events or Cubit methods; reuse
+immutable state/equality conventions. Render with BlocBuilder/BlocSelector or
+the app's wrapper. Handle navigation/dialog/snackbar effects with BlocListener
+or the established effect mechanism, keeping builders free of side effects.
+Use BlocConsumer when both responsibilities belong together. Keep domain logic
+free of BuildContext.
+
+Create owners at the established composition scope. BlocProvider(create: ...)
+closes the instance it creates; BlocProvider.value exposes an existing instance
+whose owner must close it. Match DI lifetime, subscription cleanup and the
+existing initialization trigger; avoid duplicate loads on rebuild.
+
+For clean architecture, reuse domain entities, use cases and repository
+contracts where they exist. Keep business rules in their established owner;
+data implementations handle I/O, DTO mapping and error conversion. Presentation
+and data may depend on domain; domain must not depend on presentation, Flutter
+widgets or concrete data sources. Register implementations at the composition
+root. Follow the app's real dependency rules when its documented variant differs.
+
+For example, an existing feature might use:
+
+```text
+features/orders/
+  presentation/pages/orders_page.dart
+  presentation/widgets/order_card.dart
+  presentation/bloc/orders_bloc.dart       # event/state files per app convention
+  domain/entities/order.dart
+  domain/usecases/load_orders.dart
+  domain/repositories/orders_repository.dart
+  data/repositories/orders_repository_impl.dart
+  data/datasources/orders_remote_source.dart
+```
+
+This is an illustrative mapping, not scaffolding to copy. Reuse existing files
+and omit unnecessary additions. If the repository uses Cubit, layer-first
+folders, direct repository calls or shared packages, match that convention.
+Do not add a use case to every callback merely to resemble this example.
+
+A confirmed refresh could flow from a page callback to the existing refresh
+event/method, then a load operation and repository contract, then updated state
+and the view. Trace the actual flow before extending it. Reuse failure/retry,
+event concurrency, cancellation and result conventions where applicable;
+create additional transitions only for confirmed requirements. Local focus or
+animation state can stay widget-owned; business state must retain one owner.
 
 ## Design tokens and component boundaries
 
@@ -181,6 +293,13 @@ Report build/raster/frame findings against its refresh rate and tested scenario.
 Widget tests, debug timings and source inspection do not establish native
 smoothness.
 
+### Optimization evidence loop
+
+Follow [the performance protocol](performance.md) for measured scenarios,
+profile-mode collection, environment records, distributions, repeatability and
+before/after comparison. Source review alone is not runtime evidence. Preserve
+original assets and record any authorized derivatives separately.
+
 ## Review and evidence
 
 Before capture review structure; during repair review affected owners; at
@@ -188,8 +307,10 @@ delivery tie findings to actual files, tests or traces:
 
 | Review | Evidence to record |
 | --- | --- |
+| Architecture fit | Observed pattern and evidence paths; generated files/imports match feature layers and state conventions |
 | Components/styles | Named section owners, reused components/tokens and justified local variants |
 | State/data flow | Source of truth, approved actions/fixtures, dependencies and lifecycle ownership |
+| Integration | Route/DI registration, initialization and lifetime; action-to-state/effect outcomes through the production composition |
 | Layout | Bounded flow/overlays, content growth, safe/keyboard insets and breakpoint behavior |
 | Code validation | Formatting, analyzer output and relevant existing/contract-based tests |
 | Behavior/accessibility | Expected action outcomes, semantics/input/targets/contrast; individual failures |
@@ -203,10 +324,20 @@ generated wording. In this repository follow AGENTS.md: npm run check; Dart
 edits require analysis and flutter/example's test/ui_test.dart; image/policy
 edits also require fixtures/benchmark. Target apps retain their required checks.
 
+For changed business/state logic, use the app's test style to verify confirmed
+transitions and failure/retry outcomes through injected fakes. Exercise the
+integrated page to verify callbacks reach the intended owner and render its
+state, and effects occur only as specified. Check new imports against existing
+layer rules; run the app's architecture checks when available. Capture fixtures
+must use the same production presentation/state contracts with deterministic
+dependencies at their existing injection boundary. A static fake view does not
+verify route/DI wiring or business logic. Missing integration evidence stays
+not-run even when the screenshot matches.
+
 Keep this review alongside the report, outside unsupported CLI fields.
 Distinguish source-reviewed, executed-passed, executed-failed and not-run evidence.
 Refactoring cannot reuse stale captures or bypass the five-round/two-stall limit.
-Architecture review does not change policy v2 or turn comparator calibration
+Architecture review does not change numeric fidelity thresholds or turn comparator calibration
 into a generation benchmark. Best-in-class claims require comparative runs of
 generated apps, not instructions alone.
 
@@ -217,6 +348,7 @@ The choices above apply this guidance to screenshot generation:
 
 - [Architecture recommendations](https://docs.flutter.dev/app-architecture/recommendations): separation of concerns and testable data/state boundaries.
 - [Architecture guide](https://docs.flutter.dev/app-architecture/guide): view/state/data responsibilities and optional domain layers.
+- [Flutter Bloc concepts](https://bloclibrary.dev/flutter-bloc-concepts/) (checked 13 October 2026): builder/listener responsibilities and provider ownership; apply only to detected Bloc/Cubit features.
 - [Adaptive best practices](https://docs.flutter.dev/ui/adaptive-responsive/best-practices) and [general approach](https://docs.flutter.dev/ui/adaptive-responsive/general): available-space layouts and component composition.
 - [Performance best practices](https://docs.flutter.dev/perf/best-practices): build cost, lazy layout and expensive rendering.
 - [Accessibility](https://docs.flutter.dev/ui/accessibility): semantics and independently checked usability.

@@ -7,6 +7,7 @@ import { CaptureSchema, PolicySchema, type ComparisonReport, type Metric, type R
 import { createOutput, hash, inside, json, pixels, writeJson } from './io.js';
 import { loadReference } from './reference.js';
 import { writeReport } from './report.js';
+import { copySourceCheckpoint } from './checkpoint.js';
 
 function metric(a: Uint8Array, b: Uint8Array, width: number, height: number, threshold: number, diff?: Uint8Array): Metric {
   let exactMismatch = 0;
@@ -30,6 +31,12 @@ export async function compareUI(options: { bundle: string; actual: string; out: 
   const expected = await pixels(await inside(root, bundle.reference.path)), actual = await pixels(options.actual);
   if (actual.width !== expected.width || actual.height !== expected.height) throw new Error(`Image dimensions differ: expected ${expected.width}×${expected.height}, actual ${actual.width}×${actual.height}. Re-capture at the confirmed viewport/export scale; no automatic resize.`);
   const capture = options.capture ? CaptureSchema.parse(await json(options.capture)) : undefined;
+  if (options.capture) {
+    let incompleteRun = false;
+    try { await fs.access(path.join(path.dirname(path.resolve(options.capture)), 'capture-incomplete.json')); incompleteRun = true; }
+    catch (error) { if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error; }
+    if (incompleteRun) throw new Error('Capture pipeline did not complete successfully; use a fresh run, not retained failure artifacts');
+  }
   const failures: string[] = [], incomplete = [...bundle.warnings, ...spec.uncertainties];
   if (!spec.regions.some(r => r.required)) incomplete.push('No designated required regions; infer and review a visual specification first.');
   if (!capture) incomplete.push('Capture metadata missing: font loading, geometry and rendering environment are unverified.');
@@ -44,7 +51,7 @@ export async function compareUI(options: { bundle: string; actual: string; out: 
     failures.push(...capture.runtimeErrors.map(e => `Runtime: ${e}`));
     if (capture.checks.analysis === 'failed') failures.push('Static analysis failed');
     if (capture.checks.analysis === 'not-run') incomplete.push('Static analysis was not run.');
-    for (const name of ['interactions', 'accessibility', 'responsive'] as const) {
+    if (policy.version === 2) for (const name of ['interactions', 'accessibility', 'responsive'] as const) {
       if (capture.checks[name] === 'failed') failures.push(`${name} checks failed`);
     }
   }
@@ -71,15 +78,20 @@ export async function compareUI(options: { bundle: string; actual: string; out: 
       if (region.kind === 'text') {
         if (observed.text === undefined) { unverified = true; issues.push('Rendered text was not captured'); }
         else { textMatches = observed.text === region.text; if (!textMatches) { failed = true; issues.push('Visible text differs from reference transcription'); } }
+        if (policy.version >= 3) {
+          if (!observed.textVisibility || observed.textVisibility === 'unverified') { unverified = true; issues.push('Text overflow evidence is unavailable; content equality does not prove visibility'); }
+          else if (observed.textVisibility === 'overflow-detected' && !region.allowTextOverflow) { failed = true; issues.push('Text overflow/clipping detected'); }
+        }
       }
     }
     const status = failed ? 'failed' : unverified ? 'incomplete' : 'passed';
     if (region.required && status === 'failed') failures.push(`Region ${region.id}: ${issues.join('; ')}`);
     if (region.required && status === 'incomplete') incomplete.push(`Region ${region.id}: ${issues.join('; ')}`);
-    return { id: region.id, bounds: region.bounds, metric: value, geometryError, textMatches, status, issues };
+    return { id: region.id, required: region.required, textVisibility: observed?.textVisibility, bounds: region.bounds, metric: value, geometryError, textMatches, status, issues };
   });
   const out = await createOutput(options.out);
   try {
+    if (capture?.sourceCheckpoint) await copySourceCheckpoint(path.join(path.dirname(path.resolve(options.capture!)), 'source-checkpoint/checkpoint.json'), path.join(out, 'source-checkpoint'), capture.sourceCheckpoint);
     const strict = new Uint8Array(diff.length);
     for (let i = 0; i < strict.length; i += 4) {
       const changed = expected.data[i] !== actual.data[i] || expected.data[i+1] !== actual.data[i+1] || expected.data[i+2] !== actual.data[i+2] || expected.data[i+3] !== actual.data[i+3];
@@ -93,8 +105,11 @@ export async function compareUI(options: { bundle: string; actual: string; out: 
     const overlay = expected.data.map((v, i) => Math.round((v + actual.data[i]!) / 2));
     await sharp(overlay, { raw: { width: expected.width, height: expected.height, channels: 4 } }).png().toFile(path.join(out, 'overlay.png'));
     await fs.copyFile(path.join(root, bundle.spec), path.join(out, 'visual-spec.json'));
+    const visual = failures.length ? 'failed' : incomplete.length ? 'incomplete' : 'passed';
+    const checks = capture?.checks ?? { analysis: 'not-run', interactions: 'not-run', accessibility: 'not-run', responsive: 'not-run' };
+    const acceptance = { visual, ...checks, status: visual === 'failed' || Object.values(checks).includes('failed') ? 'failed' : visual === 'incomplete' || Object.values(checks).includes('not-run') ? 'incomplete' : 'passed' } as NonNullable<ComparisonReport['acceptance']>;
     const report: ComparisonReport = {
-      version: 1, createdAt: new Date().toISOString(), scope: 'design-fidelity',
+      version: 2, acceptance, createdAt: new Date().toISOString(), scope: 'design-fidelity',
       status: failures.length ? 'failed' : incomplete.length ? 'incomplete' : 'passed',
       exactPixelEquality: screen.exactMismatch === 0, metric: screen, policy, profile: bundle.profile,
       referenceSha256: bundle.reference.sha256, actualSha256: await hash(options.actual), specSha256: await hash(path.join(root, bundle.spec)), capture,

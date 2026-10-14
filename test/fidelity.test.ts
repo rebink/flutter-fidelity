@@ -112,7 +112,7 @@ test('policy v2 detects a missing pale card ignored by the global threshold', as
   const dir=path.join(f.dir,'pale-bundle');
   await importReference({image:pale,out:dir,width:100,height:100,confirmed:true,fonts:[font],spec:f.spec});
   const gone=await mutate(f,'gone',raw=>{for(let y=20;y<30;y++)for(let x=20;x<30;x++){const i=(y*100+x)*4;raw[i]=raw[i+1]=raw[i+2]=255;}});
-  const {report}=await compareUI({bundle:dir,actual:gone,out:path.join(f.dir,'pale-report')});
+  const {report}=await compareUI({bundle:dir,actual:gone,out:path.join(f.dir,'pale-report'),policy:{version:2}});
   assert.equal(report.metric.tolerantMismatch,0);assert.equal(report.regions[0]!.status,'failed');assert.equal(report.status,'failed');assert.equal(report.policy.version,2);
 });
 test('capture image hash prevents reusing metadata for a different PNG',async t=>{
@@ -125,6 +125,7 @@ test('negative observed coordinates are reported as geometry errors',async t=>{
 });
 test('repair retains valid code over lower pixel error with failed analysis',async t=>{
   const f=await fixture(t), session=path.join(f.dir,'valid-session.json');
+  f.capture.checks.interactions='passed'; f.capture.checks.accessibility='passed'; f.capture.checks.responsive='passed';
   const bad=await mutate(f,'bad-valid',raw=>raw.fill(0));const first=path.join(f.dir,'valid-code');await compareUI({bundle:f.bundleDir,actual:bad,capture:f.captureFile,out:first});await recordIteration(session,first);
   f.capture.imageSha256=await hash(f.reference);f.capture.checks.analysis='failed';await writeJson(f.captureFile,f.capture);
   const second=path.join(f.dir,'invalid-code');await compareUI({bundle:f.bundleDir,actual:f.reference,capture:f.captureFile,out:second});
@@ -141,4 +142,63 @@ test('repair rejects regressing a passed region even with lower whole-screen err
 test('a full-screen crop is refused even when mislabeled as a decorative region',async t=>{
   const f=await fixture(t);await inspectReference(f.bundleDir,{...f.spec,regions:[{...f.spec.regions[0],bounds:{x:0,y:0,width:100,height:100}}]});
   await assert.rejects(cropAsset(f.bundleDir,'icon',{x:0,y:0,width:100,height:100}),/full screen/);
+});
+
+
+test('v3 separates visual fidelity and product acceptance without hiding failed or unrun checks', async t => {
+  const f = await fixture(t);
+  for (const state of ['not-run', 'failed', 'passed'] as const) {
+    f.capture.checks.interactions = state; f.capture.checks.accessibility = 'passed'; f.capture.checks.responsive = 'passed';
+    await writeJson(f.captureFile, f.capture);
+    const {report} = await compareUI({bundle:f.bundleDir,actual:f.reference,capture:f.captureFile,out:path.join(f.dir,state)});
+    assert.equal(report.policy.version,3); assert.equal(report.status,'passed');
+    assert.equal(report.acceptance?.status,state === 'not-run' ? 'incomplete' : state);
+    assert.equal(report.acceptance?.interactions,state);
+    if (state === 'failed') {
+      const legacy = await compareUI({bundle:f.bundleDir,actual:f.reference,capture:f.captureFile,out:path.join(f.dir,'legacy'),policy:{version:2}});
+      assert.equal(legacy.report.status,'failed');
+    }
+  }
+});
+
+test('v3 distinguishes text content from overflow and legacy missing visibility', async t => {
+  const f = await fixture(t);
+  await inspectReference(f.bundleDir,{...f.spec,regions:[{...f.spec.regions[0],kind:'text',text:'Hello'}]});
+  f.capture.regions[0]!.text='Hello';
+  for(const visibility of [undefined,'overflow-detected','no-overflow-detected'] as const) {
+    f.capture.regions[0]!.textVisibility=visibility;
+    await writeJson(f.captureFile,f.capture);
+    const {report}=await compareUI({bundle:f.bundleDir,actual:f.reference,capture:f.captureFile,out:path.join(f.dir,String(visibility))});
+    assert.equal(report.regions[0]!.textMatches,true);
+    assert.equal(report.status,visibility === undefined ? 'incomplete' : visibility === 'overflow-detected' ? 'failed' : 'passed');
+  }
+});
+
+test('repair rewards required region and geometry progress with unchanged global pixels', async t => {
+  const f=await fixture(t), session=path.join(f.dir,'progress.json');
+  const second={...f.spec.regions[0]!,id:'second',bounds:{x:50,y:50,width:10,height:10}};
+  await inspectReference(f.bundleDir,{...f.spec,regions:[f.spec.regions[0],second]});
+  f.capture.regions.push({id:'second',bounds:{...second.bounds,x:54}});
+  f.capture.regions[0]!.bounds.x=24;
+  for (let i=0;i<3;i++) {
+    if(i===1) f.capture.regions[0]!.bounds.x=20;
+    if(i===2) f.capture.regions[1]!.bounds.x=52;
+    await writeJson(f.captureFile,f.capture);
+    const out=path.join(f.dir,`progress-${i}`);
+    const {report}=await compareUI({bundle:f.bundleDir,actual:f.reference,capture:f.captureFile,out});
+    assert.equal(report.metric.tolerantRatio,0); assert.equal(report.status,'failed');
+    const result=await recordIteration(session,out);
+    assert.equal(result.bestReport,out); assert.equal(result.stalled,0);
+  }
+});
+
+test('MCP preserves explicit safeInsets in the imported reference profile', async t => {
+  const f=await fixture(t); const [a,b]=InMemoryTransport.createLinkedPair();
+  const server=createServer(), client=new Client({name:'insets-test',version:'1.0.0'});
+  await server.connect(b); await client.connect(a); t.after(async()=>{await client.close();await server.close();});
+  const out=path.join(f.dir,'insets');
+  const safeInsets={top:24,right:0,bottom:16,left:0};
+  const result=await client.callTool({name:'import_reference',arguments:{image:f.reference,out,width:100,height:100,confirmed:true,safeInsets}});
+  assert.equal(result.isError,undefined);
+  assert.deepEqual((await loadReference(out)).bundle.profile.safeInsets,safeInsets);
 });

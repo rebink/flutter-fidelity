@@ -8,6 +8,8 @@ dependencies:
   flutter:
     sdk: flutter
 dev_dependencies:
+  flutter_localizations:
+    sdk: flutter
   flutter_test:
     sdk: flutter
   integration_test:

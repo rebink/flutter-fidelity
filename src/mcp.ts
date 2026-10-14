@@ -8,19 +8,23 @@ import { compareUI } from './compare.js';
 import { cropAsset, importReference, inspectReference, suggestViewport } from './reference.js';
 import { getReport } from './report.js';
 import { recordIteration } from './repair.js';
-import { RectSchema, PolicySchema, CaptureConfigSchema, VisualSpecSchema } from './schema.js';
+import { InsetsSchema, RectSchema, PolicySchema, CaptureConfigSchema, VisualSpecSchema } from './schema.js';
 import { doctor } from './doctor.js';
+import { validateAssets } from './assets.js';
+import { VERSION } from './version.js';
+import { verifySourceCheckpoint } from './checkpoint.js';
 export function createServer() {
-  const server = new McpServer({ name: 'flutter-fidelity', version: '0.1.0' });
+  const server = new McpServer({ name: 'flutter-fidelity', version: VERSION });
   const wrap = (fn: (args: any) => Promise<unknown>) => async (args: any) => {
     try { const result = await fn(args); return { content: [{ type: 'text' as const, text: JSON.stringify(result, null, 2) }] }; }
     catch (error) { return { isError: true, content: [{ type: 'text' as const, text: error instanceof Error ? error.message : String(error) }] }; }
   };
+  server.registerTool('validate_assets', { description: 'Validate local downloaded images/fonts in a batch; return hashes, format metadata, failures and duplicate groups without changing files.', inputSchema: { files: z.array(z.string()).min(1) }, annotations: { readOnlyHint: true } }, wrap(a => validateAssets(a.files)));
   server.registerTool('doctor', { description: 'Check image, Flutter capture and official Dart MCP capabilities independently.', inputSchema: { flutter: z.string().optional() }, annotations: { readOnlyHint: true } }, wrap(a => doctor(a.flutter)));
   server.registerTool('suggest_viewport', { description: 'Propose logical viewport candidates from PNG dimensions. Does not confirm them; ask developer before import.', inputSchema: { image: z.string() }, annotations: { readOnlyHint: true } }, wrap(a => suggestViewport(a.image)));
   server.registerTool('import_reference', {
     description: 'Import immutable PNG reference, confirmed logical viewport, fonts and source assets into a NEW local bundle. No design metadata required.',
-    inputSchema: { image: z.string(), out: z.string(), width: z.number().positive(), height: z.number().positive(), confirmed: z.boolean(), crop: RectSchema.optional(), fonts: z.array(z.string()).optional(), assets: z.array(z.string()).optional(), spec: VisualSpecSchema.optional(), locale: z.string().optional(), textScale: z.number().positive().optional(), brightness: z.enum(['light','dark']).optional() },
+    inputSchema: { image: z.string(), out: z.string(), width: z.number().positive(), height: z.number().positive(), confirmed: z.boolean(), crop: RectSchema.optional(), fonts: z.array(z.string()).optional(), assets: z.array(z.string()).optional(), spec: VisualSpecSchema.optional(), locale: z.string().optional(), textScale: z.number().positive().optional(), brightness: z.enum(['light','dark']).optional(), safeInsets: InsetsSchema.optional() },
   }, wrap(importReference));
   server.registerTool('inspect_reference', {
     description: 'Read bundle and PNG for vision-based inference. Optionally persist a reviewed visual specification; no automatic OCR or layout inference occurs in this server.',
@@ -36,7 +40,8 @@ export function createServer() {
   server.registerTool('capture_ui', { description: 'Run configured Flutter harness in widget-test or native integration mode; records analysis and render environment. No Flutter code generation.', inputSchema: { bundle: z.string(), config: CaptureConfigSchema, out: z.string() } }, wrap(captureUI));
   server.registerTool('compare_ui', { description: 'Compare equal-sized reference/capture images using strict RGBA, tolerant pixels, regions, text and geometry. Creates a NEW report directory. Missing evidence is incomplete, never passed.', inputSchema: { bundle: z.string(), actual: z.string(), out: z.string(), capture: z.string().optional(), policy: PolicySchema.optional() } }, wrap(compareUI));
   server.registerTool('get_report', { description: 'Read a comparison report with thresholds, evidence and unresolved differences.', inputSchema: { directory: z.string() }, annotations: { readOnlyHint: true } }, wrap(a => getReport(a.directory)));
-  server.registerTool('record_iteration', { description: 'Track repair budget, preserve best report and detect regressed regions. Stops after five rounds or two stalls. Assistant manages its own code checkpoints.', inputSchema: { session: z.string(), report: z.string() } }, wrap(a => recordIteration(a.session, a.report)));
+  server.registerTool('record_iteration', { description: 'Track repair policy v2: protect passed visual/product checks, retain separate visual and product-valid best reports and source checkpoint identities. Stops after five rounds or two stalls. Does not restore source.', inputSchema: { session: z.string(), report: z.string() } }, wrap(a => recordIteration(a.session, a.report)));
+  server.registerTool('verify_source_checkpoint', { description: 'Verify stored source snapshot integrity and that explicitly owned project files match it, including expected deletions. Read only; run after scoped restoration before fresh recapture.', inputSchema: { checkpoint: z.string(), projectRoot: z.string() }, annotations: { readOnlyHint: true } }, wrap(a => verifySourceCheckpoint(a.checkpoint, a.projectRoot)));
   return server;
 }
 export async function serve() { await createServer().connect(new StdioServerTransport()); }

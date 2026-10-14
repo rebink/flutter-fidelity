@@ -2,9 +2,12 @@
 
 ## Comparator calibration
 
-`npm run fixtures` creates twelve PNGs with controlled design regions and Lato
-fonts. `npm run benchmark` compares identical PNGs and deliberate missing-region
-defects. Identical files without real Flutter metadata must remain incomplete;
+`npm run fixtures -- --out .fidelity/fixtures-new` creates twelve PNGs with
+controlled design regions and copied Lato fonts in a fresh directory.
+`npm run benchmark -- --fixtures .fidelity/fixtures-new --out .fidelity/calibration-new`
+compares identical PNGs and deliberate missing-region defects. Existing output
+directories are rejected. With no `--fixtures`, calibration reads the checked-in
+corpus; generation never overwrites that corpus. Identical files without real Flutter metadata must remain incomplete;
 defects must fail. This verifies measurement behavior, not generation accuracy.
 
 The fixtures cover typography, nested layout, wrapping, scrolling, images, icons,
@@ -22,7 +25,10 @@ PNG-only input. Use separate copies of the target repo to avoid cross-run edits.
 Record real captures and metadata, assistant/model/version, platform/OS/renderer,
 rounds, elapsed time, build outcome and maintainability observations. Collect
 Android/iOS results separately. A comparison report's passed status concerns
-visual fidelity; behavioral check outcomes remain visible in capture metadata.
+visual fidelity; report v2 exposes independent product acceptance and behavioral check outcomes.
+Use [workflow cases](skill-evaluation.md) to exercise architecture, intake and
+cleanup as well as pixels. Keep informed smoke exercises separate from blinded
+independent agent comparisons.
 
 Run `npm run benchmark -- --manifest runs.json --out new-directory` with:
 

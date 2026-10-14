@@ -1,6 +1,6 @@
 {
   "name": "flutter-fidelity",
-  "version": "0.1.0",
+  "version": "0.4.0",
   "description": "Screenshot-first Flutter UI agent tools, visual verification and MCP",
   "type": "module",
   "license": "MIT",
@@ -14,6 +14,9 @@
     "flutter/fidelity_harness/pubspec.yaml",
     "docs",
     "examples",
+    "scripts/version.mjs",
+    "scripts/update.mjs",
+    "CHANGELOG.md",
     "plugin.json",
     "mcp.json",
     ".codex-plugin"
@@ -24,10 +27,15 @@
   "scripts": {
     "build": "tsc",
     "test": "npm run build && tsx --test test/*.test.ts",
-    "check": "npm test",
+    "check": "npm run version:check && npm test",
+    "version:check": "node scripts/version.mjs --check",
+    "version:sync": "node scripts/version.mjs",
+    "release:version": "node scripts/version.mjs",
+    "update:check": "node scripts/update.mjs --check",
+    "update": "node scripts/update.mjs",
     "fixtures": "tsx scripts/fixtures.ts",
     "benchmark": "tsx scripts/benchmark.ts",
-    "prepack": "npm run build"
+    "prepack": "npm run version:check && npm run build"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.32.1",

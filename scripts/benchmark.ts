@@ -4,13 +4,15 @@ import sharp from 'sharp';
 import { z } from 'zod';
 import { importReference } from '../src/reference.js';
 import { compareUI } from '../src/compare.js';
-import { json, writeJson } from '../src/io.js';
+import { createOutput, json, writeJson } from '../src/io.js';
 // Without a manifest, calibrate the comparator using deliberate defects. A
 // separate agent-run manifest evaluates real captures, never synthetic metadata.
 const manifestArg = process.argv.indexOf('--manifest');
 const outputArg = process.argv.indexOf('--out');
-const out = path.resolve(outputArg >= 0 ? process.argv[outputArg+1]! : `.fidelity/benchmark-${Date.now()}`);
-await fs.mkdir(out,{recursive:true});
+const fixturesArg = process.argv.indexOf('--fixtures');
+for (const index of [manifestArg, outputArg, fixturesArg]) if (index >= 0 && !process.argv[index + 1]) throw new Error('Option requires a path');
+const fixtures = path.resolve(fixturesArg >= 0 ? process.argv[fixturesArg + 1]! : 'fixtures');
+const out = await createOutput(outputArg >= 0 ? process.argv[outputArg+1]! : `.fidelity/benchmark-${Date.now()}`);
 if (manifestArg >= 0) {
   const manifest = z.object({ runs: z.array(z.object({ approach: z.string().min(1), caseId: z.string().min(1), bundle: z.string(), actual: z.string(), capture: z.string(), rounds: z.number().int().nonnegative(), elapsedMs: z.number().nonnegative(), buildSucceeded: z.boolean(), maintainabilityNotes: z.string() })).min(1) }).parse(await json(process.argv[manifestArg+1]!));
   const results=[];
@@ -21,13 +23,13 @@ if (manifestArg >= 0) {
   await writeJson(path.join(out,'results.json'),{version:1,kind:'agent-evaluation',results});
   console.log(JSON.stringify({directory:out,runs:results.length},null,2));
 } else {
-  const manifest=await json('fixtures/manifest.json') as {cases:{id:string;reference:string;spec:string;width:number;height:number;fonts:string[]}[]};
+  const manifest=await json(path.join(fixtures, 'manifest.json')) as {cases:{id:string;reference:string;spec:string;width:number;height:number;fonts:string[]}[]};
   const results=[];
   for(const item of manifest.cases) {
-    const reference=path.resolve('fixtures',item.reference), spec=await json(path.resolve('fixtures',item.spec)) as {regions:{id:string;bounds:{x:number;y:number;width:number;height:number}}[]};
+    const reference=path.resolve(fixtures,item.reference), spec=await json(path.resolve(fixtures,item.spec)) as {regions:{id:string;bounds:{x:number;y:number;width:number;height:number}}[]};
     const directory=path.join(out,item.id);await fs.mkdir(directory);
     const bundle=path.join(directory,'bundle');
-    await importReference({image:reference,out:bundle,width:item.width,height:item.height,confirmed:true,fonts:item.fonts.map(f=>path.resolve('fixtures',f)),spec});
+    await importReference({image:reference,out:bundle,width:item.width,height:item.height,confirmed:true,fonts:item.fonts.map(f=>path.resolve(fixtures,f)),spec});
     const subject=spec.regions.find(r=>r.id==='subject')!.bounds;
     const defective=path.join(directory,'defect.png');
     await sharp(reference).composite([{input:{create:{width:subject.width,height:subject.height,channels:4,background:'#f5f7fb'}},left:subject.x,top:subject.y}]).png().toFile(defective);

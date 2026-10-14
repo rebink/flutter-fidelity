@@ -6,3 +6,5 @@ export * from './doctor.js';
 export * from './report.js';
 export * from './repair.js';
 export { createServer } from './mcp.js';
+export * from './assets.js';
+export * from './checkpoint.js';

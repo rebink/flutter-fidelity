@@ -1,0 +1,75 @@
+{
+  "version": 1,
+  "designUrl": null,
+  "scope": {
+    "nodeIds": [],
+    "screens": [],
+    "states": []
+  },
+  "acquisitionAttempts": [],
+  "frames": [],
+  "assets": [],
+  "missingRequiredItems": [],
+  "attemptRecordFormat": {
+    "method": "connector or browser tool actually used",
+    "target": "stable design URL/node",
+    "outcome": "complete, partial, unavailable, or failed",
+    "reason": null,
+    "evidencePath": null
+  },
+  "frameRecordFormat": {
+    "id": "screen-and-state-id",
+    "nodeId": null,
+    "path": null,
+    "sha256": null,
+    "sourceKind": "figma-copy-as-png, design-export, or browser-capture",
+    "pixelSize": null,
+    "logicalSize": null,
+    "exportScale": null,
+    "crop": null,
+    "profileEvidence": null,
+    "status": "pending",
+    "acquiredAt": null,
+    "clipboardEvidence": null
+  },
+  "assetRecordFormat": {
+    "id": "stable-asset-id",
+    "regionIds": [],
+    "source": {
+      "designUrl": null,
+      "nodeId": null,
+      "method": null
+    },
+    "originalPath": null,
+    "sha256": null,
+    "actualFormat": null,
+    "pixelSize": null,
+    "logicalSize": null,
+    "exportScale": null,
+    "variants": [],
+    "tintAndTransparency": null,
+    "font": null,
+    "licenseOrAttribution": null,
+    "productionPath": null,
+    "bundlePath": null,
+    "derivative": null,
+    "status": "pending",
+    "validationEvidence": [],
+    "decisionSource": null,
+    "blocker": null
+  },
+  "designContext": [],
+  "designContextRecordFormat": {
+    "id": "node-and-context-id",
+    "nodeId": null,
+    "sourceUrl": null,
+    "sourceKind": "figma-copy-as-css or connector-inspector-context",
+    "path": null,
+    "sha256": null,
+    "acquiredAt": null,
+    "clipboardEvidence": null,
+    "coveredNodeIds": [],
+    "missingProperties": [],
+    "status": "pending"
+  }
+}

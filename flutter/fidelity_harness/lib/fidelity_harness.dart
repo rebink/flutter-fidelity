@@ -5,6 +5,7 @@ import 'dart:io';
 import 'dart:ui' as ui;
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -52,46 +53,121 @@ class _RegionBox extends RenderProxyBox {
   String id;
 }
 
+/// Parses language[-Script][-REGION] without treating a script as a country.
+Locale fidelityLocale(String value) {
+  final parts = value.replaceAll('_', '-').split('-');
+  if (parts.isEmpty || !RegExp(r'^[a-zA-Z]{2,3}$').hasMatch(parts.first)) {
+    throw ArgumentError('Use language[-Script][-REGION] locale tags.');
+  }
+  String? script, country;
+  for (final part in parts.skip(1)) {
+    if (script == null &&
+        country == null &&
+        RegExp(r'^[a-zA-Z]{4}$').hasMatch(part)) {
+      script = part[0].toUpperCase() + part.substring(1).toLowerCase();
+    } else if (country == null &&
+        RegExp(r'^([a-zA-Z]{2}|[0-9]{3})$').hasMatch(part)) {
+      country = part.toUpperCase();
+    } else {
+      throw ArgumentError('Unsupported locale tag: $value');
+    }
+  }
+  return Locale.fromSubtags(
+      languageCode: parts.first.toLowerCase(),
+      scriptCode: script,
+      countryCode: country);
+}
+
+/// Place inside the production app's builder, retaining its navigator,
+/// localization delegates, theme, providers and inherited platform settings.
+class FidelityCaptureAdapter extends StatelessWidget {
+  const FidelityCaptureAdapter(
+      {required this.request,
+      required this.boundaryKey,
+      required this.child,
+      this.preservePlatformTextScaler = false,
+      super.key});
+  final FidelityRequest request;
+  final GlobalKey boundaryKey;
+  final Widget child;
+  final bool preservePlatformTextScaler;
+  @override
+  Widget build(BuildContext context) {
+    final profile = request.profile;
+    final inherited = MediaQuery.of(context);
+    final insets = profile['safeInsets'] as Map<String, dynamic>;
+    final safe = EdgeInsets.fromLTRB(
+        (insets['left'] as num).toDouble(),
+        (insets['top'] as num).toDouble(),
+        (insets['right'] as num).toDouble(),
+        (insets['bottom'] as num).toDouble());
+    final data = inherited.copyWith(
+        size: Size(request.width, request.height),
+        devicePixelRatio: request.pixelRatio,
+        textScaler: preservePlatformTextScaler
+            ? inherited.textScaler
+            : TextScaler.linear((profile['textScale'] as num).toDouble()),
+        platformBrightness: profile['brightness'] == 'dark'
+            ? Brightness.dark
+            : Brightness.light,
+        viewPadding: safe,
+        padding: (safe - inherited.viewInsets)
+            .clamp(EdgeInsets.zero, safe)
+            .resolve(TextDirection.ltr));
+    return MediaQuery(
+        data: data, child: RepaintBoundary(key: boundaryKey, child: child));
+  }
+}
+
+/// Convenience shell for isolated widgets. Integrated features should use
+/// FidelityCaptureAdapter inside their production shell instead.
 class FidelitySurface extends StatelessWidget {
   const FidelitySurface(
       {required this.request,
       required this.boundaryKey,
       required this.child,
       this.theme,
+      this.localizationsDelegates,
+      this.supportedLocales = const [Locale('en', 'US')],
       super.key});
   final FidelityRequest request;
   final GlobalKey boundaryKey;
   final Widget child;
   final ThemeData? theme;
+  final Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates;
+  final Iterable<Locale> supportedLocales;
   @override
   Widget build(BuildContext context) {
-    final profile = request.profile;
-    final insets = profile['safeInsets'] as Map<String, dynamic>;
-    final localeParts = (profile['locale'] as String).split(RegExp('[-_]'));
-    final data = MediaQueryData(
-      size: Size(request.width, request.height),
-      devicePixelRatio: request.pixelRatio,
-      textScaler: TextScaler.linear((profile['textScale'] as num).toDouble()),
-      platformBrightness:
-          profile['brightness'] == 'dark' ? Brightness.dark : Brightness.light,
-      padding: EdgeInsets.fromLTRB(
-          (insets['left'] as num).toDouble(),
-          (insets['top'] as num).toDouble(),
-          (insets['right'] as num).toDouble(),
-          (insets['bottom'] as num).toDouble()),
-    );
-    return RepaintBoundary(
-      key: boundaryKey,
-      child: MaterialApp(
+    final locale = fidelityLocale(request.profile['locale'] as String);
+    if (!supportedLocales.contains(locale)) {
+      throw StateError(
+          'Requested locale $locale is not declared in supportedLocales. Supply the app localization configuration.');
+    }
+    return MaterialApp(
         debugShowCheckedModeBanner: false,
-        locale: Locale(
-            localeParts.first, localeParts.length > 1 ? localeParts[1] : null),
-        theme: theme ?? ThemeData(brightness: data.platformBrightness),
-        builder: (context, app) => MediaQuery(data: data, child: app!),
-        home: child,
-      ),
-    );
+        locale: locale,
+        supportedLocales: supportedLocales,
+        localizationsDelegates: localizationsDelegates,
+        theme: theme ??
+            ThemeData(
+                brightness: request.profile['brightness'] == 'dark'
+                    ? Brightness.dark
+                    : Brightness.light),
+        builder: (context, app) => FidelityCaptureAdapter(
+            request: request, boundaryKey: boundaryKey, child: app!),
+        home: child);
   }
+}
+
+/// Prepared mode never pumps time: the caller has loaded assets and painted a
+/// selected frame. Settle mode is only appropriate for finite animation work.
+class CaptureReadiness {
+  const CaptureReadiness.settle()
+      : strategy = 'settle',
+        description = 'Finite work settled before capture';
+  const CaptureReadiness.prepared(this.description) : strategy = 'prepared';
+  final String strategy;
+  final String description;
 }
 
 /// The font family defaults to the prefix before '-': Lato-Regular.ttf -> Lato.
@@ -130,11 +206,25 @@ Future<void> loadFidelityFonts(FidelityRequest request,
 /// integration test for transport back to the host driver.
 Future<Map<String, dynamic>> captureFidelity(
     WidgetTester tester, FidelityRequest request, GlobalKey boundaryKey,
-    {bool fontsLoaded = false, Map<String, String> checks = const {}}) async {
-  await tester.pumpAndSettle(const Duration(milliseconds: 100),
-      EnginePhase.sendSemanticsUpdate, const Duration(seconds: 15));
+    {bool fontsLoaded = false,
+    Map<String, String> checks = const {},
+    CaptureReadiness readiness = const CaptureReadiness.settle()}) async {
+  if (readiness.description.trim().isEmpty)
+    throw ArgumentError('Describe capture readiness.');
+  if (readiness.strategy == 'settle')
+    await tester.pumpAndSettle(const Duration(milliseconds: 100),
+        EnginePhase.sendSemanticsUpdate, const Duration(seconds: 15));
   final boundary =
       boundaryKey.currentContext!.findRenderObject()! as RenderRepaintBoundary;
+  if (kDebugMode && boundary.debugNeedsPaint)
+    throw StateError(
+        'Capture boundary needs paint. Pump the selected frame before prepared capture.');
+  final actualLocale = Localizations.maybeLocaleOf(boundaryKey.currentContext!);
+  if (actualLocale != null &&
+      actualLocale != fidelityLocale(request.profile['locale'] as String)) {
+    throw StateError(
+        'Resolved app locale differs from the capture profile: $actualLocale');
+  }
   final origin = boundary.localToGlobal(Offset.zero);
   final regions = <Map<String, dynamic>>[];
   final ids = <String>{};
@@ -148,8 +238,44 @@ Future<Map<String, dynamic>> captureFidelity(
         throw StateError('Duplicate region ID: ${object.id}');
       final point = object.localToGlobal(Offset.zero) - origin;
       final text = <String>[];
+      var overflow = false;
+      var obscured = false;
       void collectText(RenderObject child) {
-        if (child is RenderParagraph) text.add(child.text.toPlainText());
+        if (child is RenderParagraph) {
+          text.add(child.text.toPlainText());
+          overflow = overflow || child.didExceedMaxLines;
+        } else if (child is RenderEditable) {
+          final rendered = child.text?.toPlainText() ?? '';
+          // Even transient last-character reveal must not leak into JSON reports.
+          text.add(child.obscureText
+              ? List.filled(rendered.length, child.obscuringCharacter).join()
+              : rendered);
+          obscured = obscured || child.obscureText;
+          overflow = overflow || child.maxScrollExtent > 0;
+        }
+        if (child is RenderParagraph || child is RenderEditable) {
+          RenderObject descendant = child;
+          RenderObject? parent = descendant.parent;
+          while (parent != null) {
+            final clip = parent.describeApproximatePaintClip(descendant);
+            if (clip != null) {
+              final painted = MatrixUtils.transformRect(
+                  child.getTransformTo(parent), child.paintBounds);
+              overflow = overflow ||
+                  !clip.inflate(0.5).contains(painted.topLeft) ||
+                  !clip.inflate(0.5).contains(painted.bottomRight);
+            }
+            if (parent == boundary) break;
+            descendant = parent;
+            parent = parent.parent;
+          }
+          final painted = MatrixUtils.transformRect(
+              child.getTransformTo(boundary), child.paintBounds);
+          final surface = (Offset.zero & boundary.size).inflate(0.5);
+          overflow = overflow ||
+              !surface.contains(painted.topLeft) ||
+              !surface.contains(painted.bottomRight);
+        }
         child.visitChildren(collectText);
       }
 
@@ -164,7 +290,12 @@ Future<Map<String, dynamic>> captureFidelity(
           'width': object.size.width,
           'height': object.size.height
         },
-        if (text.isNotEmpty) 'text': text.join('\n')
+        if (text.isNotEmpty) ...{
+          'text': text.join('\n'),
+          'textVisibility':
+              overflow ? 'overflow-detected' : 'no-overflow-detected',
+          'textObscured': obscured,
+        }
       });
     }
     object.visitChildren(visit);
@@ -187,7 +318,11 @@ Future<Map<String, dynamic>> captureFidelity(
   return {
     'png': base64Encode(png),
     'metadata': {
-      'version': 1,
+      'version': 2,
+      'readiness': {
+        'strategy': readiness.strategy,
+        'description': readiness.description
+      },
       'profile': request.profile,
       'mode': request.mode,
       'platform': request.mode == 'widget'

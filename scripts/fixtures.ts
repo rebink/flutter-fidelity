@@ -1,11 +1,15 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import sharp from 'sharp';
-import { writeJson } from '../src/io.js';
+import { createOutput, writeJson } from '../src/io.js';
 import { VisualSpecSchema } from '../src/schema.js';
 process.env.FONTCONFIG_FILE = path.resolve('fixtures/fonts/fonts.conf');
-const out = path.resolve('fixtures/screens');
-await fs.mkdir(out, { recursive: true });
+const outputArg = process.argv.indexOf('--out');
+if (outputArg >= 0 && !process.argv[outputArg + 1]) throw new Error('--out requires a new directory');
+const root = await createOutput(outputArg >= 0 ? process.argv[outputArg + 1]! : `.fidelity/fixtures-${Date.now()}`);
+const out = path.join(root, 'screens');
+await fs.mkdir(out);
+await fs.cp(path.resolve('fixtures/fonts'), path.join(root, 'fonts'), { recursive: true });
 const regular = path.resolve('fixtures/fonts/Lato-Regular.ttf'), bold = path.resolve('fixtures/fonts/Lato-Bold.ttf');
 const scenes = [
   ['typography', 'Typography', 'Weights, baselines and line height.', 'text'],
@@ -44,5 +48,5 @@ for (const [index, [id, title, subtitle, kind]] of scenes.entries()) {
   await writeJson(path.join(out,`${id}.visual-spec.json`),spec);
   manifest.push({id,index,reference:`screens/${id}.png`,spec:`screens/${id}.visual-spec.json`,width:390,height:844,fonts:['fonts/Lato-Regular.ttf','fonts/Lato-Bold.ttf'],source:'synthetic screenshot specimen'});
 }
-await writeJson(path.resolve('fixtures/manifest.json'),{version:1,purpose:'Curated screenshot inputs for agent evaluation. These are not claims of generated Flutter fidelity.',cases:manifest});
+await writeJson(path.join(root, 'manifest.json'),{version:1,purpose:'Curated screenshot inputs for agent evaluation. These are not claims of generated Flutter fidelity.',cases:manifest});
 console.log(`Generated ${manifest.length} screenshot fixtures in ${out}`);

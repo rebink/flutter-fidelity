@@ -1,20 +1,60 @@
 ---
 name: screenshot-to-flutter
-description: Generate screenshot-faithful Flutter screens with composable widgets, repository-aligned state ownership, design tokens and adaptive layouts from PNGs and supplied fonts/assets. Use with Flutter Fidelity capture and comparison tools; structured Figma metadata is optional.
+description: Build and verify maintainable Flutter UI from PNGs or Figma links. Collect Figma screen PNGs and CSS through copy-menu actions using available browser/app tools, recover original assets, follow the app's architecture, and measure visual fidelity and performance.
+metadata:
+  version: "0.4.0"
 ---
 
-Use the PNG as the visual authority. Figma/Sketch metadata is optional assistance, never a prerequisite. This skill is executed by the coding assistant with vision; the MCP server does not infer layouts or generate Dart by itself.
+Build Flutter UI through the requested task mode, using PNG as the visual authority. The host assistant owns inference and Dart edits; the CLI/MCP measures results.
 
-For the feature being generated, read the applicable sections of [UI patterns](../../docs/flutter-ui-patterns.md): component states/design continuity, forms/focus, loading/media, motion/haptics, navigation/overlays, custom drawing/gestures, localization, or previews/tests. Carry forward confirmed choices; these patterns do not authorize new behavior. The [public-skill survey](../../docs/flutter-skill-research.md) records sources and why recommendations were adopted or filtered; it is research provenance, not required reading on every generation.
+## Route the task
 
-1. Read [the workflow](../../docs/workflow.md) for tool arguments and the visual-spec contract. Run `doctor`. Inspect the PNG with `suggest_viewport` and establish logical dimensions, app-content crop, safe areas and export scale once. Use the developer's supplied profile; when they delegate reference selection for a demo, state the chosen benchmark profile and record unavailable source metadata as uncertainty. Otherwise ask for missing dimensions. Do not infer that image pixels equal logical pixels.
-2. Import PNG, font files and available assets with `import_reference`. Missing fonts can permit investigation but cannot earn a complete typography pass. Read the original reference image through `inspect_reference` (its returned preview may be downscaled).
-3. Read [Flutter UI architecture](../../docs/flutter-ui-architecture.md) before generation. Inspect app instructions, SDK constraints, theme/tokens, components, state management, dependency injection, routes and tests. Record a small implementation plan alongside the spec: existing conventions, component/region mapping, token ownership, state/actions and layout constraints. Preserve the existing architecture; choose the smallest structure that supports the confirmed feature. An isolated view needs no speculative repository/domain layer or new state package. Infer a `VisualSpec` with stable region IDs, visible text, logical bounds, layout notes and provenance. Save via `inspect_reference.visualSpec`; keep architecture/decision records outside this strict schema. Mark unreviewed or ambiguous observations medium/low confidence; do not upgrade guesses solely to make a report pass.
-   Before implementing unresolved behavior or data, follow [design clarification](../../docs/design-clarification.md). Inspect pubspec/lockfiles, existing chart widgets, reusable controls, models and routes first. Reuse established components when they meet confirmed requirements. Ask the developer about missing chart/library choices, whether ambiguous elements are tappable, the intended action, data sources and state changes. Carry forward existing answers and ask only unresolved questions. Wait for required answers before implementing dependent parts; continue independent work. A screenshot establishes appearance, not business behavior. Record decisions and open questions alongside the visual spec; never invent callbacks, API contracts or time-series semantics to make the screen appear functional.
-4. Use supplied original assets. `crop_asset` is permitted only for isolated decorations; inspect baked backgrounds and verify scaling. Never render a screenshot of a control, text block or whole screen as the implementation.
-   Inventory assets, pubspec declarations and existing icon/SVG renderers first. If an asset exists but fails to render, diagnose its path, declaration, format, font loading or decoding before treating it as missing. If the required icon/image still cannot be obtained, follow the [missing-assets clarification](../../docs/design-clarification.md#missing-icons-and-image-assets): identify the affected region and ask for the original SVG/PNG, an existing component/library icon, or an explicitly approved alternative. Confirm size/export scale, tint and transparency where unclear. Do not silently swap icons, rasterize SVGs, draw substitutes, fetch unrelated images or install a renderer. Keep the affected asset decision pending while independent work continues; record any accepted substitute and its fidelity limits.
-5. Implement the screen as composition of named section/control widgets with explicit data and callbacks. Prefer widget classes with const constructors for reusable or independently rebuilding sections; avoid a monolithic screen or a generic renderer configured by screenshot coordinates. Keep business calculations, I/O and shared state in the existing controller/view-model/state layer. Local interaction/animation state may stay in its owning widget. Inject dependencies and deterministic fixtures at existing boundaries; never initiate requests or create controllers in `build`. Own and dispose controllers/listeners at the appropriate lifecycle boundary.
-   Reuse semantic theme styles and component themes; scope screenshot-specific tokens when changing the global theme would affect unrelated screens. Preserve measured exceptions instead of rounding everything onto an invented spacing scale. Use flow/constraints for normal layout and overlays for actual overlaps. Adapt to available width and content with bounded flex, scrolling/slivers and content-driven breakpoints; fixed dimensions are appropriate for measured icons/artwork, not every text-bearing card. Keep system text scaling, safe-area/keyboard handling and confirmed content available; do not shrink the whole screen or hide essential content to avoid overflow. Follow the architecture guide for unbounded constraints, RTL and input semantics. Match font weights, line breaks, letter spacing, fills and effects with real text and controls.
-   For charts, use the confirmed existing component/library or approved rendering approach. Confirm series, units, axes, interpolation, time-range behavior, selection/tooltips and gestures as applicable. A visual-only trace or mock data is allowed only when the developer explicitly chooses it; it does not establish real data/range behavior. Reconstruct labels as text and curves/fills as drawing through the chosen component. Do not bake chart labels, controls or an entire chart into an image. Verify interaction indexing against the confirmed series. For internet references, preserve source/license provenance and any required attribution; distinguish referenced screens from supplemental screens without a matching reference.
-6. Add a development capture entrypoint with the supplied Dart harness and stable `FidelityRegion` IDs. Region boxes must use the same coordinate meaning as the reviewed visual spec. Include exact fonts in native test assets. In widget capture tests, set `debugDisableShadows = false` (restore it in a `finally` block before the test body exits) and await `precacheImage` inside `tester.runAsync` for image assets before capturing; `pumpAndSettle` alone can finish before asset decoding. Advance known animation/timer work explicitly; indeterminate animations need an approved frozen fixture frame, not an unbounded settle wait. Keep harness dependencies in dev_dependencies; production entrypoints must not require it.
-7. Review the generated component boundaries, state ownership, token reuse, controller lifecycle and layout assumptions using the architecture guide's review checklist. Run formatting, analysis and relevant existing/contract-based tests; capture, compare, then follow flutter-visual-repair for bounded correction. Keep architecture review separate from numeric fidelity gates. Final delivery includes code, report, remaining uncertainties, and independent interaction/accessibility/responsive results. Include performance evidence when measured; otherwise mark it not-run. A widget-test pass does not establish Android/iOS renderer fidelity or production readiness.
+Infer the mode from the request and repository using [task modes](../../docs/design-clarification.md#task-modes). A visual prototype permits labeled display fixtures. An integrated feature uses established production contracts. Visual repair preserves existing behavior. Carry prior decisions forward; ask only about missing product semantics, access or scope that changes the result. Complete independent work while waiting.
+
+Load only the guidance needed for the current stage:
+
+| Stage | Read/use |
+| --- | --- |
+| Figma link or missing originals | [Design intake](../../docs/design-intake.md); paired PNG/CSS copying, scoped originals and capability fallbacks |
+| New reference/capture | [Workflow](../../docs/workflow.md); immutable bundles, reviewed profile/spec, fresh runs |
+| Implementation | [Architecture](../../docs/flutter-ui-architecture.md#inspect-and-choose-the-smallest-fitting-structure); inspect the target feature, then only its relevant state/layer sections |
+| Feature-specific work | Applicable sections of [UI patterns](../../docs/flutter-ui-patterns.md): forms, media, motion, navigation, drawing or localization |
+| Text mismatch | `flutter-typography-fidelity` |
+| Measured correction | `flutter-visual-repair` |
+| Delivery | `flutter-fidelity-verification` and the cleanup rule below |
+
+## Acquire Figma inputs
+
+When a Figma link is supplied, collect the inputs automatically through available
+Playwright/browser or native-app tools. For each requested screen:
+
+1. Select its frame via the screen title or layer entry and confirm its node.
+2. Use **Copy/Paste as → Copy as PNG**; save and validate the fresh clipboard
+   image in the new intake `frames/` directory before another copy action.
+3. Use **Copy/Paste as → Copy as code → CSS** for that selection; save fresh
+   clipboard text under `context/`, with node identity and coverage. Copy scoped
+   child styles or use connector/inspector data for properties the snippet omits.
+4. Collect required original images, vectors and available font files as a batch.
+   Record hashes, dimensions, actual PNG scale and remaining gaps in the manifest.
+
+Follow the [intake contract](../../docs/design-intake.md) for clipboard freshness,
+format validation and fallbacks. Missing copy capabilities use available
+connector/inspector evidence; ask only for unresolved access or required inputs.
+Users need not separately provide CSS and PNG when tools can retrieve them.
+Use the [CSS translation mappings](../../docs/design-intake.md#translate-css-into-flutter) for units, typography and effects. Translate acquired styling into the app's Flutter layout and components, using
+the PNG to resolve visual discrepancies. Continue implementation once sufficient
+inputs are available; optional missing CSS alone does not block the task.
+
+## Execute
+
+1. Run `doctor`. Establish logical viewport, export scale, crop and safe insets from supplied or reliable source evidence; pixels alone do not establish logical size. Retrieve scoped originals in a batch. Run `validate_assets` on saved PNGs/assets; resolve invalid files before import. Keep originals unchanged and uncertainty explicit.
+2. Import the PNG/fonts/assets. Inspect the original-resolution image and save a reviewed `VisualSpec` through `inspect_reference.visualSpec`. Use stable region IDs and widget-box bounds; distinguish these from glyph ink. Keep architecture and decision records outside this strict schema. Do not upgrade guesses to make gates pass.
+3. Trace a comparable production feature: route/composition → action → state owner → operation/data → state/effect. Record evidence paths and a small change map. Reuse the app's theme, controls, state management and layer boundaries. For a new prototype, choose the smallest structure that supports the view; do not manufacture clean-architecture layers or install a state package.
+4. Compose named widgets with typed data/callbacks. Keep I/O and business rules in their established owners and dispose owned resources. Use constraints/flow for normal layout, genuine overlays for overlap, flexible text-bearing surfaces and lazy collections when needed. Preserve text scaling, semantics, keyboard access and safe areas. Implement controls/text/charts as widgets or appropriate drawing, never as screen crops. Preserve exact source assets and formats unless a conversion/substitute is authorized.
+5. Integrate confirmed routes, DI and actions for an integrated feature; a detached mock screen is insufficient. For a prototype, label fixture data and leave unconfirmed backend behavior outside the deliverable. Test actual outcomes of implemented interactions.
+6. Use the development-only capture harness through the production app adapter where possible. Supply production localization configuration for isolated shells. Follow the [capture contract](../../docs/workflow.md#capture-entrypoint) for fonts/images, readiness, editable/masked text and clipping evidence. Run scoped formatting, analysis and relevant tests, then capture and compare.
+7. Apply bounded repair with [source-bound captures](../../docs/workflow.md#source-checkpoint-binding), retaining the selected code/report pair and verifying restored source before fresh recapture. Protect previously passing product checks; a better visual score cannot justify lost behavior. Validate responsive, accessibility and confirmed behavior separately from visual status. Use the [performance protocol](../../docs/performance.md) when runtime optimization is requested or warranted; never infer a speedup from source review alone.
+
+Deliver runnable source, integration/run instructions, reference and report paths, and explicit failed/incomplete/not-run outcomes. Do not stop at a plan when implementation is authorized. Do not claim native fidelity from a widget capture or product acceptance from visual status alone.
+
+After handoff, offer [temporary screenshot cleanup](../../docs/workflow.md#temporary-screenshot-cleanup) once with eligible files/count/size. Preserve originals and required final/failure evidence; delete only after the user agrees. Skip the question when there are no eligible files.

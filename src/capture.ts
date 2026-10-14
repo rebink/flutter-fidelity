@@ -4,6 +4,7 @@ import sharp from 'sharp';
 import { CaptureConfigSchema, CaptureSchema } from './schema.js';
 import { createOutput, json, run, writeJson } from './io.js';
 import { loadReference } from './reference.js';
+import { createSourceCheckpoint, verifySourceCheckpoint } from './checkpoint.js';
 export async function captureUI(options: { bundle: string; config: unknown; out: string }) {
   const config = CaptureConfigSchema.parse(options.config);
   const { root, bundle } = await loadReference(options.bundle);
@@ -21,6 +22,9 @@ export async function captureUI(options: { bundle: string; config: unknown; out:
   const start = version.stdout.indexOf('{'), end = version.stdout.lastIndexOf('}');
   const flutterInfo = JSON.parse(version.stdout.slice(start, end + 1)) as { frameworkVersion: string };
   const out = await createOutput(options.out);
+  // Retained artifacts from a failed process must not be accepted as a completed run.
+  await writeJson(path.join(out, 'capture-incomplete.json'), { status: 'incomplete', reason: 'Capture pipeline has not completed successfully' });
+  const sourceCheckpoint = config.sourceCheckpoint ? await createSourceCheckpoint(projectRoot, config.sourceCheckpoint.files, config.sourceCheckpoint.id, path.join(out, 'source-checkpoint')) : undefined;
   const request = { version: 1, output: out, profile: bundle.profile, referenceSha256: bundle.reference.sha256, fonts: bundle.fonts.map(f => ({ ...f, path: path.join(root, f.path) })), mode: config.mode, flutterVersion: flutterInfo.frameworkVersion };
   const encoded = Buffer.from(JSON.stringify(request)).toString('base64');
   const args = config.mode === 'widget' ? ['test', config.target, `--dart-define=FIDELITY_REQUEST=${encoded}`] : ['drive', `--driver=${config.driver}`, `--target=${config.target}`, `--device-id=${config.deviceId}`, `--dart-define=FIDELITY_REQUEST=${encoded}`];
@@ -33,13 +37,22 @@ export async function captureUI(options: { bundle: string; config: unknown; out:
   });
   await fs.writeFile(path.join(out, 'capture.log'), result.stdout + result.stderr);
   if (result.code !== 0) throw new Error(`Flutter capture failed (exit ${result.code}). Logs preserved at ${out}/capture.log`);
+  if (sourceCheckpoint) {
+    const verification = await verifySourceCheckpoint(path.join(out, 'source-checkpoint/checkpoint.json'), projectRoot);
+    if (verification.status !== 'passed') {
+      await writeJson(path.join(out, 'source-checkpoint-error.json'), verification);
+      throw new Error(`Owned files changed during capture; do not use this run. Evidence preserved at ${out}`);
+    }
+  }
   const metadata = CaptureSchema.parse(await json(path.join(out, 'capture.json')));
   if (metadata.referenceSha256 !== bundle.reference.sha256 || JSON.stringify(metadata.profile) !== JSON.stringify(bundle.profile)) throw new Error('Harness returned a capture for a different reference/profile');
   if (metadata.mode !== config.mode || metadata.flutterVersion !== flutterInfo.frameworkVersion) throw new Error('Harness environment does not match requested capture');
   const image = await sharp(path.join(out, 'actual.png')).metadata();
   if (image.width !== bundle.image.width || image.height !== bundle.image.height) throw new Error('Harness image dimensions do not match reference');
   metadata.checks.analysis = analysis.code === 0 ? 'passed' : 'failed';
+  if (sourceCheckpoint) { metadata.version = 3; metadata.sourceCheckpoint = sourceCheckpoint; }
   await writeJson(path.join(out, 'capture.json'), metadata);
   await writeJson(path.join(out, 'environment.json'), flutterInfo);
+  await fs.unlink(path.join(out, 'capture-incomplete.json'));
   return { directory: out, image: path.join(out, 'actual.png'), capture: metadata };
 }

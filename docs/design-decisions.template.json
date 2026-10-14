@@ -2,11 +2,52 @@
   "version": 1,
   "screenId": "replace-with-screen-id",
   "reference": "replace-with-reference-bundle-path",
+  "intake": {
+    "designUrl": null,
+    "assetManifest": null,
+    "profileEvidence": null,
+    "remainingBlockers": []
+  },
+  "executionScope": {
+    "screensAndStates": [],
+    "supportedPlatforms": [],
+    "delegatedChoices": [],
+    "completionEvidence": []
+  },
   "repositoryFindings": {
+    "architecture": {
+      "targetPackage": null,
+      "comparableFeature": null,
+      "stateManagement": null,
+      "layering": null,
+      "evidence": [],
+      "existingActionFlow": [],
+      "dependencyRules": [],
+      "stateAndErrorConventions": [],
+      "routeAndInjection": [],
+      "generationAndTestCommands": [],
+      "uncertainties": []
+    },
     "chartComponents": [],
     "chartDependencies": [],
     "modelsAndRoutes": [],
     "assetFindings": []
+  },
+  "implementationPlan": {
+    "fileChanges": [],
+    "regionOwners": [],
+    "actionStateFlows": [],
+    "routeAndInjectionChanges": [],
+    "validationScenarios": []
+  },
+  "performanceEvidence": {
+    "status": "not-run",
+    "deviceAndRefreshRate": null,
+    "scenarioAndBudget": null,
+    "baselineTrace": null,
+    "candidateTrace": null,
+    "measurements": [],
+    "limitations": []
   },
   "confirmedDecisions": [],
   "openQuestions": [

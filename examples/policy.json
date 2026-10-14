@@ -1,1 +1,1 @@
-{ "version": 2, "threshold": 0.1, "regionThreshold": 0.01, "screenMismatch": 0.01, "regionMismatch": 0.03, "geometryTolerance": 1 }
+{ "version": 3, "threshold": 0.1, "regionThreshold": 0.01, "screenMismatch": 0.01, "regionMismatch": 0.03, "geometryTolerance": 1 }
