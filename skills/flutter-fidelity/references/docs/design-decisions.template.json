@@ -1,0 +1,105 @@
+{
+  "version": 1,
+  "screenId": "replace-with-screen-id",
+  "reference": "replace-with-reference-bundle-path",
+  "intake": {
+    "designUrl": null,
+    "assetManifest": null,
+    "profileEvidence": null,
+    "remainingBlockers": []
+  },
+  "executionScope": {
+    "screensAndStates": [],
+    "supportedPlatforms": [],
+    "delegatedChoices": [],
+    "completionEvidence": []
+  },
+  "repositoryFindings": {
+    "architecture": {
+      "targetPackage": null,
+      "comparableFeature": null,
+      "stateManagement": null,
+      "layering": null,
+      "evidence": [],
+      "existingActionFlow": [],
+      "dependencyRules": [],
+      "stateAndErrorConventions": [],
+      "routeAndInjection": [],
+      "generationAndTestCommands": [],
+      "uncertainties": []
+    },
+    "chartComponents": [],
+    "chartDependencies": [],
+    "modelsAndRoutes": [],
+    "assetFindings": []
+  },
+  "implementationPlan": {
+    "fileChanges": [],
+    "regionOwners": [],
+    "actionStateFlows": [],
+    "routeAndInjectionChanges": [],
+    "validationScenarios": []
+  },
+  "performanceEvidence": {
+    "status": "not-run",
+    "deviceAndRefreshRate": null,
+    "scenarioAndBudget": null,
+    "baselineTrace": null,
+    "candidateTrace": null,
+    "measurements": [],
+    "limitations": []
+  },
+  "confirmedDecisions": [],
+  "openQuestions": [
+    {
+      "id": "chart_implementation",
+      "question": "Reuse a detected component, use a specified chart library, or use custom drawing?",
+      "blocks": [
+        "chart implementation",
+        "new chart dependencies"
+      ]
+    },
+    {
+      "id": "chart_data_and_ranges",
+      "question": "What supplies the series, and what are the units and time-range calculations?",
+      "blocks": [
+        "series binding",
+        "range calculations"
+      ]
+    },
+    {
+      "id": "widget_actions",
+      "question": "Which elements are tappable, and what are their specified actions and states?",
+      "blocks": [
+        "unconfirmed callbacks",
+        "chart gestures and tooltips"
+      ]
+    },
+    {
+      "id": "missing_assets",
+      "question": "Which original SVG/PNG or named existing component should supply each missing asset, and are any alternatives approved?",
+      "blocks": [
+        "unresolved required icons/images",
+        "asset conversion or new rendering dependencies"
+      ]
+    }
+  ],
+  "decisionRecordFormat": {
+    "id": "decision-id",
+    "answer": "concrete confirmed behavior or implementation choice",
+    "source": "developer response, existing contract path, or explicit delegation",
+    "acceptanceCriteria": []
+  },
+  "assetDecisionRecordFormat": {
+    "regionId": "affected-region-id",
+    "assetRole": "icon, illustration, photograph, or decoration",
+    "source": "confirmed file path or named component",
+    "format": "confirmed SVG, PNG, icon font, or other format",
+    "logicalSize": null,
+    "exportScale": null,
+    "tintAndTransparency": "confirmed rendering requirements",
+    "approvedAlternative": null,
+    "decisionSource": "developer response, existing asset contract, or explicit delegation",
+    "status": "pending"
+  }
+}

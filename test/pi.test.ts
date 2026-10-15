@@ -19,7 +19,7 @@ test('packed Pi extension runs its MCP tools from a different workspace', async 
   // npm run check already builds. Avoid recursive lifecycle scripts and network.
   const packed = JSON.parse(execFileSync(process.execPath, [process.env.npm_execpath!, 'pack', '--ignore-scripts', '--json', '--pack-destination', root], { encoding: 'utf8' }))[0];
   const files = new Set<string>(packed.files.map((file: { path: string }) => file.path));
-  for (const file of ['dist/cli.js', 'dist/widget-catalog.js', 'dist/widget-plan.js', 'docs/widget-catalog.md', 'extensions/flutter-fidelity.js', 'figma-plugin/manifest.json', 'figma-plugin/code.js', 'figma-plugin/ui.html', 'docs/workflow.md', 'flutter/fidelity_harness/lib/fidelity_harness.dart']) {
+  for (const file of ['dist/cli.js', 'dist/widget-catalog.js', 'dist/widget-plan.js', 'docs/widget-catalog.md', 'extensions/flutter-fidelity.js', 'figma-plugin/manifest.json', 'figma-plugin/code.js', 'figma-plugin/ui.html', 'docs/workflow.md', 'flutter/fidelity_harness/lib/fidelity_harness.dart', '.claude-plugin/plugin.json', '.mcp.json', 'mcp.json', '.codex-plugin/plugin.json', 'skills/flutter-fidelity/scripts/fidelity.mjs', 'skills/flutter-fidelity/references/docs/workflow.md']) {
     assert.ok(files.has(file), `package must include ${file}`);
   }
   execFileSync('tar', ['-xzf', path.join(root, packed.filename), '-C', root]);
@@ -28,15 +28,26 @@ test('packed Pi extension runs its MCP tools from a different workspace', async 
   const installed = path.join(root, 'package');
   const pkg = JSON.parse(await fs.readFile(path.join(installed, 'package.json'), 'utf8'));
   assert.ok(pkg.keywords.includes('pi-package'));
-  assert.deepEqual(pkg.pi.skills, ['./skills/flutter-ui']);
+  assert.deepEqual(pkg.pi.skills, ['./skills/flutter-fidelity']);
   const skills = await fs.readdir(path.join(installed, 'skills'));
-  assert.deepEqual(skills, ['flutter-ui']);
+  assert.deepEqual(skills, ['flutter-fidelity']);
   const entrypoints = [...files].filter(file => typeof file === 'string' && file.startsWith('skills/') && file.endsWith('/SKILL.md'));
-  assert.deepEqual(entrypoints, ['skills/flutter-ui/SKILL.md'], 'only one skill is discoverable, including recursively');
+  assert.deepEqual(entrypoints, ['skills/flutter-fidelity/SKILL.md'], 'only one skill is discoverable, including recursively');
   const entrypoint = await fs.readFile(path.join(installed, entrypoints[0]!), 'utf8');
-  assert.match(entrypoint, /^name: flutter-ui$/m);
+  assert.match(entrypoint, /^name: flutter-fidelity$/m);
   for (const reference of ['build', 'typography', 'repair', 'verification']) {
-    await fs.access(path.join(installed, `skills/flutter-ui/references/${reference}.md`));
+    await fs.access(path.join(installed, `skills/flutter-fidelity/references/${reference}.md`));
+  }
+  const claude = JSON.parse(await fs.readFile(path.join(installed, '.claude-plugin/plugin.json'), 'utf8'));
+  assert.equal(claude.name, pkg.name);
+  assert.equal(claude.version, pkg.version);
+  for (const [file, variable] of [['mcp.json', '${PLUGIN_ROOT}'], ['.mcp.json', '${CLAUDE_PLUGIN_ROOT}']]) {
+    const manifest = JSON.parse(await fs.readFile(path.join(installed, file!), 'utf8'));
+    const server = manifest.mcpServers['flutter-fidelity'];
+    assert.equal(server.command, 'node');
+    assert.equal(server.cwd, undefined, 'plugin configuration must not force the package directory as the app workspace');
+    const cli = server.args[0].replace(variable, installed);
+    assert.equal(execFileSync(process.execPath, [cli, '--version'], { encoding: 'utf8' }).trim(), pkg.version);
   }
 
   const extension = (await import(pathToFileURL(path.join(installed, pkg.pi.extensions[0])).href)).default;

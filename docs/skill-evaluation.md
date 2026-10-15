@@ -5,7 +5,7 @@ an assistant uses those tools to deliver maintainable, working UI. Keep these
 results separate. Start each case in an isolated app checkout with immutable
 references, a named skill/package version and a fixed repair budget.
 
-Use `flutter-ui` for every case below. The assistant selects the relevant
+Use `flutter-fidelity` for every case below. The assistant selects the relevant
 internal guide and carries evidence between stages. A typography-only request
 should load typography/verification guidance; a review-only request should
 report findings without starting a build. A mixed build/repair request should

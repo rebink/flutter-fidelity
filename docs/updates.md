@@ -1,7 +1,7 @@
 # Versions and updates
 
-Flutter Fidelity versions the CLI, plugin and the bundled flutter-ui skill together.
-`package.json` owns the release version; the lockfile, both plugin manifests and
+Flutter Fidelity versions the CLI, plugin and the bundled flutter-fidelity skill together.
+`package.json` owns the release version; the lockfile, all plugin manifests and
 each skill's `metadata.version` must match it. CLI `--version` and the MCP
 handshake read that same package version. Comparison policies and evidence schema versions
 remain separate. Release 0.3.0 introduced comparison policy v3. Release 0.4.0
@@ -14,12 +14,24 @@ finish with their matching tool release without a budget reset. Read
 
 ## Users: check and update a source installation
 
-From 0.9.0, use `/skill:flutter-ui` in Pi for build, typography, repair and
-verification. The four former commands are replaced by this one entry. Update
-the whole package and reload the host so skill discovery refreshes. If you
-previously copied individual skills into another directory manually, remove
-those obsolete copies through your host's normal skill management; this package
-does not edit unrelated or globally installed skills.
+From 0.10.0, the skill identifier is `flutter-fidelity`, replacing `flutter-ui`.
+Use `/flutter-fidelity` for a standalone Claude Code skill, `$flutter-fidelity`
+in Codex CLI/IDE, or `/skill:flutter-fidelity` in Pi. The Claude Code plugin uses
+the namespaced command `/flutter-fidelity:flutter-fidelity`.
+
+For a project Git dependency, upgrade the engine and reinstall its matching skill:
+
+```sh
+npm install --save-dev github:rebink/flutter-fidelity
+npx skills add ./node_modules/flutter-fidelity --skill flutter-fidelity
+```
+
+Preserve a team's chosen Git commit/tag pin when updating. The launcher rejects
+different skill and engine versions. Update the whole package and reload the
+host so discovery refreshes. Remove obsolete `flutter-ui` copies through your
+host's normal skill management; this package does not edit unrelated or globally
+installed skills. Version 0.9.0's consolidation of four workflows into one entry
+is retained under the new name.
 
 Run these commands in the Flutter Fidelity clone used by your local installation:
 
@@ -67,8 +79,10 @@ First ensure your checkout is clean and its upstream is the intended source.
 The new commands become available only after the maintainer publishes these
 source changes. A standalone ZIP/npm package without Git history cannot use
 the source updater; replace it with a complete released bundle using your
-original installation method. Keep `skills/`, `docs/`, tools and manifests
-together; copying only SKILL.md breaks its relative references.
+original installation method. From 0.10.0 the complete skill folder includes its
+documentation and CLI launcher, so standard skill installers can copy it on its
+own. The matching engine is still required for measurements. Copying SKILL.md
+alone omits the guides and launcher. See [setup](setup.md).
 
 ## Pin or return to a released version
 
@@ -101,7 +115,7 @@ they share documentation and tooling.
 npm run release:version -- 0.4.1
 ```
 
-This updates the canonical version, lockfile, both plugin manifests and skill
+This updates the canonical version, lockfile, all plugin manifests and skill
 frontmatter together. It does not commit, tag, install globally, push or publish.
 If package.json was edited separately, use `npm run version:sync`; use
 `npm run version:check` to detect drift without writing. `npm run check` and

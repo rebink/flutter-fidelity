@@ -1,7 +1,7 @@
 # Flutter Fidelity for Pi
 
 Flutter Fidelity is a Pi extension package with eighteen MCP tools and one
-user-facing skill, `flutter-ui`. The Pi model inspects designs and edits Dart; the tools perform local,
+user-facing skill, `flutter-fidelity`. The Pi model inspects designs and edits Dart; the tools perform local,
 deterministic validation, captures and comparisons.
 
 ## Install
@@ -33,17 +33,18 @@ Pi does not install dependencies for a local path. Git installs do install
 dependencies and run the build hook; allow lifecycle scripts and development
 dependencies for a source build. An npm archive contains built output and
 needs only runtime dependencies. Do not copy the extension file alone: it
-locates `../dist/cli.js`, and skills reference the accompanying `docs/` tree.
+locates `../dist/cli.js`. The skill keeps its guides inside its own folder;
+the measurement engine still needs the complete package and its dependencies.
 
 ## Use
 
 Start with:
 
 ```text
-/skill:flutter-ui Implement this PNG in my Flutter app, then capture and verify it.
+/skill:flutter-fidelity Implement this PNG in my Flutter app, then capture and verify it.
 ```
 
-`flutter-ui` is the only entry point. Describe the task in the same command,
+`flutter-fidelity` is the only entry point. Describe the task in the same command,
 for example “Fix the heading typography” or “Verify the existing checkout UI”.
 The host reads the appropriate internal build, typography, repair or verification
 guide and continues automatically. No additional skill commands are needed.
@@ -58,7 +59,7 @@ Use a Figma personal access token with `file_content:read` and access to the fil
 Do not paste credentials into chat or tool arguments. No Figma window is needed.
 
 ```text
-/skill:flutter-ui Implement https://www.figma.com/design/FILE_KEY/Design?node-id=1-2 using background acquisition.
+/skill:flutter-fidelity Implement https://www.figma.com/design/FILE_KEY/Design?node-id=1-2 using background acquisition.
 ```
 
 The model can call `acquire_figma` with the link and a new output directory.

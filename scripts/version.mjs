@@ -28,7 +28,7 @@ export async function syncVersion(directory, { version, check = false } = {}) {
   version ??= pkg.version;
   if (!stableVersion.test(version)) throw new Error('Use a stable semantic version: MAJOR.MINOR.PATCH');
   const changes = new Map();
-  for (const file of ['package.json', 'package-lock.json', 'plugin.json', '.codex-plugin/plugin.json']) {
+  for (const file of ['package.json', 'package-lock.json', 'plugin.json', '.codex-plugin/plugin.json', '.claude-plugin/plugin.json']) {
     const original = await read(file);
     const value = JSON.parse(original);
     value.version = version;

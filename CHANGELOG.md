@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.10.0 - Unreleased
+
+- Rename the user-facing skill from `flutter-ui` to `flutter-fidelity`. The
+  project, skill, CLI and MCP server now share the Flutter Fidelity name.
+  Remove obsolete copied skills through your host's normal management and
+  reload skill discovery; this package does not modify global installations.
+- Support standard project skill installation for Claude Code, Codex and other
+  compatible agents. A portable CLI launcher finds a matching project engine or
+  an explicitly configured checkout without downloading tools or running a shell.
+- Bundle the skill's documentation inside its folder. `npm run skill:sync`
+  generates copies from `docs/`; `npm run check` detects stale copies.
+- Add Claude Code local plugin files alongside the existing Pi and portable/Codex
+  packaging. MCP command paths resolve from the package; the host retains control
+  of the workspace directory. Core PNG/REST workflows also work through the CLI.
+- Rewrite the README with Humanizer guidance and document project setup,
+  version pairing, optional MCP connections and the limits of platform evidence.
+- Comparison policy v3, repair policy v2, images and Dart code are unchanged.
+
 ## 0.9.0 — 2026-10-15
 
 - First tagged Pi extension release. Includes the Pi adapter, Figma intake and

@@ -1,13 +1,25 @@
 ---
-name: flutter-ui
-description: Build, reuse, fix and verify Flutter UI from PNGs, Figma links or existing app code. Automatically route design intake, widget catalog lookup, parallel widget work, typography, visual repair and verification through one entry point.
+name: flutter-fidelity
+description: Build, reuse, fix and verify Flutter UI from PNGs, Figma links or existing app code. Use for screenshot implementation, widget reuse, typography fixes and measured visual repair with your coding agent.
+license: MIT
 metadata:
-  version: "0.9.0"
+  version: "0.10.0"
 ---
 
-Use this single entry for the requested Flutter UI work. The host assistant owns
+Use Flutter Fidelity for the requested Flutter UI work. The host assistant owns
 visual inference, reuse decisions and Dart edits; Flutter Fidelity CLI/MCP tools
 measure and record evidence. PNG remains the visual authority when matching a design.
+
+## Connect to the engine
+
+Read [host and tool setup](references/tools.md) before the first tool call.
+The host needs image inspection, file editing and terminal or local MCP access.
+CLI tools require Node 22+; analysis, tests and captures need a Flutter SDK.
+Use connected MCP tools or the bundled CLI launcher from the Flutter project.
+The skill works across compatible agents; host-specific slash commands, tool
+prefixes and delegation APIs are optional. An engine installation is separate
+from installing the skill. Never claim a measurement ran when only guidance was
+available. The launcher checks that the engine and skill versions match.
 
 ## Choose the workflow automatically
 
@@ -30,14 +42,14 @@ to review produces findings; it does not authorize source changes by itself.
 
 ## Shared decisions and evidence
 
-Use [task modes](../../docs/design-clarification.md#task-modes) to distinguish
+Use [task modes](references/docs/design-clarification.md#task-modes) to distinguish
 a visual prototype, integrated feature and behavior-preserving repair. Reuse
 the app's architecture, theme, components and established state/data owners.
 Ask only for missing product semantics, access or scope that affects the result;
 continue independent work while waiting. Carry authorized implementation through
 integration, relevant checks, capture and bounded repair.
 
-For widget work, search the [catalog](../../docs/widget-catalog.md) before Dart
+For widget work, search the [catalog](references/docs/widget-catalog.md) before Dart
 edits and group repeated instances. Use available authorized host subagents for
 independent jobs with explicit file ownership; execute sequentially when unavailable.
 The toolkit does not launch models or supply a separate agent runtime.
@@ -49,6 +61,6 @@ Widget captures alone do not establish native-platform or behavioral acceptance.
 
 Deliver runnable source or the requested review, relevant reference/report paths,
 actual checks and unresolved issues. At handoff offer
-[temporary screenshot cleanup](../../docs/workflow.md#temporary-screenshot-cleanup)
+[temporary screenshot cleanup](references/docs/workflow.md#temporary-screenshot-cleanup)
 once only when eligible files exist; preserve originals and retained evidence and
 delete only after agreement.

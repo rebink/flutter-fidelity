@@ -34,7 +34,7 @@ async function clones(t: Parameters<typeof temp>[0]) {
 
 test('release synchronization updates all identities, preserves skill metadata and detects drift without writes', async t => {
   const root = await temp(t);
-  for (const file of ['package.json', 'package-lock.json', 'plugin.json', '.codex-plugin/plugin.json']) {
+  for (const file of ['package.json', 'package-lock.json', 'plugin.json', '.codex-plugin/plugin.json', '.claude-plugin/plugin.json']) {
     await fs.mkdir(path.dirname(path.join(root, file)), { recursive: true });
     await fs.copyFile(file, path.join(root, file));
   }

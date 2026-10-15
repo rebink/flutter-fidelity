@@ -50,7 +50,7 @@ async function pngInfo(bytes: Buffer) {
 export async function acquireFigma(input: z.input<typeof FigmaIntakeSchema>, runtime: { fetch?: typeof fetch } = {}) {
   const args = FigmaIntakeSchema.parse(input), identity = parseFigmaLink(args.url);
   const token = process.env.FIGMA_ACCESS_TOKEN;
-  if (!token) throw new Error('Background Figma intake needs FIGMA_ACCESS_TOKEN (a personal access token with file_content:read) in the environment that launches Pi/MCP. Alternatively use an already connected Figma remote MCP or a local PNG.');
+  if (!token) throw new Error('Background Figma intake needs FIGMA_ACCESS_TOKEN (a personal access token with file_content:read) in the environment that launches your CLI or MCP server. Alternatively use an already connected Figma remote MCP or a local PNG.');
   const root = await createOutput(args.out), started = performance.now();
   const request = runtime.fetch ?? globalThis.fetch, deadline = AbortSignal.timeout(90_000);
   let requests = 0;

@@ -1,213 +1,205 @@
 # Flutter Fidelity
 
-**A Pi extension for building, reusing, fixing and verifying Flutter UI through
-one skill: `/skill:flutter-ui`.** It bundles eighteen MCP tools for design
-intake, widget catalogs, captures and measured visual repair.
+Build Flutter UI from a screenshot or Figma design with the coding agent you
+already use. Flutter Fidelity helps the agent reuse your widgets, implement the
+screen in your app, and compare a fresh capture against the design.
 
-The Pi extension, CLI and flutter-ui skill share one release version. Check it
-with `node dist/cli.js --version`; see [release notes](CHANGELOG.md) for changes.
+The skill, CLI, and MCP server all use the same name: `flutter-fidelity`.
+You can use the skill with Claude Code, Codex, Pi, or another agent that supports
+[Agent Skills](https://agentskills.io/specification) and can inspect images, edit
+files, and run local tools. Your agent writes the Dart; Flutter Fidelity handles
+the measurements and reports.
 
-Turn a design PNG or Figma link into maintainable Flutter UI, then measure the result with
-reproducible screenshots, pixel comparisons, and region-level reports.
+## Get started
 
-Screenshot-first Flutter UI development with an existing vision-capable coding
-assistant. PNGs are the visual authority; Figma/Sketch metadata is optional.
+You need Node.js 22+ and a coding agent with image inspection. Use your existing
+Flutter SDK for analysis, tests, and captures. Image inspection and comparison
+can run without Flutter.
 
-For Figma links, prefer connected remote MCP or the built-in `acquire_figma`
-REST tool to save frame PNGs and structured styling in the background. Figma can
-stay closed; copying CSS is optional. REST intake needs `FIGMA_ACCESS_TOKEN`
-with file access in the launching environment. It pins exports to the node
-revision and can reuse verified unchanged PNGs after a live revision check.
-Original artwork/fonts are recovered separately. Browser/clipboard automation is
-a fallback. See [design intake](docs/design-intake.md) and [Pi setup](docs/pi.md).
-
-Identify widgets once, mark their regions and search the project
-[widget catalog](docs/widget-catalog.md) before generating Dart. Each catalog
-entry retains a reference crop, Dart symbol, parameters, variants and hashed
-source files. The host reviews duplicate/similar candidates, groups repeated
-instances, and delegates independent widget jobs using dependency-ordered plans
-with separate file ownership. Shared integration and final screen verification
-stay with the coordinator. Hosts without subagents use the same plan sequentially.
-The tools do not launch model processes or infer widgets themselves.
-
-An optional [Figma plugin connection](docs/figma-plugin.md) remains available
-for users who explicitly choose it; browser-only workflows do not need it.
-
-This repository provides a working TypeScript CLI/MCP server, one Flutter UI skill,
-a Dart development capture harness, an example Flutter screen, twelve screenshot
-fixtures, a comparator calibration runner, and interactive HTML reports.
-
-**The assistant generates and repairs Dart.** The CLI performs deterministic
-imports, captures and comparisons; it is not a standalone model runner. No
-universal 1:1 accuracy is claimed. It reports exact differences and remaining
-uncertainty rather than hiding them in an “accuracy” score.
-
-## Quick start
-
-### Install the Pi extension
-
-Requirements:
-
-- Pi with native `registerMcpServer` support; tested with Pi 1.2.0.
-- Node.js 22+ available as `node` on your PATH. Follow Pi's own Node requirement too.
-- A Flutter SDK for analysis, tests and captures. Image inspection and comparison
-  can run without Flutter.
-
-From the Flutter project where you want to use the extension, install the Git
-package:
+From your Flutter app's directory, install the tools and skill:
 
 ```sh
-cd /path/to/your/flutter-app
+npm install --save-dev github:rebink/flutter-fidelity
+npx skills add ./node_modules/flutter-fidelity --skill flutter-fidelity
+```
+
+Choose your agent in the installer. Both commands default to the current
+project. The Git package builds through its npm lifecycle scripts, so allow
+those scripts and the development dependencies needed for the source build.
+If your project has no `package.json`, npm creates one for this development tool;
+your app continues to use `pubspec.yaml` for its Dart dependencies.
+
+The skill comes from the installed package so its version matches the tools.
+This installs from the repository's source branch. For a reproducible team setup,
+pin the Git dependency to an existing commit or release tag and commit the
+lockfile. Reload your agent's skills if the new entry does not appear.
+
+Then attach a design and ask:
+
+```text
+Use Flutter Fidelity to implement this screenshot in my app. Reuse our existing
+widgets and theme, then capture the screen and report the remaining differences.
+```
+
+For a smaller change:
+
+```text
+Use Flutter Fidelity to fix the heading font and wrapping to match this design.
+```
+
+You can also select the skill explicitly:
+
+| Agent | Invocation |
+| --- | --- |
+| Claude Code, standalone skill | `/flutter-fidelity` |
+| Codex CLI or IDE | `$flutter-fidelity` |
+| Pi | `/skill:flutter-fidelity` |
+| Other compatible agents | Select the installed skill or ask for Flutter Fidelity by name |
+
+The skill uses connected MCP tools when available and otherwise runs the CLI.
+You do not need to configure MCP for the PNG or Figma REST workflow. Its launcher
+finds the engine in the project's `node_modules`, including from nested folders,
+and checks that the skill and engine versions match.
+
+See [setup](docs/setup.md) for agent selection, an existing checkout, optional
+MCP connections, and troubleshooting. Installing only the skill does not install
+the measurement engine.
+
+### Pi package installation
+
+Pi users can install the skill and MCP tools together:
+
+```sh
 pi install --local git:github.com/rebink/flutter-fidelity
 ```
 
-`--local` adds the package to this project's `.pi/settings.json`. Git installation
-installs dependencies and builds the CLI through its lifecycle scripts; allow
-those scripts and development dependencies for the source build. The extension
-registers the `flutter-fidelity` MCP server and exposes only the `flutter-ui`
-skill. See [Pi's package documentation](https://pi.dev/docs/latest/packages).
+Restart Pi, complete its project trust step, and check `/mcp` for
+`flutter-fidelity`. The adapter requires native `registerMcpServer` support and
+has package integration coverage for the API used by Pi 1.2.0.
+[Pi setup](docs/pi.md) covers local checkouts, updates, and troubleshooting.
 
-Restart Pi, complete its project trust step, then check the setup:
+### Agent and platform support
+
+The shared skill contains no required Pi, Claude, or Codex runtime API.
+The package includes a Pi adapter, Claude Code plugin files, and portable/Codex
+plugin manifests. Any compatible local MCP client can run the same stdio server.
+
+Package tests cover relocated tools, standalone skill files, CLI execution,
+and MCP transport. They do not establish that every agent version loads the
+skill correctly or that every model produces the same UI. See the
+[verification record](docs/verification.md) for what was actually tested.
+
+The tools need filesystem and process access in the environment containing the
+Flutter app. Cloud and browser agents need that access through their execution
+environment or a suitable local connection. Native captures also need Android
+tooling or Xcode and an available device or simulator. Host OS support and
+Flutter target support require their own checks; a widget capture does not
+verify an Android, iOS, desktop, or web build.
+
+## What happens during a task
+
+The agent reads the design and traces a comparable feature in your app before
+editing Dart. It follows your existing architecture, state management, routes,
+and theme. Prototype data stays labeled; integrated features use the app's
+confirmed data and interaction contracts.
+
+Before creating widgets, the agent searches the project widget catalog and
+reviews similar components. Catalog entries keep reference crops, Dart symbols,
+parameters, variants, and source hashes. Repeated instances can share one
+implementation. Independent widget jobs can run through the host's subagents;
+hosts without delegation follow the same plan sequentially.
+
+The agent then runs the relevant checks, captures the implemented screen, and
+compares it against the original PNG. Repair rounds keep fresh captures and a
+record of the source used for each result. A visual improvement cannot erase a
+failed interaction or accessibility check.
+
+The [workflow guide](docs/workflow.md) explains the full loop. More focused
+guidance covers [architecture](docs/flutter-ui-architecture.md),
+[widget reuse](docs/widget-catalog.md), [UI patterns](docs/flutter-ui-patterns.md),
+and [performance measurement](docs/performance.md). The pattern guidance draws
+on a documented [Flutter skill survey](docs/flutter-skill-research.md).
+
+## Start with a PNG or Figma link
+
+A PNG is enough to begin. The reference image stays unchanged and remains the
+visual authority. Figma or Sketch structure can help explain a design, but is
+optional.
+
+For a Figma link, the agent can use an existing remote Figma MCP connection or
+Flutter Fidelity's REST intake. REST intake needs `FIGMA_ACCESS_TOKEN` with
+`file_content:read` and access to the file, supplied securely to the launching
+process. It saves a frame PNG and scoped styling JSON without opening Figma or
+copying CSS. Exports are pinned to the design revision; reuse checks the live
+revision and saved PNG hash before copying an unchanged reference into a new
+intake directory. Original artwork and fonts are separate inputs.
+
+Browser or clipboard access is a fallback when available. A paired
+[Figma plugin connection](docs/figma-plugin.md) is also available when you choose
+it; that route requires a persistent MCP connection and Figma to remain open.
+See [design intake](docs/design-intake.md) for access, assets, and recovery.
+
+The agent establishes the logical viewport, export scale, crop, and safe insets
+from supplied dimensions or reliable source evidence. A 2x or 3x PNG does not
+have the same pixel and logical dimensions. Missing product behavior, original
+assets, or fonts stay explicit. The agent attempts asset recovery and checks
+existing components before asking for the remaining decisions in a batch.
+[Design clarification](docs/design-clarification.md) explains those decisions.
+
+## Read the result
+
+Each comparison produces an HTML report with overlays, blink inspection,
+difference maps, region metrics, and the capture environment. It retains failed,
+incomplete, and untested evidence.
+
+| Comparison exit code | Meaning |
+| --- | --- |
+| `0` | Visual fidelity passed |
+| `1` | Visual fidelity failed |
+| `2` | Required visual evidence is incomplete |
+
+Visual fidelity and product acceptance are separate. Consumers that need the
+combined result must also inspect `acceptance.status` in the report. A matching
+PNG alone cannot prove that controls work, text is accessible, or the layout
+adapts to other widths.
+
+Comparison policy v3 includes required text-overflow evidence. Repair policy v2
+protects passed product checks and tracks the selected source/report pair;
+`bestReport` is the delivery choice, while `bestVisualReport` can describe a
+candidate with broken behavior. Source checkpoints let the agent verify the
+owned files before a fresh capture. Legacy active repair sessions must finish
+with their matching tool release and retain their repair budget. See
+[comparison and repair](docs/workflow.md#comparison-and-repair) and
+[source binding](docs/workflow.md#source-checkpoint-binding).
+
+## Use the CLI directly
+
+Run commands from your Flutter project. For a local package installation:
 
 ```sh
-pi list
-pi
+node node_modules/flutter-fidelity/dist/cli.js --version
+node node_modules/flutter-fidelity/dist/cli.js doctor
 ```
 
-Inside Pi, run `/mcp` and confirm that `flutter-fidelity` is connected.
-
-#### Install from a local checkout
-
-To use a checkout you already have, including changes that have not been pushed
-to GitHub, build its dependencies first and then install its directory:
+For tool development, clone this repository and build it:
 
 ```sh
-cd /absolute/path/to/flutter-fidelity
+git clone https://github.com/rebink/flutter-fidelity.git
+cd flutter-fidelity
 npm ci
-cd /path/to/your/flutter-app
-pi install --local /absolute/path/to/flutter-fidelity
+npm run check
 ```
 
-`npm ci` builds `dist` through the prepare hook. Pi loads local packages directly
-and does not install their dependencies. Install the whole package directory so
-the extension can find its CLI, skill and documentation.
-
-#### Use one command for every UI task
-
-After installation, start Pi in your Flutter project and describe the task:
-
-```text
-/skill:flutter-ui Implement this PNG in my Flutter app, reuse existing widgets, then capture and verify it.
-```
-
-The same entry handles focused requests:
-
-```text
-/skill:flutter-ui Fix the heading font and wrapping to match the reference.
-/skill:flutter-ui Verify the existing checkout UI and report remaining differences.
-```
-
-The skill selects its internal build, widget reuse, typography, repair and
-verification guidance automatically. Widget jobs can use available host
-subagents; hosts without delegation execute the plan sequentially.
-
-For a Figma link, use connected remote MCP or make `FIGMA_ACCESS_TOKEN` available
-securely in the environment that launches Pi. REST intake needs `file_content:read`
-and file access. You can continue using Figma in Chrome; desktop setup is not
-required. See [Pi setup and Figma intake](docs/pi.md) for details.
-
-#### Update and troubleshoot
-
-For a managed Git installation, run `pi update --extensions`, then restart Pi.
-Local checkouts use the [source update workflow](docs/updates.md).
-
-- **Server or skill missing:** check `pi list`, project trust and `/mcp`.
-- **Package not built:** run `npm ci` in the package's source directory. If its
-  lifecycle scripts were disabled, run `npm run build` explicitly.
-- **Node not found:** make Node available on the PATH used to launch Pi.
-- **Unsupported MCP extension API:** update Pi to a compatible version.
-
-See [Pi setup, all tools and troubleshooting](docs/pi.md) for the complete guide.
-
-### CLI and other agents
-
-Requires Node 22+; Flutter is required only for capture. Use a pinned SDK. Official
-Dart MCP additionally needs a Dart SDK supporting `dart mcp-server`.
+`npm ci` builds through the prepare hook. If lifecycle scripts were disabled,
+run `npm run build`. From this checkout, a reference/capture/comparison sequence
+looks like this:
 
 ```sh
-npm ci
-npm run build
-npm test
-node dist/cli.js doctor
 node dist/cli.js validate-assets --files ./assets/hero.png ./fonts/Lato-Regular.ttf
 node dist/cli.js suggest-viewport --image your-screen.png
 node dist/cli.js import-image --image your-screen.png --out .fidelity/reference \
-  --width 390 --height 844 --confirmed --fonts ./fonts/Lato-Regular.ttf ./fonts/Lato-Bold.ttf \
-  --assets ./assets/hero.png
-```
-
-Establish logical dimensions and app-content crop from the supplied profile or
-reliable frame/export evidence; ask when they remain unknown. A PNG can be an
-export at 2x/3x. `--crop x,y,width,height` uses original PNG pixels. Inputs are
-copied and hashed. Existing bundle/run directories are never overwritten.
-Missing fonts permit inspection, but the result remains incomplete.
-
-Connect `node /absolute/path/to/dist/cli.js mcp` to your coding assistant as a
-stdio MCP server. Load `skills/flutter-ui/SKILL.md`, or use the local plugin
-manifests after `npm ci && npm run build`. See [setup](docs/setup.md) and
-[workflow](docs/workflow.md) for the full screenshot-to-Flutter loop.
-
-Use [Flutter UI](skills/flutter-ui/SKILL.md) for every task: build a screen,
-reuse widgets, fix typography, repair visual differences, or verify an existing
-implementation. It chooses the relevant internal guidance automatically.
-
-Generation follows [Flutter UI architecture](docs/flutter-ui-architecture.md):
-trace a comparable feature's route, state and data flow, record evidence for
-state management and layering, then place UI and confirmed logic in those
-existing boundaries. For BLoC/Cubit with clean architecture, this includes
-presentation state wiring, domain/data contracts and route/DI integration;
-other patterns follow their existing owners. Reuse semantic tokens and derive
-adaptive layouts from constraints. The guide compares the previous skill pattern with these
-standards and links official Flutter guidance. Architecture and performance
-evidence accompany visual reports; the CLI's design-fidelity gates retain their
-visual scope, while report acceptance tracks analysis, interactions, accessibility
-and responsiveness separately. Required checks that were not run remain incomplete.
-
-The [autonomous workflow](docs/workflow.md#autonomous-execution-and-delivery)
-carries authorized work through asset intake, implementation, route/state
-integration, tests, capture and bounded repair. It reuses prior decisions and
-makes routine engineering choices without stage-by-stage approval. Original
-assets and authorized derivatives remain traceable in an optional
-[asset manifest](docs/asset-manifest.template.json). Runtime optimization uses
-[repeatable profile evidence](docs/performance.md);
-unmeasured performance remains explicit.
-
-Optional [UI patterns](docs/flutter-ui-patterns.md) cover forms/focus, component
-states, media/loading, motion/haptics, navigation/overlays, canvas gestures,
-localization and reliable previews/tests. They synthesize a
-[public Flutter skill survey](docs/flutter-skill-research.md) with primary sources
-and explicit selection limits, while preserving the target app's conventions.
-
-Choose the [task mode](docs/design-clarification.md#task-modes) from the request:
-visual prototypes may use labeled display fixtures; integrated features use
-production contracts; visual repairs preserve behavior.
-
-Before generating ambiguous integrated interactions or chart behavior, the agent inspects
-existing widgets/dependencies and [asks the developer for the missing decisions](docs/design-clarification.md).
-This includes chart-library reuse or selection, tappability/actions, data sources,
-range semantics, supported states and missing icon/image assets. If an SVG/PNG
-cannot be found or rendered, the agent diagnoses loading and attempts automatic
-source recovery first, then batches residual questions for originals, existing
-components or approved alternatives. Existing contracts and delegated choices
-do not require repeated confirmation.
-Required answers are recorded before the
-dependent implementation; screenshot appearance alone is not treated as proof
-of behavior. The CLI/MCP measures rendering and does not enforce these decisions.
-
-The assistant inspects the screenshot, saves a reviewed visual spec, generates
-real Flutter widgets and a capture entrypoint, then uses:
-
-```sh
+  --width 390 --height 844 --confirmed \
+  --fonts ./fonts/Lato-Regular.ttf ./fonts/Lato-Bold.ttf --assets ./assets/hero.png
 node dist/cli.js inspect --bundle .fidelity/reference --spec visual-spec.json
 node dist/cli.js capture --bundle .fidelity/reference --config capture.json --out .fidelity/capture-1
 node dist/cli.js compare --bundle .fidelity/reference --actual .fidelity/capture-1/actual.png \
@@ -215,55 +207,26 @@ node dist/cli.js compare --bundle .fidelity/reference --actual .fidelity/capture
 node dist/cli.js record-iteration --session .fidelity/session.json --report .fidelity/report-1
 ```
 
-Open `.fidelity/report-1/index.html` for overlay opacity, blink inspection,
-difference maps, region metrics, policy, environment and unresolved issues.
-Compare exits **0 = passed**, **1 = failed**, **2 = incomplete**. A design-fidelity
-pass is separate from interaction, accessibility and responsive acceptance.
-Policy v3 adds required text-overflow evidence without changing numeric pixel
-thresholds. Reports v2 expose `acceptance.status`; consumers requiring product
-acceptance must inspect it as well as the visual exit code. See
-[compatibility notes](docs/workflow.md#comparison-and-repair).
+Confirm the dimensions before using `--confirmed`. Crop coordinates use original
+PNG pixels. The agent supplies the reviewed visual spec and capture entrypoint;
+the CLI does not infer a layout or generate Dart. Use new output directories for
+every import, capture, and report. Existing directories are never overwritten.
 
-Repair policy v2 protects passed product checks and retains separate visual and
-product-valid candidates. `bestReport` is the delivery/restoration choice;
-`bestVisualReport` can be diagnostic evidence of a broken candidate.
-Use `sourceCheckpoint` in capture config to bind each report to a scoped source
-snapshot. After restoring owned files, run `verify-source-checkpoint` before fresh
-verification. See [source binding](docs/workflow.md#source-checkpoint-binding).
-Legacy captures remain readable; legacy repair sessions require their matching
-tool release and cannot silently reset their budget.
-
-## Validate and benchmark
-
-For users with a clean source clone, `npm run update:check` reports available
-upstream changes and `npm run update` fast-forwards, installs locked dependencies,
-builds and tests. Refresh/reload the plugin through your host afterward. This
-follows your tracked source branch; use a released Git tag to pin a version.
-See [versions and updates](docs/updates.md) for details and older-install bootstrap.
+A local MCP client can launch the engine with:
 
 ```sh
-npm run check
-npm run fixtures -- --out .fidelity/fixtures-new
-npm run benchmark -- --fixtures .fidelity/fixtures-new --out .fidelity/calibration-new
+node /absolute/path/to/flutter-fidelity/dist/cli.js mcp
 ```
 
-Both commands require fresh output paths and preserve existing references.
-Omitting `--fixtures` benchmarks the checked-in corpus. See the
-[skill evaluation cases](docs/skill-evaluation.md) for realistic workflow exercises.
+The server exposes eighteen tools. Its stdout carries the MCP protocol;
+diagnostics go to stderr. Optional official Dart MCP needs an SDK that supports
+`dart mcp-server`; it is separate from this server and is not required for image
+tools or the custom capture workflow.
 
-The default benchmark is **comparator calibration**, not model generation
-accuracy: it checks twelve references against deliberate defects. Identical PNGs
-without real capture evidence remain incomplete. To evaluate generated Flutter
-from different assistants, use a real capture manifest:
+## Try the examples
 
-```sh
-npm run benchmark -- --manifest your-runs.json --out .fidelity/agent-evaluation
-```
-
-See [benchmark protocol](docs/benchmark.md) and [verification results](docs/verification.md). The source fixtures are synthetic
-screenshots with separately licensed Lato fonts, not recovered Figma documents.
-
-## Flutter example
+The [Flutter example](flutter/example) includes a screen and development capture
+harness. After building the tools, run:
 
 ```sh
 cd flutter/example
@@ -276,92 +239,118 @@ node dist/cli.js capture --bundle .fidelity/example-reference \
   --config examples/capture.widget.json --out .fidelity/example-capture
 ```
 
-The example is an independently implemented demonstration of capture, not a
-claim that it already matches the fixture. Comparing it exposes differences to
-repair. For native Android/iOS, add platform scaffolding with `flutter create
---platforms=android,ios .` in the example, configure a simulator/emulator and use
-the integration capture/driver. Native font bytes must match the bundle.
+The example is an independently implemented screen. Comparing it exposes its
+remaining differences. Native Android/iOS runs need platform scaffolding, a
+device or simulator, matching font bytes, and the integration capture driver.
 
-## V1 boundaries
+The Codex Gallery has three original CC0 references and runnable Flutter
+implementations. Each image shows the unchanged reference on the left and a
+native Android capture on the right, at 390×844 logical app-content size.
+Codex created the references before implementing the Dart screens. The apps
+use real text, controls, and vector drawing.
 
-Local assistant workflow, screenshot inputs, and Flutter mobile UI. Runtime code
-does not depend on the capture harness. Backend generation, native platform
-views and complex animation/shaders are outside v1. Figma REST intake provides
-linked-frame PNGs and scoped node JSON; original-asset/font recovery and other
-design services use available host tools. An independent model runner and a
-bundled browser are outside this release.
+### Focus today
 
-## Codex-generated UI: simple, complex and advanced
+Task completion, progress, and task creation.
 
-Codex created three original CC0 design references, then implemented the Flutter
-UI using our screenshot-to-Flutter, typography, visual-repair and verification
-skills. The images below show the **unchanged design PNG on the left** and the
-**actual Flutter UI captured on Android on the right**, at390×844 app-content size.
-References were created before Dart UI implementation; the app uses real text,
-controls and vector drawing, with no screen-sized image asset.
+![Focus today reference and Android capture](demos/codex-gallery/artifacts/simple-comparison.png)
 
-### Simple · Focus today
+### Wallet overview
 
-Task list, completion states, progress summary and task creation.
+An interactive chart, range selection, transactions, and demo payments.
 
-![Simple Codex design versus Flutter UI](demos/codex-gallery/artifacts/simple-comparison.png)
+![Wallet overview reference and Android capture](demos/codex-gallery/artifacts/complex-comparison.png)
 
-### Complex · Wallet overview
+### Operations
 
-Balance summary, interactive chart, range selection, transaction rows and demo payments.
+Route visualization, vehicle status, telemetry, traffic advice, and tracking.
 
-![Complex Codex design versus Flutter UI](demos/codex-gallery/artifacts/complex-comparison.png)
+![Operations reference and Android capture](demos/codex-gallery/artifacts/advanced-comparison.png)
 
-### Advanced · Operations
-
-Route visualization, layered vehicle status, telemetry cards, traffic advisory,
-delivery progress and vehicle tracking interactions.
-
-![Advanced Codex design versus Flutter UI](demos/codex-gallery/artifacts/advanced-comparison.png)
-
-| Level | Android tolerant pixel mismatch | Fidelity gate |
+| Screen | Android tolerant pixel mismatch | Fidelity result |
 | --- | --- | --- |
-| Simple | 2.770% | Failed |
-| Complex | 3.517% | Failed |
-| Advanced | 2.724% | Failed |
+| Focus today | 2.770% | Failed |
+| Wallet overview | 3.517% | Failed |
+| Operations | 2.724% | Failed |
 
-All31 widget tests, static analysis and three native Android interaction tests
-pass. Accessibility findings are recorded separately and retain failures. The
-screens still fail our1% whole-screen fidelity gate; this is a measured demo,
-not a claim of universal pixel-perfect generation. iOS was not tested.
+The recorded gallery run passed static analysis, 31 widget tests, and three
+native Android interaction tests. All screens still failed the 1% whole-screen
+fidelity threshold. Accessibility failures remain recorded; iOS was not tested.
+[Run the gallery and inspect its reports](demos/codex-gallery/README.md).
 
-[Run the gallery and inspect the reports](demos/codex-gallery/README.md).
-The earlier [Open Wellness examples](demos/open-wellness/README.md) remain available.
-For other multi-screen references, see [verified CC0 UI kit options](docs/free-ui-resources.md).
+The [Fieldnotes feed](demos/fieldnotes-feed/README.md) includes 19 state/widget
+tests, Android interaction and capture evidence, and preserved repair rounds.
+Its recorded native mismatch is 6.474%, with a failed fidelity result and
+separate accessibility findings. Earlier
+[Open Wellness examples](demos/open-wellness/README.md) and
+[CC0 UI kit options](docs/free-ui-resources.md) are also available.
 
-## Repository layout
+To run a demo, enter its `app/` directory and use `flutter pub get`,
+`flutter run`, and `flutter test test/ui_test.dart`. Capture-specific tests need
+the CLI's `FIDELITY_REQUEST`. Replace machine-specific Flutter paths in capture
+configs with your installed SDK or `flutter` on PATH.
 
-The [Fieldnotes feed demo](demos/fieldnotes-feed/README.md) implements a newly
-generated ImageGen reference with the updated skills. It includes a runnable
-Flutter app, 19 state/widget tests, Android interaction/capture evidence and
-preserved repair rounds. Native tolerant mismatch is 6.474%, so it retains a
-failing fidelity result and separate accessibility findings.
+## Updates and development
 
-- `src/`: CLI, MCP server, reference intake, capture and comparison implementation.
-- `extensions/`: Pi adapter that registers the bundled Flutter Fidelity MCP server.
-- `skills/`: one discoverable flutter-ui skill and its internal workflow references.
-- `flutter/fidelity_harness/`: development-only capture and region measurement.
-- `flutter/example/`: minimal Flutter example and verification tests.
-- `fixtures/` and `scripts/`: synthetic references and comparator calibration.
-- `demos/`: original CC0 UI designs, runnable Flutter implementations and visual reports.
-- `docs/`: setup, workflow, architecture, research and benchmark methodology.
+The tools, plugin manifests, and [skill](skills/flutter-fidelity/SKILL.md) share
+one release version. If you upgrade a project dependency, install the skill
+again from that package so the versions stay together:
 
-After cloning, run `npm ci && npm run check`. To run a demo, change into its
-`app/` folder, then run `flutter pub get`, `flutter run`, and
-`flutter test test/ui_test.dart`. Its capture tests require a
-`FIDELITY_REQUEST` supplied by the CLI. Replace machine-specific Flutter paths
-in capture configuration with your installed SDK or `flutter` on PATH.
+```sh
+npm install --save-dev github:rebink/flutter-fidelity
+npx skills add ./node_modules/flutter-fidelity --skill flutter-fidelity
+```
 
-## Licensing
+For a clean source clone, `npm run update:check` reports upstream changes and
+`npm run update` fast-forwards, installs locked dependencies, and runs checks.
+Reload your host or MCP process afterward. See [updates](docs/updates.md) and
+[release notes](CHANGELOG.md), including migration from the old `flutter-ui`
+skill name.
 
-Project code is covered by the [MIT license](LICENSE). Open Wellness and Codex Gallery design
-sources and reference PNGs are dedicated to the public domain under
-CC0 ([Wellness](demos/open-wellness/design/LICENSE), [Gallery](demos/codex-gallery/design/LICENSE)), allowing personal and commercial reuse
-without attribution. Bundled fonts retain their included OFL licenses, and
-dependencies retain their own required notices. The design dedication does not
-change those software/font licenses.
+Run the core checks with:
+
+```sh
+npm run check
+```
+
+After changing comparator images or policy, generate a fresh fixture corpus
+and calibration report:
+
+```sh
+npm run fixtures -- --out .fidelity/fixtures-new
+npm run benchmark -- --fixtures .fidelity/fixtures-new --out .fidelity/calibration-new
+```
+
+The twelve synthetic fixtures test the comparator against deliberate defects.
+Calibration results do not measure how accurately an agent generates Flutter.
+Cross-agent evaluation needs real capture manifests:
+
+```sh
+npm run benchmark -- --manifest your-runs.json --out .fidelity/agent-evaluation
+```
+
+See the [benchmark protocol](docs/benchmark.md),
+[skill evaluation cases](docs/skill-evaluation.md), and
+[verification record](docs/verification.md).
+
+Source lives in `src/`; agent adapters and manifests wrap the same engine.
+`skills/flutter-fidelity/` contains the portable skill, CLI launcher, and internal
+guides. Its documentation copies come from `docs/`; after editing those sources,
+run `npm run skill:sync`. The check command detects stale copies.
+`flutter/fidelity_harness/` is development-only. Fixtures, scripts, and demos
+keep their evidence separate from production app code.
+
+The current scope is local assistant workflows for Flutter mobile UI. Backend
+generation, native platform views, complex shaders and animation, an independent
+model runner, and a bundled browser are outside this release. Runtime app code
+does not depend on the capture harness. No universal pixel-perfect generation
+rate has been established.
+
+## License
+
+Project code uses the [MIT license](LICENSE). Open Wellness and Codex Gallery
+design sources and reference PNGs are CC0
+([Wellness](demos/open-wellness/design/LICENSE),
+[Gallery](demos/codex-gallery/design/LICENSE)) and can be reused commercially
+without attribution. Bundled fonts retain their OFL licenses; dependencies
+retain their own notices.

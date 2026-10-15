@@ -1,3 +1,40 @@
+# Verification record - 15 October 2026 (0.10.0)
+
+Portable Flutter Fidelity skill, project setup and README rewrite.
+
+| Check | Result |
+| --- | --- |
+| `npm run check` | 132 passed, including TypeScript build, version synchronization, portable documentation consistency, core/MCP and relocated Pi package integration |
+| Standalone skill | Copied in isolation; every local Markdown dependency resolves inside the skill folder |
+| CLI launcher | Real engine invoked from copied skills and nested project folders; missing engine, version mismatch, unbuilt checkout and explicit engine root covered |
+| Evidence/working directory | Real PNG import and comparison use relative project paths; identical PNG without capture evidence retains incomplete status and exit 2 through the launcher |
+| Standard Skills CLI | Installed the packed engine in a disposable project, then installed the skill for Claude Code and Codex using `--copy`; both installed launchers returned 0.10.0 |
+| Plugin packaging | Claude, portable and Codex manifests included in the tarball; Claude and portable command paths resolve after relocation; Pi tool discovery and image/error transport pass |
+| Skill validator | Passed using the skill-creator validator and PyYAML in a disposable Python environment |
+| README and documentation | Humanizer rewrite; local Markdown link targets and whitespace checked; original demo results and failed/incomplete evidence retained |
+| New Flutter, native, behavior or calibration checks | Not-run; no Dart, reference image or fidelity policy changes |
+| Live Claude Code/Codex/Pi invocation and other host operating systems | Not-run; project installation and transport tests do not establish live host discovery or equal generation quality |
+
+The user-facing identifier is now `flutter-fidelity`. No global skill/plugin
+installation, SDK change, npm publication or plugin account upload was performed.
+Comparison policy v3 and repair policy v2 retain their existing contracts.
+
+The first full check exposed a macOS `/var` versus `/private/var` alias in a
+launcher test expectation. The assertion now compares resolved filesystem paths;
+the subsequent full check passed all 132 tests. The older bundled skill validator
+does not accept the standard's optional `compatibility` field, so environment
+requirements are documented in the body for compatibility with that validator.
+
+Local evidence:
+
+- `.fidelity/portable-0.10.0-flutter-fidelity-install-4xmslmbk/check.log`
+- `.fidelity/portable-0.10.0-flutter-fidelity-install-4xmslmbk/result.json`
+- `.fidelity/portable-0.10.0-flutter-fidelity-install-4xmslmbk/install-skills.log`
+
+Earlier records below are historical.
+
+---
+
 # Verification record — 14 October 2026 (0.9.0)
 
 One discoverable skill, flutter-ui, with internal workflow references.

@@ -22,6 +22,6 @@ export default function flutterFidelity(pi) {
     exposure: 'direct',
     // Capture runs SDK probing, analysis and Flutter tests (up to 5m each by default).
     timeout: 1200,
-    description: 'Flutter Fidelity: background PNG/styling intake, widget snapshots and source-aware reuse catalog, parallel widget work plans, Flutter captures, visual reports and source-bound repair. Use the flutter-ui skill; host agents own inference and Dart edits. Missing native or behavioral evidence remains incomplete.',
+    description: 'Flutter Fidelity: background PNG/styling intake, widget snapshots and source-aware reuse catalog, parallel widget work plans, Flutter captures, visual reports and source-bound repair. Use the flutter-fidelity skill; host agents own inference and Dart edits. Missing native or behavioral evidence remains incomplete.',
   });
 }
