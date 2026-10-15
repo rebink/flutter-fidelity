@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.10.1 - Unreleased
+
+- Fix fresh Pi Git installations failing with `tsc: command not found`.
+  Pi runs `npm install --omit=dev --legacy-peer-deps`, then npm's prepare hook
+  builds the source. TypeScript and Node type definitions are now regular
+  package dependencies so that build does not depend on omitted dev packages.
+- Add a fresh-source production-dependency build regression and document
+  recovery for failed 0.10.0 installs. Existing CLI/MCP, Dart and fidelity
+  policy contracts are unchanged.
+
 ## 0.10.0 - Unreleased
 
 - Rename the user-facing skill from `flutter-ui` to `flutter-fidelity`. The

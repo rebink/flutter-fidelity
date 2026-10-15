@@ -24,8 +24,9 @@ npx skills add ./node_modules/flutter-fidelity --skill flutter-fidelity --agent 
 
 The tools and skill come from the same package version. The npm Git dependency
 uses the source branch; use an existing Git tag or commit for a pinned install.
-Allow npm lifecycle scripts and source-build development dependencies. No npm
-registry release is required. The package is a development tool; it does not
+Allow npm lifecycle scripts. The compiler and Node type definitions are regular
+package dependencies, so a source installation also works with `--omit=dev`.
+No npm registry release is required. The package is a development tool; it does not
 change the Flutter SDK or add a production Dart dependency. If needed, npm
 creates a package.json alongside the Flutter project's pubspec.yaml.
 

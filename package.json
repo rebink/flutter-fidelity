@@ -1,6 +1,6 @@
 {
   "name": "flutter-fidelity",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "description": "Flutter Fidelity: a portable Flutter UI skill with widget reuse, visual verification, CLI and MCP tools",
   "keywords": [
     "pi-package",
@@ -56,7 +56,7 @@
     "node": ">=22"
   },
   "scripts": {
-    "build": "node scripts/skill-docs.mjs && tsc",
+    "build": "node scripts/skill-docs.mjs && node node_modules/typescript/bin/tsc",
     "test": "npm run build && tsx --test test/*.test.ts",
     "check": "npm run version:check && npm run skill:check && npm test",
     "version:check": "node scripts/version.mjs --check",
@@ -73,16 +73,16 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.32.1",
+    "@types/node": "^22.0.0",
     "commander": "^14.0.0",
     "pixelmatch": "8.0.0",
     "sharp": "0.35.5",
     "ssim.js": "3.5.0",
+    "typescript": "^5.9.0",
     "zod": "^3.25.0"
   },
   "devDependencies": {
-    "@types/node": "^22.0.0",
-    "tsx": "^4.20.0",
-    "typescript": "^5.9.0"
+    "tsx": "^4.20.0"
   },
   "exports": {
     ".": "./dist/index.js"

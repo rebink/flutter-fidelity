@@ -30,8 +30,10 @@ pi install --local /absolute/path/to/flutter-fidelity
 ```
 
 Pi does not install dependencies for a local path. Git installs do install
-dependencies and run the build hook; allow lifecycle scripts and development
-dependencies for a source build. An npm archive contains built output and
+dependencies and run the build hook. Pi uses
+`npm install --omit=dev --legacy-peer-deps`; the compiler and Node type
+definitions are regular dependencies so this source build works without dev
+dependencies. Allow lifecycle scripts. An npm archive contains built output and
 needs only runtime dependencies. Do not copy the extension file alone: it
 locates `../dist/cli.js`. The skill keeps its guides inside its own folder;
 the measurement engine still needs the complete package and its dependencies.
@@ -128,6 +130,12 @@ or commit stays pinned. Local clones use the [source updater](updates.md).
   usable with other MCP clients.
 - **Package is not built:** run `npm ci` in its source directory, then restart
   Pi. If install scripts were disabled, run `npm run build` explicitly.
+- **`tsc: command not found` while installing 0.10.0:** this is a package bug
+  fixed in 0.10.1. Retry the Git installation to fetch the fix. If Pi reuses the
+  failed clone, run `git pull --ff-only` and
+  `npm install --omit=dev --legacy-peer-deps` inside that package directory,
+  then rerun `pi install --local git:github.com/rebink/flutter-fidelity` from
+  your Flutter project. A global TypeScript installation is unnecessary.
 - **Node not found:** make Node available on the PATH used to launch Pi.
 - **Missing Flutter or capture tooling:** use `doctor` and the
   [setup guide](setup.md); the extension does not change your SDK.

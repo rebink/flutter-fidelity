@@ -24,8 +24,9 @@ npx skills add ./node_modules/flutter-fidelity --skill flutter-fidelity
 ```
 
 Choose your agent in the installer. Both commands default to the current
-project. The Git package builds through its npm lifecycle scripts, so allow
-those scripts and the development dependencies needed for the source build.
+project. Allow npm lifecycle scripts so the Git package can build. The package
+includes its compiler and Node type definitions even when development
+dependencies are omitted, as they are during Pi installation.
 If your project has no `package.json`, npm creates one for this development tool;
 your app continues to use `pubspec.yaml` for its Dart dependencies.
 

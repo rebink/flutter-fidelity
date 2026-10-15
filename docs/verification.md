@@ -1,3 +1,30 @@
+# Verification record - 15 October 2026 (0.10.1)
+
+Fix for Pi source installation with omitted development dependencies.
+
+| Check | Result |
+| --- | --- |
+| `npm run check` | 133 passed, including the fresh-source production-dependency regression |
+| Actual npm installation | A disposable source directory started without `dist` or `node_modules`; `npm install --omit=dev --legacy-peer-deps --no-audit --no-fund` completed its prepare/build hook successfully |
+| Production dependency contents | TypeScript and Node types installed; the development-only `tsx` package remained absent; the new CLI returned 0.10.1 |
+| Regression test | Copies only installed production packages selected by the lockfile into an unbuilt source tree, runs the real prepare hook, then starts MCP, discovers eighteen tools and executes a viewport request from another working directory |
+| Global compiler dependency | Build explicitly invokes the package-local compiler with Node; no global TypeScript installation is used |
+| Live Pi host UI, another Mac, Flutter/native checks | Not-run locally; the npm flags from the reported failure were exercised in a fresh source directory |
+
+The earlier 0.10.0 installation test used an already-built archive and did not
+cover Pi's source prepare hook with development dependencies omitted. This patch
+moves TypeScript and Node types into regular package dependencies and adds that
+missing build coverage. No image, Dart, comparison policy or repair policy
+changes were made.
+
+Local evidence: `.fidelity/pi-0.10.1-fidelity-pi-source-s6wacdf5/` contains the
+installation log, CLI version, result JSON and full check output. The npm source
+directory was disposable; no global plugin or SDK was installed or changed.
+
+Earlier records below are historical.
+
+---
+
 # Verification record - 15 October 2026 (0.10.0)
 
 Portable Flutter Fidelity skill, project setup and README rewrite.
