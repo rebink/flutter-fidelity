@@ -1,125 +1,138 @@
 # Figma intake and asset recovery
 
 Read this when a Figma link is supplied or required assets/fonts are missing.
-The host assistant orchestrates connected design and browser tools; Flutter
-Fidelity does not implement a Figma client, browser, or autonomous model runner.
-Use only tools actually exposed by the current host and follow their operating
-instructions. Structured design data helps acquisition; the resulting PNG is
-still the visual authority.
+The host assistant owns design interpretation and Dart edits. Flutter Fidelity
+provides background REST acquisition plus deterministic validation; connected
+remote MCP tools can also supply design evidence. PNG remains the visual authority.
 
-## Recover automatically before asking for files
+## Background acquisition first
 
-1. Inspect supplied files, prior decisions and the target app's assets first.
-   Retain the requested file/page/node URL and screen/state scope. An explicit
-   node link identifies the initial target; do not export the entire workspace.
-2. Discover an available Figma/design connector for logical frame dimensions,
-   design context and original assets. Save usable results immediately. For the
-   screen reference and styling evidence, prefer **Copy as PNG** and
-   **Copy as code → CSS** through the available Figma UI as described below;
-   do not request an export/download first. Metadata success
-   does not imply every image/font is available.
-3. Discover available Playwright plugin/MCP browser tools for the Figma UI. If
-   Playwright is unavailable, use another available browser or native-app tool
-   supporting the required selection and clipboard image/text handling. Follow that
-   tool's instructions; do not assume API names or install a global plugin.
-4. Open the supplied link in the user's designated browser/session when given.
-   Select the target frame by its screen title or layer entry, then use the
-   actual context menu's **Copy/Paste as → Copy as PNG** action. Save and validate
-   the new clipboard image, then use **Copy/Paste as → Copy as code → CSS**
-   and save the new clipboard text for that selection. Reuse design
-   context already acquired and collect missing original assets in the same
-   session without per-asset questions.
-5. If UI copying or clipboard-image access is unavailable, record the blocker
-   and use a connector-provided frame PNG or normal frame export as the fallback.
-   Do not bypass file-copy restrictions. If no automated route works, explain
-   the missing browser/app or clipboard capability and batch one residual request:
-   connect a supported tool/session, or copy the listed frames as PNG and paste
-   them into the chat, together with any still-missing originals/fonts. Do not
-   imply that recovery happened or that a plugin guarantees file access.
+Inspect supplied files and existing assets before fetching anything. Retain the
+requested file/node and screen/state scope. An explicit node link identifies the
+target; do not export the entire document or navigate every page.
 
-A supplied design link authorizes reading and copying/exporting the requested
-design for implementation; do not ask permission again for each frame. It does
-not authorize changing the shared design, sharing permissions, or publishing.
-Avoid editing source layers/export presets merely to make a download easier.
-For login, unavailable file permissions or disabled export, report the observed
-blocker and request only the access/user action needed to resume. Never ask for
-passwords/session tokens or bypass access restrictions. Continue independent
-repository, architecture and layout work while access is pending.
+Default to browser-only Figma access via connected remote MCP or REST, without
+requiring Figma desktop. These programmatic routes need no visible browser
+interaction. Choose the first usable route below, respecting the user's explicit
+choice. An existing local plugin remains an opt-in capability if the user chooses
+it; do not recommend or set up the desktop/plugin route as an intake prerequisite.
 
-Bound recovery: retry a transient failure once after the indicated wait or a
-concrete correction, then switch to the fallback. Do not repeatedly retry the
-same authentication/export denial. Retry after new access or a changed input,
-not merely after elapsed time. Record the method, outcome and missing items;
-partial success stays partial.
+1. **Validated local reference:** use a supplied PNG with established source and
+   profile. Reuse a prior reference for the same explicitly pinned design; for a
+   live Figma link, verify its current revision before assuming it is unchanged.
+2. **Connected Figma remote MCP:** use the linked node with available
+   `get_design_context` and `get_screenshot`/`download_assets`. Inspect actual tool
+   schemas; do not assume all hosts expose the same tools. Save returned image
+   bytes locally and verify them. A preview, metadata or temporary URL alone is
+   not an acquired reference. Remote MCP is link-based and does not need a local
+   Figma window. Client eligibility, OAuth and file permissions still apply;
+   do not assume Pi can connect just because it supports MCP.
+3. **Built-in REST intake:** use `acquire_figma` or the CLI below when
+   `FIGMA_ACCESS_TOKEN` is available to the server process. It retrieves the
+   linked node subtree, saves styling JSON, then exports PNG at the same revision.
+   It requires no browser, visible Figma window, clipboard, or copied CSS.
+4. **Interactive fallback:** only when programmatic routes are unavailable or
+   the user requests it, use connected browser/native tools for frame export or
+   **Copy as PNG**. Check clipboard-image capability before opening menus. If the
+   user needs background-only operation, report missing API access rather than
+   taking over the screen. Ask once for unresolved access or required files.
 
-## Preferred frame reference: Copy as PNG
+```sh
+# FIGMA_ACCESS_TOKEN must already be set securely in the launching environment.
+node dist/cli.js acquire-figma \
+  --url 'https://www.figma.com/design/FILE_KEY/Design?node-id=1-2' \
+  --out .fidelity/intake/new-run
 
-This preference applies to the screen reference. Figma's Copy as PNG produces
-an image of the selected design; it is not a screenshot of the browser canvas.
-It does not supply layout metadata, original vector/image assets or font files.
-Use the connector or UI inspector for those inputs and batch originals separately.
+# Still uses a new directory; verifies live revision before reusing PNG bytes.
+node dist/cli.js acquire-figma \
+  --url 'https://www.figma.com/design/FILE_KEY/Design?node-id=1-2' \
+  --out .fidelity/intake/next-run --reuse .fidelity/intake/new-run
+```
 
-- Confirm the selected node, screen/state and logical bounds before copying.
-  Select the frame itself via its title or layer entry, not the title text layer,
-  a child, or several screens. Use observed menu labels instead of guessed
-  coordinates or keyboard shortcuts.
-- Check whether the active tool can retrieve clipboard image bytes or paste them
-  into a supported local image-saving surface. Browser interaction alone does
-  not guarantee clipboard access. Never claim a reference was acquired merely
-  because the menu action completed.
-- Wait for the copy action to finish, then read only the image representation
-  from that operation. Use a clipboard change indicator when supported and
-  visually verify the result against the selected frame. Reject stale clipboard
-  data, text/HTML-only content and ambiguous source identity; retry once after
-  a concrete correction, then use the documented fallback. Do not dump unrelated
-  clipboard contents into logs.
-- Save the returned PNG bytes unchanged to a uniquely named file under the fresh
-  intake `frames/` directory. If a tool only exposes another image encoding,
-  record that limitation rather than silently labelling it PNG. Never resize,
-  flatten transparency or capture a paste preview to manufacture the reference.
-- Run `validate_assets`, inspect the saved PNG, and reconcile pixel dimensions
-  with the frame's logical bounds. Record the actual scale; do not assume Copy
-  as PNG is 1x or tied to canvas zoom. Investigate effects, clipping or dimension
-  discrepancies before import instead of normalizing them away.
-- Record `sourceKind: figma-copy-as-png`, node/URL, acquisition time, clipboard
-  method/freshness evidence, dimensions and SHA-256 in the manifest. Save each
-  frame before copying the next, since the clipboard can be replaced.
+REST intake accepts Design `/design/` or legacy `/file/` node links, not whole
+file, FigJam, or Make links. Branch links select the branch key; explicit
+`version-id` links pin both metadata and rendering to that revision. The personal access token needs `file_content:read`
+and access to the file. Set it through the user's secret/environment mechanism;
+never ask for it in chat or put it in tool arguments, source, manifests or logs.
+The extension does not create tokens or configure remote MCP authentication.
 
-If the user explicitly prohibits downloads, keep that constraint during fallback
-and request only the missing clipboard access or pasted PNG. Otherwise use the
-fallback automatically when copying is unavailable, explaining the reason in the
-intake record. Do not repeatedly ask users to copy frames when tools can do it.
+The output is a fresh `intake.json`, `frames/reference.png` and
+`context/node.json`. Read `context/node.json` for subtree properties instead of
+requesting child CSS repeatedly. Node IDs, logical dimensions, revision, hashes,
+requested and actual scale, request count and elapsed milliseconds are recorded.
+A failed operation preserves its manifest and any saved context with
+`status: failed`; do not treat partial evidence as a complete reference.
+The intake manifest is its own format, separate from the optional asset manifest.
 
-## Preferred styling evidence: Copy as code → CSS
+The tool does not acquire original image fills, vectors or font files. Inventory
+those separately and use available connected tools for a scoped batch. Missing
+originals stay explicit. Metadata success does not establish complete assets.
 
-After saving the frame PNG, keep the intended node selected and use the observed
-context-menu path **Copy/Paste as → Copy as code → CSS**. Retrieve the new
-clipboard text through an available supported tool and save it unchanged as a
-uniquely named UTF-8 `.css` file under `context/` in the same intake directory.
-Save each result before the next copy operation replaces the clipboard.
+## Styling without CSS copying
 
-Check freshness and source identity as for PNG copying. Confirm that the result
-contains CSS declarations for the selection; empty text, unrelated clipboard
-content, editor-page CSS and HTML/login responses are not acquired design code.
-Keep node ID, source URL, acquisition time, SHA-256, clipboard evidence and
-selection coverage in `designContext` records. CSS is supporting text evidence;
-the image/font `validate_assets` tool does not validate CSS files.
+Use existing remote design context or REST node properties for typography,
+spacing/auto layout, fills, radii, effects, component references and text runs.
+Retain node identity and coverage. A sparse metadata outline is not full styling,
+and a frame's properties alone do not cover every child. Fetch only genuinely
+missing properties or assets. Structured properties do not imply that a CSS
+file was produced; CSS is optional supporting evidence.
 
-Inspect which nodes the copied snippet actually describes. A frame snippet does
-not establish that every child's styles were collected. If required typography,
-effects or component properties are missing, copy CSS for those scoped child
-nodes in the same session, or use already available connector/inspector data.
-Record unresolved properties explicitly. If code copying or clipboard-text
-access is unavailable, recover properties from that connector/inspector without
-requiring users to paste CSS when equivalent evidence is already sufficient.
+Translate properties into the app's Flutter constraints, TextStyle, decoration
+and shared components. Resolve discrepancies against the PNG and measured
+captures. Design context does not establish runtime behavior or supply font bytes.
+Use the CSS mappings below only when CSS was actually provided or requested.
+Do not block implementation or keep retrying copy menus for optional CSS.
 
-Use dimensions, spacing, font properties, fills, radii and effects to inform
-Flutter constraints, TextStyle and decoration. Interpret units, line-height,
-coordinate origins, gradients and shadows against the selected node and PNG;
-do not treat PNG export pixels as CSS logical units. Preserve the app's layout
-and component architecture, and reconcile discrepancies through capture and
-comparison. Copied CSS does not establish interaction/API behavior or provide
-original font/image bytes.
+## Reuse, limits and failure handling
+
+- Keep originals immutable and create a new intake/capture/report directory for
+  every new run. Never reuse a failed capture. Reference reuse is separate:
+  REST `reuse` checks live file/node revision and scale, verifies PNG hash and
+  decoding, and copies unchanged bytes into the new intake. Changed revision,
+  different identity/scale, corrupt files or failed records trigger fresh export.
+  A failed live check never silently falls back to old bytes.
+- REST requests have a 30-second deadline each and a 90-second overall network
+  deadline, with at most one retry for network/5xx failures. Access and rate-limit
+  denials stop immediately; honor API limits rather than creating a retry loop.
+  Other tools: retry a transient failure once after the indicated wait or a
+  concrete correction, then record the failure and choose a usable fallback.
+- The coordinator acquires each frame/context and shared originals once, then
+  gives all widget workers the same validated local paths and revision identity.
+  Do not repeat Figma exports or styling requests per subagent. Use local
+  [widget marks and catalog lookup](widget-catalog.md) to divide implementation.
+- Request only the linked subtree and required originals. Batch independent
+  original-asset requests when the tool supports it; do not fetch redundant
+  screenshot/context outputs when an existing result already contains them.
+- Record elapsed acquisition time and request counts before making speed claims.
+  Reduced interactions do not prove faster live Figma service responses.
+
+A supplied link authorizes reading/exporting the requested design for
+implementation. It does not authorize changing layers, sharing permissions or
+publishing. Do not bypass authentication, export restrictions or an explicit
+no-download constraint. Report the observed access blocker once and continue
+independent repository/layout work while access is pending.
+
+## PNG validation and interactive fallback
+
+Save PNG bytes unchanged; validate and inspect them before importing. Reconcile
+pixel dimensions with logical bounds and actual export scale. REST intake fully
+decodes PNGs and marks `profileStatus: needs-review` if dimensions disagree with
+the requested scale/bounds. Investigate clipping, effects, rounding and server
+size caps. Never resize/align an image to hide geometry errors. Even a consistent
+export does not establish the intended app viewport or safe area by itself.
+
+For UI copying, select the frame itself via its title/layer, confirm the node,
+and use observed menu labels. Save fresh clipboard image bytes immediately to a
+new `frames/` file. Verify clipboard change/source identity, PNG format,
+dimensions and hash; reject stale/HTML/text-only data. A completed menu action is
+not proof of saved bytes. Record `sourceKind: figma-copy-as-png`, method and
+freshness evidence. If unavailable, use another supported route without looping.
+
+Only when explicitly requested or needed for a missing property, use
+**Copy/Paste as → Copy as code → CSS**. Confirm fresh CSS declarations, save raw
+UTF-8 under `context/`, and retain node identity/coverage and hash. Reject stale
+text, editor-page CSS and login responses. Try one correction, then use existing
+structured evidence or record the missing property. Do not copy every child.
 
 ### Translate CSS into Flutter
 
@@ -177,7 +190,7 @@ Use a new acquisition directory, for example:
 .fidelity/intake/<unique-run>/
   sources/             # unchanged original asset files
   frames/              # unchanged copied/exported frame PNGs
-  context/             # unchanged copied CSS and other design context
+  context/             # structured node/design context and optional raw CSS
   prepared/            # separately named app-ready derivatives, if authorized
   assets.json          # provenance, region mapping, gaps and validation
 ```
@@ -219,11 +232,11 @@ branded artwork, unrelated imagery or a lookalike font.
 
 | Input | Acquisition and Flutter use |
 | --- | --- |
-| Frame reference | Prefer Copy as PNG, saved from the clipboard with verified logical bounds and actual image scale; connector PNG/export is the fallback. Keep it immutable; controls and text are implemented as widgets. |
+| Frame reference | Prefer a background node PNG export with verified logical bounds and actual scale; UI copying is a fallback. Keep it immutable; controls and text are implemented as widgets. |
 | Vector icons/logos | Keep the original SVG and its viewBox, fills, strokes and transparency; use the app's supported renderer. If incompatible, first seek a compatible source export; use conversion/new dependencies only within existing delegation or an explicit decision. |
 | Raster artwork/photos | Keep original bytes and colors. Use a supported format and resolution appropriate to logical display size and device density. Record intentional crops, tint, fit and alignment. |
 | Fonts | Acquire exact available TTF/OTF families and weights, including required glyph coverage. A font name, outlined SVG text or browser WOFF file is not a TTF/OTF font bundle. Do not promise that Figma export includes licensed font files. |
-| Tokens/context | Prefer Copy as code → CSS for available styling evidence; retain raw snippets and their node coverage. Supplement with connector/inspector properties and component states. Reconcile discrepancies with the frame PNG; translate properties into the app's Flutter architecture. |
+| Tokens/context | Prefer structured design context/node properties with coverage; retain optional raw CSS when available. Supplement only missing properties and component states. Reconcile discrepancies with the frame PNG; translate properties into the app's Flutter architecture. |
 
 A verified Copy as PNG result or design export is preferable to a browser screenshot. If only a browser capture is
 available, identify it as such and exclude editor chrome, selection overlays and
@@ -251,7 +264,10 @@ exact blockers; do not mark the screen complete or silently use placeholders.
 See [design clarification](design-clarification.md) for the residual decisions
 and [the workflow](workflow.md#autonomous-execution-and-delivery) for delivery.
 
-Official references: [Figma exports](https://help.figma.com/hc/en-us/articles/360040028114-Export-static-designs-from-Figma)
+Official references: [remote MCP setup](https://developers.figma.com/docs/figma-mcp-server/remote-server-installation/),
+[remote tools](https://developers.figma.com/docs/figma-mcp-server/tools-and-prompts/),
+[REST file/node/image endpoints](https://developers.figma.com/docs/rest-api/file-endpoints/),
+[Figma exports](https://help.figma.com/hc/en-us/articles/360040028114-Export-static-designs-from-Figma)
 and [format settings](https://help.figma.com/hc/en-us/articles/13402894554519-Export-formats-and-settings-for-static-designs),
 plus [copying objects as PNG and code](https://help.figma.com/hc/en-us/articles/4409078832791-Copy-and-paste-objects).
 Tool capabilities and file permissions must still be checked in the active session.

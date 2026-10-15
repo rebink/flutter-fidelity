@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "flutter-fidelity",
-  "version": "0.4.0",
-  "description": "Generate Flutter UI from PNGs or Figma links with automatic design intake, real-font captures, measured repair and MCP tools.",
+  "version": "0.9.0",
+  "description": "One Flutter UI skill for design intake, reusable widgets, typography, measured repair and verification.",
   "author": {
     "name": "Flutter Fidelity contributors"
   },
@@ -11,10 +11,10 @@
       "interface": {
         "displayName": "Flutter Fidelity",
         "shortDescription": "Screenshot to verified Flutter",
-        "longDescription": "A local screenshot-first Flutter workflow with reference bundles, pixel and region reports, bounded agent repair, and development capture harnesses.",
+        "longDescription": "Use flutter-ui for Flutter design implementation, widget catalog reuse, typography fixes, visual repair and verification. The skill selects internal workflows automatically.",
         "developerName": "Flutter Fidelity contributors",
         "category": "Productivity",
-        "defaultPrompt": "Implement this PNG or Figma frame as maintainable Flutter widgets. For Figma, collect Copy as PNG and Copy as code → CSS through available tools, then capture and compare using Flutter Fidelity."
+        "defaultPrompt": "Use flutter-ui to handle this Flutter UI task. Choose the relevant build, widget reuse, typography, repair and verification workflows automatically, then deliver the requested result with evidence."
       }
     }
   }

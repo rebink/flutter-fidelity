@@ -1,7 +1,84 @@
 # Changelog
 
-The package, plugin and all four bundled skills share one release version.
+## 0.9.0 — 2026-10-15
+
+- First tagged Pi extension release. Includes the Pi adapter, Figma intake and
+  widget catalog/planning work recorded in the 0.5.0–0.8.0 preparation entries
+  below; those versions were not separately tagged or published to npm.
+
+- One user-facing skill, `flutter-ui`, replaces the four former entry points.
+  It routes build/reuse, typography, repair and verification automatically from
+  the request and current evidence. Detailed instructions remain bundled as
+  internal references, loaded only for the relevant stage.
+- Pi explicitly discovers only `skills/flutter-ui`; recursive package inspection
+  verifies a single `SKILL.md` and all four internal guides. Use
+  `/skill:flutter-ui` after updating/reloading the package.
+- Documentation and plugin prompts use the same entry. CLI/MCP tool names,
+  catalog formats and comparison/repair gates retain their existing contracts.
+
+## 0.8.0 — Unreleased
+
+- Widget-first intake: `mark_widgets` saves labelled overviews and native-size
+  reference crops from host-identified regions without changing the source PNG.
+- `register_widget` and `find_widgets` retain immutable project catalog entries,
+  Dart symbols/API notes, variants and hashed source/test snapshots. Retrieval
+  ranks exact pixels, equal-size pixel distance and lexical metadata overlap;
+  changed/missing source and incomplete/corrupt records remain explicit.
+- `plan_widget_work` groups repeated instances into reuse/adapt/create jobs,
+  checks dependencies and schedules disjoint file ownership per parallel wave.
+  The host executes available subagents, with sequential fallback. No separate
+  model runner, model credentials or global plugin installation is added.
+- Pi exposes eighteen tools. Browser-only REST/remote MCP acquisition is the
+  default; the optional desktop plugin route is no longer the suggested setup.
+- Catalog matches are candidates, not visual/behavioral acceptance. Existing
+  comparison policy v3 and repair policy v2 remain unchanged.
+
+## 0.7.0 — Unreleased
+
+- Paired local Figma plugin connection: `figma_bridge` controls the listener and
+  `acquire_figma_plugin` requests fresh node PNG/context, with optional direct
+  root CSS properties. Pi now exposes fourteen MCP tools.
+- Read-only Plugin API exports avoid browser/copy-menu automation and REST
+  tokens. Figma and the plugin must remain open on the same computer as Pi.
+  Initial registration uses a Figma-assigned ID via the included preparation helper.
+- Loopback pairing, scoped requests, single-file sessions, bounded timeouts,
+  strict message/image validation and fresh output directories preserve evidence.
+  Subtree property changes during export fail explicitly; no plugin cache is used.
+- Real local HTTP, bundled-script VM and relocated package tests cover the new
+  connection. Live Figma sandbox connectivity and speed remain unverified.
+  Comparison policy v3 and repair policy v2 are unchanged.
+
+## 0.6.0 — Unreleased
+
+- Background Figma `acquire_figma` MCP tool and `acquire-figma` CLI save a linked
+  frame PNG plus scoped node styling JSON without a visible app or clipboard.
+  REST authentication uses `FIGMA_ACCESS_TOKEN` from the launching environment.
+- Rendering is pinned to the context revision. Optional reuse checks the live
+  revision, identity, scale and PNG hash/decoding before copying unchanged bytes
+  into a new intake. Changed/corrupt/failed references require fresh acquisition.
+- Skills prefer connected remote MCP or REST intake; CSS copying is optional
+  and interactive automation is a fallback. Requests/retries are bounded;
+  access denials and incomplete evidence stay explicit.
+- Pi now exposes twelve tools. Original artwork/fonts remain separate inputs.
+  Comparison policy v3 and repair policy v2 are unchanged. Live Figma acquisition
+  timing remains unverified without authenticated frame access.
+
+The package, plugin and bundled skill share one release version.
 Comparison policy and evidence schema versions are independent.
+
+## 0.5.0 — Unreleased
+
+- Pi package manifest and extension register the existing MCP server with all
+  eleven tools and bundle the four Flutter skills and their documentation.
+- Git/local dependency installation builds the CLI automatically; npm packages
+  include built output. The adapter resolves its CLI relative to its own file
+  and leaves tool paths relative to the user's Pi workspace.
+- Pi owns MCP startup, tool/image results, errors and shutdown. Unsupported Pi
+  hosts and unbuilt packages receive actionable errors. No extra agent runtime
+  or global installation is added to Flutter Fidelity's dependencies.
+- Package smoke coverage exercises the relocated tarball, skill files, tool
+  discovery, relative workspace paths, image results, immutable references and
+  incomplete evidence. Comparison policy v3 and repair policy v2 are unchanged.
 
 ## 0.4.0 — Unreleased
 

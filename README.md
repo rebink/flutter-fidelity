@@ -1,7 +1,11 @@
 # Flutter Fidelity
 
-The plugin, CLI and four skills share one release version. Check it with
-`node dist/cli.js --version`; see [release notes](CHANGELOG.md) for changes.
+**A Pi extension for building, reusing, fixing and verifying Flutter UI through
+one skill: `/skill:flutter-ui`.** It bundles eighteen MCP tools for design
+intake, widget catalogs, captures and measured visual repair.
+
+The Pi extension, CLI and flutter-ui skill share one release version. Check it
+with `node dist/cli.js --version`; see [release notes](CHANGELOG.md) for changes.
 
 Turn a design PNG or Figma link into maintainable Flutter UI, then measure the result with
 reproducible screenshots, pixel comparisons, and region-level reports.
@@ -9,19 +13,27 @@ reproducible screenshots, pixel comparisons, and region-level reports.
 Screenshot-first Flutter UI development with an existing vision-capable coding
 assistant. PNGs are the visual authority; Figma/Sketch metadata is optional.
 
-For Figma links, the assistant tries connected design tools, then available
-Playwright/browser automation when details or assets are missing. It collects
-scoped originals in a batch, records provenance and validates formats before
-implementation. For screen references it prefers selecting the Figma frame and
-using **Copy as PNG**, saving verified clipboard image bytes locally, followed
-by **Copy as code → CSS** for styling evidence. Snippets retain their node
-coverage and inform native Flutter implementation. Connector PNG/export and
-inspector properties are fallbacks when copying is unavailable. If browser
-automation is unavailable, it explains what to connect and batches the remaining
-access or input request.
-See [design intake and asset recovery](docs/design-intake.md).
+For Figma links, prefer connected remote MCP or the built-in `acquire_figma`
+REST tool to save frame PNGs and structured styling in the background. Figma can
+stay closed; copying CSS is optional. REST intake needs `FIGMA_ACCESS_TOKEN`
+with file access in the launching environment. It pins exports to the node
+revision and can reuse verified unchanged PNGs after a live revision check.
+Original artwork/fonts are recovered separately. Browser/clipboard automation is
+a fallback. See [design intake](docs/design-intake.md) and [Pi setup](docs/pi.md).
 
-This repository provides a working TypeScript CLI/MCP server, four agent skills,
+Identify widgets once, mark their regions and search the project
+[widget catalog](docs/widget-catalog.md) before generating Dart. Each catalog
+entry retains a reference crop, Dart symbol, parameters, variants and hashed
+source files. The host reviews duplicate/similar candidates, groups repeated
+instances, and delegates independent widget jobs using dependency-ordered plans
+with separate file ownership. Shared integration and final screen verification
+stay with the coordinator. Hosts without subagents use the same plan sequentially.
+The tools do not launch model processes or infer widgets themselves.
+
+An optional [Figma plugin connection](docs/figma-plugin.md) remains available
+for users who explicitly choose it; browser-only workflows do not need it.
+
+This repository provides a working TypeScript CLI/MCP server, one Flutter UI skill,
 a Dart development capture harness, an example Flutter screen, twelve screenshot
 fixtures, a comparator calibration runner, and interactive HTML reports.
 
@@ -31,6 +43,93 @@ universal 1:1 accuracy is claimed. It reports exact differences and remaining
 uncertainty rather than hiding them in an “accuracy” score.
 
 ## Quick start
+
+### Install the Pi extension
+
+Requirements:
+
+- Pi with native `registerMcpServer` support; tested with Pi 1.2.0.
+- Node.js 22+ available as `node` on your PATH. Follow Pi's own Node requirement too.
+- A Flutter SDK for analysis, tests and captures. Image inspection and comparison
+  can run without Flutter.
+
+From the Flutter project where you want to use the extension, install the Git
+package:
+
+```sh
+cd /path/to/your/flutter-app
+pi install --local git:github.com/rebink/flutter-fidelity
+```
+
+`--local` adds the package to this project's `.pi/settings.json`. Git installation
+installs dependencies and builds the CLI through its lifecycle scripts; allow
+those scripts and development dependencies for the source build. The extension
+registers the `flutter-fidelity` MCP server and exposes only the `flutter-ui`
+skill. See [Pi's package documentation](https://pi.dev/docs/latest/packages).
+
+Restart Pi, complete its project trust step, then check the setup:
+
+```sh
+pi list
+pi
+```
+
+Inside Pi, run `/mcp` and confirm that `flutter-fidelity` is connected.
+
+#### Install from a local checkout
+
+To use a checkout you already have, including changes that have not been pushed
+to GitHub, build its dependencies first and then install its directory:
+
+```sh
+cd /absolute/path/to/flutter-fidelity
+npm ci
+cd /path/to/your/flutter-app
+pi install --local /absolute/path/to/flutter-fidelity
+```
+
+`npm ci` builds `dist` through the prepare hook. Pi loads local packages directly
+and does not install their dependencies. Install the whole package directory so
+the extension can find its CLI, skill and documentation.
+
+#### Use one command for every UI task
+
+After installation, start Pi in your Flutter project and describe the task:
+
+```text
+/skill:flutter-ui Implement this PNG in my Flutter app, reuse existing widgets, then capture and verify it.
+```
+
+The same entry handles focused requests:
+
+```text
+/skill:flutter-ui Fix the heading font and wrapping to match the reference.
+/skill:flutter-ui Verify the existing checkout UI and report remaining differences.
+```
+
+The skill selects its internal build, widget reuse, typography, repair and
+verification guidance automatically. Widget jobs can use available host
+subagents; hosts without delegation execute the plan sequentially.
+
+For a Figma link, use connected remote MCP or make `FIGMA_ACCESS_TOKEN` available
+securely in the environment that launches Pi. REST intake needs `file_content:read`
+and file access. You can continue using Figma in Chrome; desktop setup is not
+required. See [Pi setup and Figma intake](docs/pi.md) for details.
+
+#### Update and troubleshoot
+
+For a managed Git installation, run `pi update --extensions`, then restart Pi.
+Local checkouts use the [source update workflow](docs/updates.md).
+
+- **Server or skill missing:** check `pi list`, project trust and `/mcp`.
+- **Package not built:** run `npm ci` in the package's source directory. If its
+  lifecycle scripts were disabled, run `npm run build` explicitly.
+- **Node not found:** make Node available on the PATH used to launch Pi.
+- **Unsupported MCP extension API:** update Pi to a compatible version.
+
+See [Pi setup, all tools and troubleshooting](docs/pi.md) for the complete guide.
+
+### CLI and other agents
 
 Requires Node 22+; Flutter is required only for capture. Use a pinned SDK. Official
 Dart MCP additionally needs a Dart SDK supporting `dart mcp-server`.
@@ -54,16 +153,13 @@ copied and hashed. Existing bundle/run directories are never overwritten.
 Missing fonts permit inspection, but the result remains incomplete.
 
 Connect `node /absolute/path/to/dist/cli.js mcp` to your coding assistant as a
-stdio MCP server. Load the skills under `skills/`, or use the local plugin
+stdio MCP server. Load `skills/flutter-ui/SKILL.md`, or use the local plugin
 manifests after `npm ci && npm run build`. See [setup](docs/setup.md) and
 [workflow](docs/workflow.md) for the full screenshot-to-Flutter loop.
 
-The repository-owned skills are:
-
-- [Screenshot to Flutter](skills/screenshot-to-flutter/SKILL.md): PNG/Figma intake, browser asset recovery, composable UI architecture, adaptive layout and vector chart reconstruction.
-- [Typography fidelity](skills/flutter-typography-fidelity/SKILL.md): font bytes, weights, glyphs and measured text.
-- [Visual repair](skills/flutter-visual-repair/SKILL.md): bounded corrections, retained candidates and behavioral verification.
-- [Fidelity verification](skills/flutter-fidelity-verification/SKILL.md): architecture review, native captures, interactions, accessibility and runnable deliverables.
+Use [Flutter UI](skills/flutter-ui/SKILL.md) for every task: build a screen,
+reuse widgets, fix typography, repair visual differences, or verify an existing
+implementation. It chooses the relevant internal guidance automatically.
 
 Generation follows [Flutter UI architecture](docs/flutter-ui-architecture.md):
 trace a comparable feature's route, state and data flow, record evidence for
@@ -190,10 +286,10 @@ the integration capture/driver. Native font bytes must match the bundle.
 
 Local assistant workflow, screenshot inputs, and Flutter mobile UI. Runtime code
 does not depend on the capture harness. Backend generation, native platform
-views and complex animation/shaders are outside v1. Built-in Figma/Sketch API
-adapters and an independent model-API runner are not part of this release.
-Figma/browser recovery is orchestrated by the host assistant using available
-external tools; no browser plugin is installed or bundled by this package.
+views and complex animation/shaders are outside v1. Figma REST intake provides
+linked-frame PNGs and scoped node JSON; original-asset/font recovery and other
+design services use available host tools. An independent model runner and a
+bundled browser are outside this release.
 
 ## Codex-generated UI: simple, complex and advanced
 
@@ -247,7 +343,8 @@ preserved repair rounds. Native tolerant mismatch is 6.474%, so it retains a
 failing fidelity result and separate accessibility findings.
 
 - `src/`: CLI, MCP server, reference intake, capture and comparison implementation.
-- `skills/`: four reusable screenshot-to-Flutter agent skills.
+- `extensions/`: Pi adapter that registers the bundled Flutter Fidelity MCP server.
+- `skills/`: one discoverable flutter-ui skill and its internal workflow references.
 - `flutter/fidelity_harness/`: development-only capture and region measurement.
 - `flutter/example/`: minimal Flutter example and verification tests.
 - `fixtures/` and `scripts/`: synthetic references and comparator calibration.

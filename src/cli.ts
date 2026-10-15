@@ -13,11 +13,18 @@ import { InsetsSchema } from './schema.js';
 import { validateAssets } from './assets.js';
 import { VERSION } from './version.js';
 import { verifySourceCheckpoint } from './checkpoint.js';
+import { acquireFigma } from './figma.js';
+import { markWidgets, registerWidget, findWidgets } from './widget-catalog.js';
+import { planWidgetWork } from './widget-plan.js';
 function number(value: string) { const n = Number(value); if (!Number.isFinite(n) || n <= 0) throw new InvalidArgumentError('Expected a positive number'); return n; }
 function rectangle(value: string) { const parts = value.split(',').map(Number); if (parts.length !== 4 || parts.some(n => !Number.isFinite(n))) throw new InvalidArgumentError('Use x,y,width,height'); return { x: parts[0], y: parts[1], width: parts[2], height: parts[3] }; }
 function insets(value: string) { if (value.split(',').some(part => !part.trim())) throw new InvalidArgumentError('Insets cannot be empty'); const [top, right, bottom, left, ...extra] = value.split(',').map(Number); if (extra.length) throw new InvalidArgumentError('Use top,right,bottom,left'); try { return InsetsSchema.parse({ top, right, bottom, left }); } catch { throw new InvalidArgumentError('Use four finite nonnegative insets: top,right,bottom,left'); } }
 function print(value: unknown) { process.stdout.write(JSON.stringify(value, null, 2) + '\n'); }
 const program = new Command().name('flutter-fidelity').version(VERSION).description('Screenshot-first Flutter generation companion and visual verification');
+for (const [name, fn] of [['mark-widgets', markWidgets], ['register-widget', registerWidget], ['find-widgets', findWidgets], ['plan-widget-work', planWidgetWork]] as const) {
+  program.command(name).requiredOption('--config <json>', 'JSON object matching the corresponding MCP tool schema').action(async o => print(await fn(await json(o.config))));
+}
+program.command('acquire-figma').requiredOption('--url <frame-link>').requiredOption('--out <new-directory>').option('--scale <number>', 'PNG export scale, 0.01 to 4', number, 1).option('--reuse <prior-intake>', 'Verify live revision and reuse an unchanged PNG').action(async o => print(await acquireFigma(o)));
 program.command('validate-assets').requiredOption('--files <paths...>', 'Downloaded local asset/font files').action(async o => { const result = await validateAssets(o.files); print(result); if (result.status !== 'validated') process.exitCode = 2; });
 program.command('doctor').option('--flutter <executable>', 'Flutter executable', 'flutter').action(async o => { const result = await doctor(o.flutter); print(result); if (!result.readyForFlutter) process.exitCode = 2; });
 program.command('suggest-viewport').requiredOption('--image <png>').action(async o => print(await suggestViewport(o.image)));

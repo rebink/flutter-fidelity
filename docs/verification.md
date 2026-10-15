@@ -1,3 +1,132 @@
+# Verification record — 14 October 2026 (0.9.0)
+
+One discoverable skill, flutter-ui, with internal workflow references.
+
+| Check | Result |
+| --- | --- |
+| npm run check | 128 passed, including version consistency, build and relocated Pi package integration |
+| Packaged discovery | Exactly one recursive SKILL.md: skills/flutter-ui/SKILL.md; Pi explicitly loads that directory |
+| Internal guidance | Build/reuse, typography, repair and verification guides packaged as ordinary reference Markdown |
+| Skill validator | Passed for flutter-ui |
+| Local Markdown links | 71 targets resolved across the skill and docs; whitespace check passed |
+| Image/policy/Dart changes | None; no new calibration or Flutter/native checks required or claimed |
+
+The single entry routes by task and loads further guidance as needed. Existing
+MCP tools, catalog formats and comparison/repair gates retain their contracts.
+Package discovery and reference availability are tested; autonomous model routing
+across all real-world requests is not established by these package tests.
+No global installation, upload or publication was performed.
+
+Evidence: .fidelity/0.9.0-check.log.
+
+Earlier records below are historical.
+
+---
+
+# Verification record — 14 October 2026 (0.8.0)
+
+Widget catalog, host subagent work planning and browser-only acquisition defaults.
+
+| Check | Result |
+| --- | --- |
+| `npm run check` | 128 passed, including TypeScript/version checks, 24 catalog tests, 20 planner tests and relocated Pi stdio integration |
+| Marked reference evidence | Original PNG unchanged; native-size crops, separate labelled overview; invalid bounds, corruption and incomplete evidence rejected |
+| Catalog reuse | Exact decoded pixels across PNG encodings; equal-size pixel/lexical ranking; current/stored source hashes, missing source, different projects and immutable entries checked |
+| Parallel work plans | Complete region coverage; grouped repeated instances; dependency barriers; shared/case-alias/ancestor paths serialized; incomplete output preserved |
+| Pi package transport | All eighteen tools discoverable; marking, registration, lookup and planning exercised in a relocated package/workspace |
+| Skill validator / whitespace | Passed |
+| Fresh fixtures / comparator calibration | 12/12 passed; existing references preserved; calibration is not model generation accuracy |
+| Existing Fieldnotes demonstration | Nine marked regions, five catalog entries; one StoryTile group covers five instances; exact Maya and similar Noor crops retrieve StoryTile |
+| New Flutter/native/product checks | Not-run: no Dart implementation changed; catalog entries explicitly retain verification not-run |
+| Live Figma timing / autonomous Pi widget generation | Not-run; no end-to-end acquisition or generation speedup established |
+
+The host assistant supplies visual identification and reviews behavior/API compatibility.
+The planner does not launch models: the host uses available authorized subagents,
+or executes sequentially. Three subagents assisted with this toolkit implementation,
+documentation and tests; this does not prove future Pi hosts have delegation enabled.
+Reference snapshots describe the design, not a validated rendering of current code.
+Source hashes cover only declared paths. Screenshot comparison policy v3 and repair
+policy v2 remain unchanged. Desktop plugin setup is no longer the default workflow.
+
+Evidence:
+
+- `.fidelity/0.8.0-check.log`
+- `.fidelity/0.8.0-widget-fixtures-20261014/manifest.json`
+- `.fidelity/0.8.0-widget-calibration-20261014/results.json`
+- `.fidelity/widget-catalog-demo-1792000394060/marks/marked.png`
+- `.fidelity/widget-catalog-demo-1792000394060/widgets/`
+- `.fidelity/widget-catalog-demo-1792000394060/lookup.json`
+- `.fidelity/widget-catalog-demo-1792000394060/plan/plan.json`
+
+Earlier records below are historical.
+
+---
+
+# Verification record — 14 October 2026 (0.7.0)
+
+Local Figma plugin connection and Pi package preparation.
+
+| Check | Result |
+| --- | --- |
+| `npm run check` | 84 passed, including build/version checks, new bridge tests, MCP lifecycle and relocated Pi package |
+| Loopback HTTP bridge | Passed: pairing/origin/host checks, one document/session, immediate selection metadata, unchanged PNG bytes, scoped context and optional root CSS |
+| Failure evidence | Passed: wrong node/request IDs, invalid PNG, late results, timeouts, disconnects, changed document sessions and dimension review; failed outputs never become acquired |
+| Bundled plugin sandbox/UI | Passed with VM Figma/DOM test doubles against actual loopback HTTP; includes PNG bytes and CSS transfer, changed-subtree rejection and export denial |
+| Plugin preparation helper | Passed with a fixture Figma ID; creates fresh importable copies, rejects invalid IDs/existing output, preserves bundled source |
+| Screenshot skill validator and local links | Passed; 102 local documentation targets and whitespace check |
+| Fresh fixtures/comparator calibration | 12/12 passed; no existing reference PNGs overwritten |
+| Live supplied Figma frame | Frame `223:4667` opens anonymously in browser; session is signed out and desktop app shows a blank window. No plugin registration/export/transfer or live timing established |
+| New Flutter/native/product checks | Not-run; no Dart changes, no native or product acceptance inferred from comparator tests |
+
+The source template intentionally has no Figma plugin ID. Registration must
+use a real Figma-assigned ID; the preparation helper does not create/publish a
+Figma resource. The plugin connection requires the file/plugin to remain open.
+Figma network permissions and behavior while another app is foreground remain
+unverified until the live paired test can run. Local test timings are not a
+Figma speed benchmark. Comparison policy v3 and repair policy v2 are unchanged.
+
+Evidence:
+
+- `.fidelity/0.7.0-plugin-fixtures-20261014/manifest.json`
+- `.fidelity/0.7.0-plugin-calibration-20261014/results.json`
+- `.fidelity/0.7.0-live-attempt-20261014/attempt.json`
+
+Earlier records below are historical.
+
+---
+
+# Verification record — 14 October 2026 (0.6.0)
+
+Background Figma intake and Pi package preparation.
+
+| Check | Result |
+| --- | --- |
+| `npm run check` | 70 passed, including TypeScript build, version consistency, core/MCP/release and relocated Pi package tests |
+| Simulated Figma REST/MCP acquisition | Passed: scoped PNG/context without CSS or UI, revision-pinned rendering, branch/version links, immutable outputs, credentials isolated from CDN and records |
+| Reference reuse | Passed: unchanged revision uses one API request; fresh export uses three; changed revision/scale, corrupted bytes and failed records trigger fresh acquisition |
+| Failure handling | Passed: null render, missing node/revision, invalid PNG, access/rate-limit denial and repeated server failures preserve explicit failed/partial evidence |
+| Dimension mismatch | Passed: preserves export bytes and flags profile review; no normalization |
+| Screenshot skill validator | Passed in disposable Python/PyYAML environment |
+| Fresh fixtures and comparator calibration | 12/12 passed; output below, existing reference PNGs unchanged |
+| Package | Version 0.6.0 includes twelve MCP tools, Pi adapter, four skills and background intake documentation |
+| Live Figma acquisition/timing | Not-run: no frame link or configured Figma authentication available |
+| New Flutter/native/behavior checks | Not-run: no Dart changes; comparator calibration does not establish native/product acceptance |
+
+The request counts above come from simulated API tests, not live Figma service
+measurements or a before/after speed benchmark. Remote MCP workflow selection is
+documented but has not been tested against a connected Figma server here.
+The REST tool records elapsed time and request count in each live intake.
+
+Fresh calibration evidence:
+
+- `.fidelity/0.6.0-background-fixtures-20261014/manifest.json`
+- `.fidelity/0.6.0-background-calibration-20261014/results.json`
+
+Comparison policy v3 and repair policy v2 are unchanged. Existing 0.5.0 Pi
+integration work is retained. Earlier records below are historical.
+
+---
+
 # Verification record — 14 October 2026 (0.4.0)
 
 Local review fixes; no tag, publication, global installation or SDK change.

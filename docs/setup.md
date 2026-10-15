@@ -1,5 +1,8 @@
 # Local setup
 
+For the Pi coding agent, follow [Pi extension setup](pi.md). Its package loads
+the flutter-ui skill and registers the MCP server automatically.
+
 1. Install Node 22+ and run `npm ci && npm run build` in this repository.
 2. Pin a Flutter SDK and run `node dist/cli.js doctor --flutter /path/to/flutter`.
 3. Configure the custom MCP server in your assistant:
@@ -22,7 +25,7 @@ subcommands accept paths relative to their invocation directory; portable plugin
 configuration uses the plugin root. Use absolute bundle/project paths when
 working across repositories.
 
-Load the four skills in `skills/` through your assistant's skill discovery. The
+Load `skills/flutter-ui/SKILL.md` through your assistant's skill discovery. The
 root `plugin.json`, `mcp.json` and synchronized `.codex-plugin/plugin.json` are
 included for local plugin clients. Dependencies and dist must exist before
 starting the plugin. This repository does not install into your global assistant
@@ -39,18 +42,11 @@ rollback and maintainer instructions, and [release notes](../CHANGELOG.md).
 
 ## Optional tooling
 
-Optional official skills, as documented by the Flutter team:
-
-```sh
-npx skills add flutter/agent-plugins --skill '*' --agent universal --yes
-npx skills add dart-lang/skills --skill '*' --agent universal --yes
-```
-
-Review and pin installed skill revisions in your team setup. The custom package
-does not download changing upstream skills silently. Relevant skills are
-flutter-build-responsive-layout, flutter-fix-layout-issues,
-flutter-add-widget-test, flutter-add-integration-test, flutter-add-widget-preview,
-dart-run-static-analysis and dart-fix-runtime-errors.
+The bundled `flutter-ui` entry routes its own implementation, typography,
+repair and verification guides. Additional skill installation is not required.
+When official Dart MCP or other compatible development tools are already
+connected, the host can use them from the same workflow. Pin tool/SDK revisions
+in the team setup; this package does not install external skills automatically.
 
 Official source: https://docs.flutter.dev/ai/get-started
 

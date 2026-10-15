@@ -8,3 +8,7 @@ export * from './repair.js';
 export { createServer } from './mcp.js';
 export * from './assets.js';
 export * from './checkpoint.js';
+export * from './figma.js';
+export * from './figma-bridge.js';
+export * from './widget-catalog.js';
+export * from './widget-plan.js';

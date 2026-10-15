@@ -1,9 +1,15 @@
-# Evaluate the Flutter skills as workflows
+# Evaluate the Flutter UI skill as a workflow
 
 Comparator calibration tests measurement logic. Skill evaluation tests whether
 an assistant uses those tools to deliver maintainable, working UI. Keep these
 results separate. Start each case in an isolated app checkout with immutable
 references, a named skill/package version and a fixed repair budget.
+
+Use `flutter-ui` for every case below. The assistant selects the relevant
+internal guide and carries evidence between stages. A typography-only request
+should load typography/verification guidance; a review-only request should
+report findings without starting a build. A mixed build/repair request should
+continue through the needed stages without asking the user to switch skills.
 
 ## Realistic cases
 
@@ -11,9 +17,17 @@ references, a named skill/package version and a fixed repair budget.
 | --- | --- | --- |
 | Prototype: “Build this screen as a visual prototype; use local display fixtures.” | PNG, logical viewport, original assets/fonts; no backend | Builds without blocking on irrelevant API questions; typed fixtures/callbacks; actual control behavior; capture and honest comparison |
 | Integrated form: “Implement this design in the existing account feature.” | Existing route/state/repository; Arabic locale, theme, keyboard and validation | Reuses those owners and localization; app adapter preserves keyboard/insets/route; editable and masked text evidence; submission uses established contract |
+| Widget reuse: “Build these repeated cards using our existing widgets.” | One reference PNG, reviewed marks, catalog with exact/similar candidates and changed/missing source variants | Searches before Dart edits; checks current APIs and source hashes; groups repeated instances; reuses/adapts compatible code rather than copying reference crops into UI |
+| Parallel widgets: “Use subagents to build the independent widgets.” | Reviewed widget contracts and file ownership; dependency and shared-file conflicts | Generates valid waves, delegates only independent work, shares acquired evidence once, integrates screen and validates freshly; hosts without subagents explicitly execute sequentially |
+| Paired Figma plugin: “Use this selected frame.” | Local Pi bridge and user-paired Figma plugin, one selection | Checks session/document identity; saves fresh PNG/context through `acquire_figma_plugin` without UI navigation; root CSS optional, disconnects/edits/expired results stay explicit |
+| Background remote MCP: “Build this linked frame while Figma is closed.” | Connected eligible remote MCP, node link; no visible Figma window | Saves verified node PNG and scoped design context without UI copying or redundant CSS requests |
+| Background REST: “Build this linked frame.” | No remote MCP; REST token with file access | Uses `acquire_figma`; saves PNG and subtree styling at the same revision; no browser dependency |
+| Missing CSS: “Implement this PNG.” | Valid PNG/profile and structured styling, no CSS menu access | Continues implementation with existing properties; optional CSS does not trigger retries or block |
+| Reference reuse: “Use this frame again.” | Prior intake, unchanged/changed revision, corrupt PNG or failed live access | Reuses only verified unchanged bytes into a new directory; changes invalidate reuse; access failure never substitutes stale data |
+| No background access: “Build in background.” | Neither MCP nor token; access/rate-limit denial variants | One actionable access/input request; no screen takeover, repeated denial loop or invented success |
 | Clipboard reference: “Use Copy as PNG for this screen.” | Accessible target frame; clipboard-image capability available, unavailable or stale | Selects frame title/node; saves and validates new PNG bytes with source/scale evidence; rejects stale images; records fallback when copying is unavailable |
 | Clipboard styling: “Also collect CSS through the right-click menu.” | Frame and child nodes; clipboard text available, stale or unavailable | Saves PNG before CSS, retains fresh raw snippets and node coverage, supplements missing child properties, translates styling into Flutter and preserves app architecture |
-| Missing Figma assets: “Build this linked frame.” | Accessible frame but connector returns partial data; browser capability varies | Tries available connector then Playwright/browser; scoped batch originals with provenance and validation; one residual access/assets request; no invented successful download |
+| Missing Figma assets: “Build this linked frame.” | Accessible frame but connector returns partial data; browser capability varies | Uses available background routes before interactive fallback; scoped batch originals with provenance and validation; one residual access/assets request; no invented successful download |
 | Asset failures: “Use this export batch.” | Real font, duplicate PNG, HTML disguised as PNG, truncated font, SVG with external resources | Validator preserves originals, accepts supported bytes, lists each failure and duplicates; unsupported rendering remains explicit |
 | Animated state: “Match the loading frame at 250 ms.” | Perpetual spinner or caret; explicit state/clock | Prepared readiness captures the painted frame without a hidden settle/time advance; fresh evidence on failure |
 | Repair: “Fix the heading geometry; preserve the other regions.” | Two real captures with equal global pixel ratio but better required-region geometry | Records regional progress; protects passed regions, code validity and five-round/two-stall limits; retains source checkpoints |
@@ -46,3 +60,36 @@ Current local smoke results and limitations are recorded in
 [verification](verification.md). Live Figma recovery requires an actual link and
 connected tools; native profiling requires the target physical device. Cases
 without these prerequisites remain not-run.
+
+## Background intake validation scope
+
+`test/figma.test.ts` exercises simulated REST responses, immutable output,
+revision-pinned rendering, request counts, reuse invalidation, missing CSS,
+credential isolation, partial evidence and access failures. Package tests verify
+Pi tool discovery after relocation. These are implementation tests, not live
+Figma timings or independent assistant workflow evaluations. Live recovery and
+before/after speed measurements remain not-run without a frame link and
+configured authentication. `intake.json.elapsedMs` records actual tool duration
+when a live run is available; do not present mock timing as a service speedup.
+
+`test/figma-bridge.test.ts` exercises actual loopback HTTP pairing, binary PNG
+transfer, document/session binding, root CSS, wrong/expired messages, disconnects,
+profile review and shutdown. It also runs the bundled sandbox and UI scripts in
+VM environments with Figma/DOM test doubles. This checks protocol integration,
+not real Figma's sandbox, network permission prompts, app lifetime or speed.
+Those live checks remain not-run until a registered plugin and file are available.
+
+## Widget catalog validation scope
+
+`test/widget-catalog.test.ts` checks immutable PNG/crop provenance, exact and
+equal-size similarity retrieval, source freshness, cross-project flags, corrupt
+snapshots, incomplete records and independent registration. `test/widget-plan.test.ts`
+checks coverage, dependency barriers, ownership conflicts and worker evidence.
+The relocated Pi package test exercises all four tools over stdio MCP.
+
+These tests validate the toolkit, not host vision accuracy or autonomous Dart
+generation. Lexical overlap and pixel distance rank candidates; host review
+handles semantic recognition, parameters, responsive states and behavior.
+The Fieldnotes catalog demonstration uses existing design/source only. Its
+entries retain `verification: not-run`; no fresh Flutter/native check or
+end-to-end speedup is established by catalog registration.

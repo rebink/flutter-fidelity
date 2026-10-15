@@ -1,7 +1,27 @@
 {
   "name": "flutter-fidelity",
-  "version": "0.4.0",
-  "description": "Screenshot-first Flutter UI agent tools, visual verification and MCP",
+  "version": "0.9.0",
+  "description": "One Flutter UI skill with widget reuse, visual verification and MCP tools for Pi and other coding agents",
+  "keywords": [
+    "pi-package",
+    "pi-extension",
+    "flutter",
+    "visual-testing",
+    "mcp"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rebink/flutter-fidelity.git"
+  },
+  "homepage": "https://github.com/rebink/flutter-fidelity#readme",
+  "pi": {
+    "extensions": [
+      "./extensions/flutter-fidelity.js"
+    ],
+    "skills": [
+      "./skills/flutter-ui"
+    ]
+  },
   "type": "module",
   "license": "MIT",
   "bin": {
@@ -9,12 +29,17 @@
   },
   "files": [
     "dist",
+    "extensions",
+    "figma-plugin",
+    "src",
+    "tsconfig.json",
     "skills",
     "flutter/fidelity_harness/lib",
     "flutter/fidelity_harness/pubspec.yaml",
     "docs",
     "examples",
     "scripts/version.mjs",
+    "scripts/prepare-figma-plugin.mjs",
     "scripts/update.mjs",
     "CHANGELOG.md",
     "plugin.json",
@@ -35,7 +60,8 @@
     "update": "node scripts/update.mjs",
     "fixtures": "tsx scripts/fixtures.ts",
     "benchmark": "tsx scripts/benchmark.ts",
-    "prepack": "npm run version:check && npm run build"
+    "prepack": "npm run version:check && npm run build",
+    "prepare": "npm run build"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.32.1",

@@ -2,18 +2,17 @@
 
 ## Reference intake
 
-For a Figma link, follow [design intake and asset recovery](design-intake.md)
-before requesting manual files. Use a connected design tool for context/assets;
-prefer selecting each frame title and **Copy as PNG** through available
-Playwright/browser or app automation for the reference. Save and validate fresh
-clipboard PNG bytes, then use **Copy as code → CSS** and save verified text
-with its selected-node coverage. Use connector PNG/export or inspector properties
-when the corresponding clipboard capability is unavailable.
-Batch original assets, variants and available fonts, and record provenance in
-the optional [asset manifest](asset-manifest.template.json). If automation is
-unavailable, explain the missing connection/clipboard capability and batch one
-request for access or pasted frame PNGs and remaining assets. This is host
-assistant orchestration; the CLI/MCP does not implement browser or Figma access.
+For a Figma link, follow [design intake and asset recovery](design-intake.md).
+Default to browser-only Figma access: prefer a validated supplied PNG or
+connected remote MCP, then `acquire_figma` for background REST export and
+structured styling. No Figma desktop/plugin setup is required; an existing
+plugin is opt-in only when chosen by the user. Use UI/clipboard copying as
+a fallback or explicit user choice. CSS is optional; existing node properties
+can supply styling without menu retries. Verify saved PNG bytes, node/revision,
+logical dimensions and export scale. A repeated live request must check the
+revision before reference reuse; every intake/capture/report gets a new directory.
+Collect required original assets/fonts separately, recording provenance and
+remaining gaps. Batch one residual access/input request when routes are unavailable.
 
 Use `suggest_viewport` only to propose candidates. Establish the intended logical
 width/height and app-content crop once. Use a supplied profile or reliable
@@ -67,6 +66,7 @@ Use consistent deliverable formats without imposing a new app architecture:
 | Reference bundle | Immutable PNG/font/asset evidence in the CLI's existing schema |
 | Visual spec | Reviewed regions/layout and uncertainty in the strict VisualSpec schema |
 | Decision/work record | Evidence-based architecture, change map, resolved/delegated choices, actions and acceptance scenarios |
+| Widget marks/catalog/plan | Host-inferred regions, reusable source snapshots and explicit worker ownership; separate from VisualSpec and acceptance evidence |
 | App source | Formatted Dart in existing feature/layer boundaries; production asset/font declarations and route/DI integration |
 | Verification | Fresh capture/report folders, actual commands/results, behavior/accessibility/responsive checks and profile traces when available |
 | Handoff | Run instructions, app entrypoint, code/report paths, scope completed and precise blockers or failed/not-run checks |
@@ -148,6 +148,37 @@ Trace production contracts before integrated-feature work; prototype fixtures
 must be labeled. Record a small change map and region owners outside VisualSpec.
 Prefer the existing design system/state/layer conventions and the smallest
 structure justified by the feature. Do not introduce speculative layers.
+
+## Widget-first reuse and host delegation
+
+Before Dart edits, follow [the widget catalog workflow](widget-catalog.md).
+The host inspects the original PNG, infers region names/kinds and calls
+`mark_widgets`. Bounds are integer **original PNG pixels**, unlike VisualSpec's
+logical app-content coordinates. The resulting `marked.png` and crops help
+review/delegation; controls and text still require Flutter implementations.
+
+Call `find_widgets` against the app-local catalog, conventionally
+`<project>/.fidelity/widgets`, and inspect existing app components. Review source,
+parameters, variants and changed/missing-source flags before deciding `reuse`,
+`adapt` or `create`. Similar images are candidates, not identical widgets or
+proof of compatible behavior. Prefer a parameterized variant when the contract
+supports the differences; do not create one implementation per repeated region.
+
+Use `plan_widget_work` to cover every marked region, group repeated instances,
+validate dependency order and keep file ownership disjoint within each wave.
+The coordinator owns shared theme/contracts and final screen integration;
+workers own separate files such as `lib/widgets/summary_card.dart` under the
+app's existing structure. The default parallel limit is three. The host dispatches
+available authorized subagents; if unavailable, execute the plan sequentially.
+The CLI/MCP does not independently run models or implement Dart. Acquisition is
+shared once, with local PNG/context/assets passed to every worker.
+
+Integrate worker outputs, check actual behavior and run fresh analysis/tests and
+screen captures/comparisons. Record reusable implementations with
+`register_widget`: immutable entries contain `reference.png` and `widget.json`
+with snapshot/source hashes. Use a new unique ID for each variant or revision.
+A catalog entry is reusable evidence, not an independent visual/behavioral pass.
+Report measured timing only; parallel planning does not establish a speedup.
 
 ## Capture entrypoint
 

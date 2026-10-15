@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<style>
+  body { font: 13px/1.5 system-ui, sans-serif; margin: 18px; color: var(--figma-color-text, #222); background: var(--figma-color-bg, #fff); }
+  h1 { font-size: 17px; margin: 0 0 8px; }
+  label { display: block; margin-bottom: 5px; }
+  input { box-sizing: border-box; width: 100%; padding: 8px; }
+  button { margin: 10px 6px 0 0; padding: 7px 12px; }
+  #status { overflow-wrap: anywhere; }
+  small { display: block; margin-top: 12px; }
+</style>
+<h1>Flutter Fidelity Bridge</h1>
+<p>Start the bridge in Pi, then paste its pairing code.</p>
+<label for="code">Pairing code</label>
+<input id="code" type="password" autocomplete="off" spellcheck="false">
+<button id="connect">Connect</button><button id="disconnect" disabled>Disconnect</button>
+<p id="status" role="status">Waiting for a connection.</p>
+<small>Keep this plugin and file open. Only requested frames are exported to this computer.</small>
+<script>
+  const code = document.getElementById('code'), connect = document.getElementById('connect');
+  const disconnect = document.getElementById('disconnect'), status = document.getElementById('status');
+  let metadata, connection, activeJob;
+  const controllers = new Set();
+  function tell(message) { status.textContent = message; }
+  async function post(route, body) {
+    const current = connection;
+    if (!current) throw new Error('Not connected.');
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 30000);
+    controllers.add(controller);
+    try {
+      const response = await fetch('http://127.0.0.1:43871' + route, { method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + current.token },
+        body: JSON.stringify(body), signal: controller.signal });
+      if (response.status === 204) return null;
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || 'Bridge request failed.');
+      return result;
+    } finally { clearTimeout(timer); controllers.delete(controller); }
+  }
+  function reset(message) {
+    connection = undefined;
+    for (const controller of controllers) controller.abort();
+    if (activeJob) { clearTimeout(activeJob.timer); activeJob.reject(new Error('Disconnected.')); activeJob = undefined; }
+    connect.disabled = false; disconnect.disabled = true; tell(message);
+  }
+  async function poll(current) {
+    try {
+      while (connection === current) {
+        const job = await post('/poll', { sessionId: current.sessionId, metadata });
+        if (!job || connection !== current) continue;
+        tell('Exporting the requested frame…');
+        const result = await new Promise((resolve, reject) => {
+          const timer = setTimeout(() => { activeJob = undefined; reject(new Error('Figma export timed out. Reopen the plugin before retrying.')); }, 60000);
+          activeJob = { id: job.id, resolve, reject, timer };
+          parent.postMessage({ pluginMessage: { type: 'export', job } }, '*');
+        });
+        await post('/result', { sessionId: current.sessionId, id: job.id, ...result });
+        tell('Connected. Ready for the next request.');
+      }
+    } catch (error) {
+      if (connection === current) {
+        await post('/disconnect', { sessionId: current.sessionId }).catch(() => {});
+        reset('Disconnected: ' + error.message + ' Check Pi and Figma network permissions, then reconnect.');
+      }
+    }
+  }
+  window.onmessage = event => {
+    if (event.source !== parent) return;
+    const message = event.data.pluginMessage;
+    if (!message) return;
+    if (message.type === 'metadata') {
+      metadata = message.metadata;
+      if (connection?.sessionId) post('/metadata', { sessionId: connection.sessionId, metadata }).catch(() => {});
+    }
+    if (message.type === 'export-result' && activeJob?.id === message.id) {
+      const job = activeJob; activeJob = undefined; clearTimeout(job.timer);
+      if (message.error) { job.resolve({ error: message.error }); return; }
+      try {
+        const { pngBytes, ...result } = message.result;
+        const bytes = new Uint8Array(pngBytes);
+        if (bytes.byteLength > 32 * 1024 * 1024) throw new Error('PNG exceeds bridge size limit.');
+        let binary = '';
+        for (let i = 0; i < bytes.length; i += 32768) binary += String.fromCharCode(...bytes.subarray(i, i + 32768));
+        job.resolve({ result: { ...result, png: btoa(binary) } });
+      } catch (error) { job.resolve({ error: error.message }); }
+    }
+  };
+  connect.onclick = async () => {
+    const match = code.value.trim().match(/^43871\.([A-Za-z0-9_-]{32})$/);
+    if (!match) { tell('Paste the pairing code returned by figma_bridge start.'); return; }
+    if (!metadata) { tell('Figma is still loading. Try again.'); return; }
+    connect.disabled = true;
+    const current = { token: match[1] };
+    connection = current;
+    try {
+      const result = await post('/connect', metadata);
+      if (connection !== current) return;
+      current.sessionId = result.sessionId;
+      code.value = ''; disconnect.disabled = false;
+      tell('Connected to ' + metadata.documentName + '.');
+      void poll(current);
+    } catch (error) { reset('Could not connect: ' + error.message); }
+  };
+  disconnect.onclick = async () => {
+    if (connection?.sessionId) await post('/disconnect', { sessionId: connection.sessionId }).catch(() => {});
+    reset('Disconnected.');
+  };
+  parent.postMessage({ pluginMessage: { type: 'ready' } }, '*');
+</script>
+</html>

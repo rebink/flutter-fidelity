@@ -46,7 +46,7 @@ not universal requirements. Preserve screenshot authority and established behavi
 | Bounded visual review and recheck consumers of shared style changes | Chunky Tofu polish, kamranbekirovyz review | Existing five-round/two-stall repair and region regression rules retained |
 
 Implementation lives in [UI patterns](flutter-ui-patterns.md), loaded by topic.
-All four skills route to applicable guidance. [Architecture](flutter-ui-architecture.md)
+The flutter-ui skill routes to applicable internal guidance. [Architecture](flutter-ui-architecture.md)
 continues to own structure/state/token/layout rules. These are agent instructions,
 not added MCP schemas, automated gates or comparator policy changes.
 

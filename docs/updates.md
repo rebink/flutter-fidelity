@@ -1,6 +1,6 @@
 # Versions and updates
 
-Flutter Fidelity versions the CLI, plugin and four bundled skills together.
+Flutter Fidelity versions the CLI, plugin and the bundled flutter-ui skill together.
 `package.json` owns the release version; the lockfile, both plugin manifests and
 each skill's `metadata.version` must match it. CLI `--version` and the MCP
 handshake read that same package version. Comparison policies and evidence schema versions
@@ -13,6 +13,13 @@ finish with their matching tool release without a budget reset. Read
 [source binding](workflow.md#source-checkpoint-binding) before updating consumers.
 
 ## Users: check and update a source installation
+
+From 0.9.0, use `/skill:flutter-ui` in Pi for build, typography, repair and
+verification. The four former commands are replaced by this one entry. Update
+the whole package and reload the host so skill discovery refreshes. If you
+previously copied individual skills into another directory manually, remove
+those obsolete copies through your host's normal skill management; this package
+does not edit unrelated or globally installed skills.
 
 Run these commands in the Flutter Fidelity clone used by your local installation:
 
@@ -87,7 +94,7 @@ the automatic updater deliberately leaves them pinned. No tag is created by
 Use stable semantic versions: patch for compatible fixes/clarifications, minor
 for added compatible capabilities, and major for incompatible public contracts.
 During 0.x development, document any compatibility break prominently, even if
-released in a minor version. Keep the four skills on one release train because
+released in a minor version. Keep the skill and its internal guides on one release train because
 they share documentation and tooling.
 
 ```sh
