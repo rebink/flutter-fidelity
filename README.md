@@ -99,6 +99,11 @@ verify an Android, iOS, desktop, or web build.
 
 ## What happens during a task
 
+For a design-driven build, the agent first checks for a PNG or Figma URL and
+requests one if missing. It then asks whether you want to review the UI approach
+and widget list or proceed without widget review. A choice already given for
+the task carries forward.
+
 The agent reads the design and traces a comparable feature in your app before
 editing Dart. It follows your existing architecture, state management, routes,
 and theme. Prototype data stays labeled; integrated features use the app's
@@ -109,6 +114,12 @@ reviews similar components. Catalog entries keep reference crops, Dart symbols,
 parameters, variants, and source hashes. Repeated instances can share one
 implementation. Independent widget jobs can run through the host's subagents;
 hosts without delegation follow the same plan sequentially.
+
+Before implementation, you get a brief layout idea and a list of widgets to
+create, reuse or adapt, including existing component names/source paths and
+reasons. If you choose review, the agent resolves your feedback and waits for
+approval of the updated plan before editing app code or assigning implementation
+workers. If you skip review, it shares the summary and continues directly.
 
 The agent then runs the relevant checks, captures the implemented screen, and
 compares it against the original PNG. Repair rounds keep fresh captures and a
@@ -152,6 +163,14 @@ existing components before asking for the remaining decisions in a batch.
 Each comparison produces an HTML report with overlays, blink inspection,
 difference maps, region metrics, and the capture environment. It retains failed,
 incomplete, and untested evidence.
+
+The agent presents the original design and generated Flutter UI side by side,
+with image/report links and a **visual fidelity percentage** calculated as
+`100 × (1 − tolerant pixel mismatch ratio)`. This percentage describes pixel
+agreement; the separate visual and product statuses still account for required
+regions, geometry, text and executed checks. Missing measurements show **N/A**;
+percentages with incomplete verification are labeled diagnostic. See
+[comparable results](docs/workflow.md#comparable-results) for presentation details.
 
 | Comparison exit code | Meaning |
 | --- | --- |

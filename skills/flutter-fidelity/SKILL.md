@@ -35,6 +35,14 @@ For mixed requests, carry the same inputs, contracts and evidence across stages.
 | Fix layout/styling or improve an existing comparison result | [Repair](references/repair.md) | Typography when text is a cause; fresh verification of the selected source |
 | Review, test, compare or deliver existing UI | [Verification](references/verification.md) | Repair only for issues within the authorized scope |
 
+For design-driven builds, first check for a supplied PNG or Figma URL, then ask
+whether the user wants to review the widget plan or proceed without that review.
+Follow [reference and widget-plan review](references/docs/design-clarification.md#reference-and-widget-plan-review):
+explain the screen composition and list new, reused and adapted widgets before
+implementation. In review mode, resolve feedback and wait for approval before
+Dart edits or implementation workers; a confirmed skip choice needs no plan approval.
+Carry forward an explicit review/skip choice already given for this task.
+
 An existing report or usable reference can start a repair/verification directly.
 Keep valid acquisition evidence shared across workers. Do not start a new Figma
 export or full implementation merely to enter another stage. A request limited
@@ -45,9 +53,10 @@ to review produces findings; it does not authorize source changes by itself.
 Use [task modes](references/docs/design-clarification.md#task-modes) to distinguish
 a visual prototype, integrated feature and behavior-preserving repair. Reuse
 the app's architecture, theme, components and established state/data owners.
-Ask only for missing product semantics, access or scope that affects the result;
-continue independent work while waiting. Carry authorized implementation through
-integration, relevant checks, capture and bounded repair.
+Ask only for missing product semantics, access or scope that affects the result,
+plus the required review choice. Continue independent work within any pending
+widget-review limits. Carry authorized implementation through integration,
+relevant checks, capture and bounded repair.
 
 For widget work, search the [catalog](references/docs/widget-catalog.md) before Dart
 edits and group repeated instances. Use available authorized host subagents for
@@ -60,7 +69,13 @@ controls/text with reference crops. Preserve failed, incomplete and not-run evid
 Widget captures alone do not establish native-platform or behavioral acceptance.
 
 Deliver runnable source or the requested review, relevant reference/report paths,
-actual checks and unresolved issues. At handoff offer
+actual checks and unresolved issues. Always present UI results using
+[comparable results](references/docs/workflow.md#comparable-results): original
+design and generated Flutter capture side by side, a measured visual fidelity
+percentage, separate visual/product statuses and remaining differences. Show
+the images in the host when supported; do not deliver only report paths. Missing
+capture/comparison evidence must show pending/unavailable, never an invented score.
+At handoff offer
 [temporary screenshot cleanup](references/docs/workflow.md#temporary-screenshot-cleanup)
 once only when eligible files exist; preserve originals and retained evidence and
 delete only after agreement.

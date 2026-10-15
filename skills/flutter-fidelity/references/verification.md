@@ -12,6 +12,14 @@ Verify the requested mode and scope from [task modes](docs/design-clarification.
 
 Deliver code and architecture/integration evidence, actual/reference/diff/overlay reports, environment, independent acceptance outcomes and unresolved issues. If producing an APK after integration testing, rebuild with the production entrypoint; a test APK is not the app deliverable. Check dependency paths in portable source bundles. Supplemental previews must be labeled.
 
+Always follow [comparable results](docs/workflow.md#comparable-results): show the
+original design and generated capture side by side, and report visual fidelity
+as `100 * (1 - metric.tolerantRatio)` from the matching `comparison.json`.
+Include separate visual/product statuses and remaining differences even when
+the percentage is high. Missing measurements stay N/A; measured pixels with
+incomplete evidence are diagnostic. A report path alone is insufficient when
+the host can display the comparison.
+
 Verify the selected report's [source checkpoint](docs/workflow.md#source-checkpoint-binding) against the delivered project before fresh recapture. Retain manifest/snapshot; mark legacy source binding unavailable. A visual-best candidate with failed product checks is diagnostic evidence, not the delivery choice.
 
 At handoff offer [temporary screenshot cleanup](docs/workflow.md#temporary-screenshot-cleanup) once for eligible generated files, with count/size/paths. Preserve reference and required final/failure evidence; delete only after agreement.

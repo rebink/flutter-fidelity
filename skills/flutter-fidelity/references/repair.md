@@ -15,4 +15,10 @@ For each candidate:
 
 Stop after five captures or two stalls, restore only the selected owned candidate, and run `verify_source_checkpoint` on `bestSourceCheckpoint` before fresh analysis/tests/recapture. Legacy evidence without a snapshot cannot prove source identity. Deliver matching source/report and remaining differences. Known product failures cannot count as success; unrun checks stay incomplete. Behavioral fixes after the repair budget still require fresh verification; identify how their pixels differ from the retained candidate, without treating extra visual tuning as verification.
 
+Present [comparable results](docs/workflow.md#comparable-results) for the delivered
+source/report pair: original design beside the fresh generated capture, measured
+visual fidelity percentage, visual/product statuses and remaining differences.
+If showing before/after percentages, use compatible references/profiles/policies
+and clearly identify each report; rejected visual-best results remain diagnostic.
+
 At handoff use [temporary screenshot cleanup](docs/workflow.md#temporary-screenshot-cleanup) once, with inventoried disposable files and size. Delete only after agreement and preserve retained evidence.

@@ -6,6 +6,13 @@ available authorized subagents. The CLI/MCP records evidence and validates work
 plans; it is not an independent model runner. Execute the same plan sequentially
 when delegation is unavailable.
 
+For design-driven builds, apply [reference and widget-plan review](design-clarification.md#reference-and-widget-plan-review)
+first. Component inspection and catalog lookup can inform the proposal while
+review is pending. Show the screen approach and new/reused/adapted widget list;
+app edits and implementation workers start only after plan approval or an
+explicit choice to proceed without widget review. Planner validation alone
+does not establish user approval.
+
 Keep the catalog in `<project>/.fidelity/widgets` by convention. Pass its path
 explicitly; this is not a global installation or an implied tool default. Keep
 runtime Dart in the app's existing structure, often `lib/widgets/`. The catalog

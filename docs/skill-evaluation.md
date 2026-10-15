@@ -13,8 +13,18 @@ continue through the needed stages without asking the user to switch skills.
 
 ## Realistic cases
 
+For design-driven builds, exercise the reference check and review choice before
+implementation. Set an explicit review/skip answer in fixtures for cases focused
+on later stages. The cases below describe expected behavior, not completed runs.
+
 | Case and prompt | Setup | Required observable result |
 | --- | --- | --- |
+| Missing reference: “Build the new screen.” | No PNG, Figma URL or prior reference; unrelated images in the repo | Requests the intended PNG/path or Figma URL before asking about widget review; does not invent a reference or edit app code |
+| Review choice: “Implement this design.” | Supplied PNG or Figma URL; no review preference; unanswered/preselected option | After confirming reference presence, offers review or skip; inspection may proceed, but no app edits or implementation workers until a submitted choice |
+| Widget plan feedback: “Let me review the widgets first.” | Valid reference, existing app/catalog; user requests a change without approving | Explains composition; lists create/reuse/adapt decisions with actual symbols/paths and reasons; revises for feedback; keeps app source and implementation workers pending until current plan is approved |
+| Skip widget review: “Use this PNG and proceed without widget review.” | Valid PNG and known app contracts; explicit skip choice | Does not ask the choice again; shares a brief approach/widget list, then implements and verifies without plan approval; required input/behavior gaps still stay pending |
+| Reference unavailable: “Build this Figma frame; skip review.” | Present URL but denied access or invalid exported PNG | Distinguishes URL presence from validated evidence; reports access/input gap without invented widget matches, stale references or design-dependent implementation |
+| Review resolved: “Approved, implement that plan.” | Current plan and feedback resolved in prior turns | Carries decisions forward without repeating intake or review selection, then builds and verifies; explicit switch from review to skip also releases the plan pause |
 | Prototype: “Build this screen as a visual prototype; use local display fixtures.” | PNG, logical viewport, original assets/fonts; no backend | Builds without blocking on irrelevant API questions; typed fixtures/callbacks; actual control behavior; capture and honest comparison |
 | Integrated form: “Implement this design in the existing account feature.” | Existing route/state/repository; Arabic locale, theme, keyboard and validation | Reuses those owners and localization; app adapter preserves keyboard/insets/route; editable and masked text evidence; submission uses established contract |
 | Widget reuse: “Build these repeated cards using our existing widgets.” | One reference PNG, reviewed marks, catalog with exact/similar candidates and changed/missing source variants | Searches before Dart edits; checks current APIs and source hashes; groups repeated instances; reuses/adapts compatible code rather than copying reference crops into UI |
@@ -34,9 +44,12 @@ continue through the needed stages without asking the user to switch skills.
 | Product regression: “Make this closer without breaking submission.” | Prior passing action/accessibility/responsive checks; a candidate with better pixels but failed or unrun checks | Retains safe code/report, reports lost checks, tracks visual-best separately and cannot stop on a known product failure |
 | Source restoration: “Deliver the best repair candidate.” | Scoped source-bound captures, owned new/deleted files and an unrelated user edit | Retains report snapshot, restores only owned files, verifies source hashes before fresh recapture and preserves unrelated work; legacy binding stays unavailable |
 | Performance: “Optimize this scrolling view.” | Fixed dataset, physical device, native profile mode | Comparable repeated before/after traces and frame distributions, sample counts and memory limits; no debug-derived speedup claim |
-| Handoff and cleanup: “Finish and give me the result.” | Reports, original PNGs, final capture, redundant temporary previews | Reports failed/incomplete checks honestly; offers exact eligible count/bytes/paths once; deletes only agreed temporary files |
+| Comparable result: “Finish and show me the result.” | Original PNG, fresh source-bound capture and selected report with `metric.tolerantRatio: 0.01234`; image-capable host | Shows labeled original/generated images together at equal display scale, reports 98.766% visual fidelity, separate visual/product statuses, remaining differences and matching image/HTML/JSON links; works after skip-review too |
+| High agreement with failure: “How close is it?” | High pixel agreement but a failed required region or product check; a rejected higher-scoring candidate | Uses the delivered source/report pair; preserves failures next to the percentage and does not substitute the rejected candidate or call the result accepted |
+| Missing comparison evidence: “Show the result and fidelity.” | Capture failure, incompatible dimensions, pending widget approval or unavailable image display; separate measured-but-incomplete variant | Shows available genuine image and labels missing panel pending/unavailable; score N/A with reason when unmeasured, diagnostic when pixels exist but verification is incomplete; no stale/simulated capture or fabricated score; image-display limitation has labeled links/report fallback |
+| Handoff and cleanup: “Finish and give me the result.” | Reports, original PNGs, final capture, redundant temporary previews | Includes original/generated comparison and measured percentage or explicit N/A; reports failed/incomplete checks honestly; offers exact eligible count/bytes/paths once; deletes only agreed temporary files |
 
-The first two cases should include narrow/wide layouts, large text, loading,
+The prototype and integrated-form cases should include narrow/wide layouts, large text, loading,
 empty/error states and a concrete action assertion. Do not mark a stage passed
 because its prompt was followed superficially: inspect source ownership, run
 checks, view the PNG and read the comparison report.

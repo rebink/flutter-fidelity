@@ -2,6 +2,14 @@
 
 ## Reference intake
 
+For design-driven builds, first check that the intended PNG or Figma URL is
+present, requesting it if missing. Then ask whether the user wants to review
+the UI approach and widget list or proceed without widget review, carrying
+forward an explicit choice already made for this task. Follow
+[reference and widget-plan review](design-clarification.md#reference-and-widget-plan-review)
+before implementation; reference acquisition and inspection can continue while
+the choice is pending.
+
 For a Figma link, follow [design intake and asset recovery](design-intake.md).
 Default to browser-only Figma access: prefer a validated supplied PNG or
 connected remote MCP, then `acquire_figma` for background REST export and
@@ -31,22 +39,30 @@ scale/aspect ratio. Cached bundles work offline.
 
 ## Confirm implementation intent
 
+After validating the reference and inspecting existing components, explain the
+screen composition and list widgets to create, reuse or adapt with concrete
+source names/paths and reasons. In review mode, resolve feedback and obtain
+approval of the current plan before app edits or implementation delegation.
+In skip mode, share the summary and proceed without a plan-approval pause.
+
 Read [design clarification](design-clarification.md) before implementing behavior
 or chart/data choices that are not established by the screenshot or prior task
 answers. Inspect existing dependencies, components and application contracts
 first. Ask focused questions for the remaining gaps, record the developer's
 decisions, and wait for required answers before dependent implementation.
-Independent visual inspection, asset inventory and confirmed layout work can
-continue. The PNG is the authority for appearance; the developer/application
-contracts establish behavior. This is an agent workflow, not an automatically
+Independent visual inspection and asset inventory can continue; layout
+implementation must also respect any pending widget-plan review. The PNG is the
+authority for appearance; the developer/application contracts establish behavior.
+This is an agent workflow, not an automatically
 enforced CLI/MCP decision gate.
 
 ## Autonomous execution and delivery
 
 Execute the authorized workflow end to end: recover inputs, establish the visual
 and feature contract, implement through the app's architecture, integrate, test,
-capture, compare and repair within the existing budget. Do not stop at a plan,
-asset inventory or isolated preview when the task requests a working feature.
+capture, compare and repair within the existing budget. Once widget-plan review
+is approved or explicitly skipped, do not stop at a plan, asset inventory or
+isolated preview when the task requests a working feature.
 Use existing decisions and delegated engineering choices without asking for
 approval at every stage. Batch only unresolved questions that change the outcome;
 continue independent work while a required answer or access action is pending.
@@ -69,7 +85,7 @@ Use consistent deliverable formats without imposing a new app architecture:
 | Widget marks/catalog/plan | Host-inferred regions, reusable source snapshots and explicit worker ownership; separate from VisualSpec and acceptance evidence |
 | App source | Formatted Dart in existing feature/layer boundaries; production asset/font declarations and route/DI integration |
 | Verification | Fresh capture/report folders, actual commands/results, behavior/accessibility/responsive checks and profile traces when available |
-| Handoff | Run instructions, app entrypoint, code/report paths, scope completed and precise blockers or failed/not-run checks |
+| Handoff | Original/generated UI comparison, measured visual fidelity percentage, run instructions, app entrypoint, code/report paths, scope completed and precise blockers or failed/not-run checks |
 
 Apply [rendering cost guidance](flutter-ui-architecture.md#rendering-cost) during
 implementation and the optimization evidence loop before claiming improvements.
@@ -84,6 +100,56 @@ independent work and state the exact missing input and next resumption step.
 “Implemented,” “visually passed,” “behavior verified” and “performance measured”
 are separate outcomes. Unavailable fonts, access, native devices or profiling
 must remain explicit; autonomy does not turn missing evidence into a pass.
+
+### Comparable results
+
+Always include a visual comparison and fidelity result when handing off UI work
+or presenting a requested implementation/repair result. This applies even when
+the user skipped widget-plan review, the visual gate failed or repair exhausted
+its budget. Keep results separate per screen/state and capture platform; do not
+average away failed screens or substitute the highest-scoring rejected candidate.
+
+Show **Original design** on the left and **Generated Flutter UI** on the right
+using the selected report's `artifacts.reference` and `artifacts.actual`, resolved
+relative to its directory. The reference is the compared design PNG, including
+only the already confirmed content crop; link the unchanged supplied original
+separately if it differs. For Figma, use the validated frame export rather than
+an editor screenshot. Label the screen/state, logical viewport, export scale and
+capture platform. The generated image must match the delivered source and selected
+report; after source restoration use the fresh verified recapture/report.
+
+Display the paired images inline when the host supports it, for example in a
+two-column image table, or open the existing report's `index.html` in an available
+preview/browser panel. Keep both panels at the same display scale and preserve
+aspect ratios; allow full-resolution inspection. Display scaling must not change
+the saved images or measurements. Never resize, align or crop comparison inputs
+to disguise geometry errors. Link the image files and HTML/JSON reports as well.
+If the host cannot show images, explicitly state that limitation and provide the
+comparison report plus clearly labeled image links; do not claim they were shown.
+
+Read `comparison.json` from that same selected report and calculate:
+
+```text
+Visual fidelity (tolerant pixel agreement) % = 100 * (1 - metric.tolerantRatio)
+```
+
+Use the raw ratio in [0, 1], then round the percentage to three decimals. For
+example, a ratio of `0.01234` gives `98.766%`. This is a presentation of an
+existing pixel metric, not a new acceptance gate or model-generation accuracy
+score. Do not estimate it by eye, use catalog similarity, blend it with SSIM or
+infer full acceptance from a high percentage. A rounded 100% is not proof of
+exact equality; use `exactPixelEquality` for that claim. Report policy/version,
+`status` (visual), `acceptance.status` when available, key failed/incomplete
+regions and remaining differences alongside the percentage. Keep behavior,
+accessibility, responsive and native-platform outcomes explicit.
+
+If pixels were measured but required evidence is incomplete, label the percentage
+**diagnostic; verification incomplete**. When comparison did not run, dimensions
+are incompatible or no valid finite ratio exists, report **Visual fidelity: N/A**
+with the reason. Show whichever genuine image is available and label the missing
+panel **pending/unavailable**; never use a stale capture, create a simulated
+result or report 0%/100% for missing evidence. Before implementation or while
+widget approval is pending, the generated panel and score remain pending.
 
 ### Temporary screenshot cleanup
 

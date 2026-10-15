@@ -7,6 +7,55 @@ is tappable, what a chart range means, which data feeds it, or which library the
 application uses. Resolve those decisions with repository evidence and the
 developer before implementing the affected part.
 
+## Reference and widget-plan review
+
+Apply this sequence to design-driven builds before Dart edits or implementation
+delegation. Existing review-only, typography or repair tasks can use their
+established reference/report without restarting build intake.
+
+1. **Check the reference first.** Look in the request, attachments, supplied paths
+   and prior task evidence for a PNG or Figma URL that identifies the intended
+   screen/frame. If neither is present, ask for a PNG attachment/path or Figma
+   frame URL and keep design-dependent implementation pending. Use a channel
+   that supports attachments when requesting a file; text-only tools can request
+   paths or URLs. If multiple inputs conflict or the target is unclear, resolve
+   that scope before planning. A URL's presence does not prove access, and a
+   filename does not prove valid PNG bytes; follow [design intake](design-intake.md)
+   to validate the actual reference before making design claims.
+2. **Ask about review after confirming presence.** Ask: “Would you like to monitor
+   the UI approach and review the new/reused widget list before implementation,
+   or should I proceed without widget review?” Offer “Review widget plan” and
+   “Proceed without widget review”. Carry forward an explicit choice already
+   supplied for this task instead of asking again. While awaiting a choice,
+   inspect the design and repository, validate inputs and search components;
+   keep implementation pending. Silence, elapsed time and a preselected option
+   do not select either mode.
+3. **Prepare a basic implementation idea.** Inspect the validated PNG and current
+   app/catalog before naming reuse candidates. Explain the screen structure,
+   layout/scrolling approach, theme/assets and known data/action integration in
+   a few sentences. Include a concise widget list or table covering the planned
+   screen regions: proposed widget name, `create`, `reuse` or `adapt`, existing
+   symbol and source path for reuse/adaptation, and a short reason or required
+   change. Group repeated instances; say when no compatible component exists.
+   List unresolved required decisions explicitly. This summary belongs alongside
+   the decision/work record, outside the strict VisualSpec and planner schemas.
+4. **Follow the chosen mode.** In review mode, present that concrete plan and ask
+   for feedback or approval. Revise it to address feedback, summarize changes,
+   and wait until the user approves the current plan and required feedback is
+   resolved. Feedback alone is not approval unless it also authorizes proceeding.
+   Before then, limit work to inspection, measurement, asset inventory and plan
+   preparation; do not edit app code or dispatch implementation workers. If the
+   user explicitly switches to proceeding without review, record that choice.
+   In skip mode, share the brief approach/widget list as an informational update
+   and continue without a plan-approval pause. Skipping widget review does not
+   resolve unknown behavior, unavailable required assets or other required inputs.
+5. **Implement and verify.** Once the selected mode permits implementation and
+   required inputs are resolved, carry the build through integration and fresh
+   verification. Revisit the plan if user feedback or new evidence changes the
+   approved widget scope; routine implementation choices within it need no new
+   approval. “Monitor” means this pre-implementation review, not a scheduled
+   monitoring task or approval for every widget or repair round.
+
 ## Task modes
 
 Infer and record the mode from the user's request; do not force a mode-selection
@@ -20,8 +69,9 @@ question when intent is clear. Carry the chosen mode through verification.
 
 An existing app defaults to integrated-feature mode when production integration
 is requested; its mere presence does not turn an explicitly requested prototype
-into backend work. If scope is genuinely ambiguous, implement independent pure
-view components and ask one focused question before committing to unknown logic.
+into backend work. If scope is genuinely ambiguous, ask one focused question
+before committing to unknown logic. Implement independent pure view components
+only after the widget-review choice permits implementation.
 Fixtures and traces in prototype mode must be named as such in source and delivery;
 they never count as recovered original data or verified production behavior.
 For integrated mode, fixtures belong at existing test injection boundaries.
@@ -113,7 +163,8 @@ format and rendering details only where needed:
 - Alternate light/dark/selected variants and reuse rights when not established.
 
 Record the supplied source or approved alternative and its limits in the decision
-record. Continue independent layout work while this asset is pending. Use a
+record. Continue independent layout work while this asset is pending if the
+widget-review choice permits implementation. Use a
 placeholder only if explicitly allowed, and keep it identified as a placeholder
 in verification. Never present a substitute as the exact original, or create a
 hand-drawn/library/downloaded replacement just to avoid asking the developer.
@@ -126,9 +177,10 @@ optional format; an existing issue/spec can serve the same purpose. This is an
 agent-maintained record, not a new CLI/MCP schema or automatically enforced gate.
 
 Wait for required answers before implementing dependent behavior/data/package
-choices, including unresolved required assets. Continue work that does not depend on them, such as visual measurement,
-asset inventory and confirmed layout. Elapsed time and an unsubmitted default
-option are not answers. If the developer explicitly delegates a choice, record
+choices, including unresolved required assets. Continue work that does not depend
+on them, such as visual measurement and asset inventory; confirmed layout can be
+implemented only when the widget-review choice permits it. Elapsed time and an
+unsubmitted default option are not answers. If the developer explicitly delegates a choice, record
 that delegation and the concrete choice; otherwise retain it as unresolved.
 
 Do not invent production callbacks, data sources or chart semantics to make
