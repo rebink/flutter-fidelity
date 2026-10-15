@@ -21,8 +21,10 @@ pi install --local git:github.com/rebink/flutter-fidelity
 
 Restart Pi after installation. Project packages load after Pi's project trust
 step. Use `pi list` to check the installation and `/mcp` to check the
-`flutter-fidelity` server. The extension uses direct tool exposure. Pi may
-prefix tool names with the server namespace.
+`flutter-fidelity` server. The extension leaves tool exposure to the host's MCP
+integration and its settings. Pi may prefix tool names with the server namespace
+or require discovery through its available MCP tools. Where supported, `/mcp`
+lets you inspect or change tool exposure.
 
 For a local clone, first run `npm ci` in the clone; its prepare hook builds
 `dist`. Then, from your Flutter project:
@@ -139,6 +141,10 @@ or commit stays pinned. Local clones use the [source updater](updates.md).
   then rerun `pi install --local git:github.com/rebink/flutter-fidelity` from
   your Flutter project. A global TypeScript installation is unnecessary.
 - **Node not found:** make Node available on the PATH used to launch Pi.
+- **`ignored settings exposure: direct`:** version 0.10.2 removes the optional
+  exposure override that some MCP integrations ignore on registered servers.
+  Update the package and run `/reload` or restart Pi. The warning alone does not
+  establish a failed connection; check the server's connection state in `/mcp`.
 - **Missing Flutter or capture tooling:** use `doctor` and the
   [setup guide](setup.md); the extension does not change your SDK.
 

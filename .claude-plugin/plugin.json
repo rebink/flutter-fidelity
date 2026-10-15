@@ -1,6 +1,6 @@
 {
   "name": "flutter-fidelity",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "description": "Build, reuse, fix and verify Flutter UI from screenshots and Figma designs.",
   "author": {
     "name": "Flutter Fidelity contributors"

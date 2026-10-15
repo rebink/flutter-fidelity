@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.10.2 - Unreleased
+
+- Remove `exposure: "direct"` from the Pi adapter. Some MCP integrations warn
+  that this setting is ignored on extension-registered servers. Tool exposure
+  now follows the host's configuration; command, arguments, workspace behavior
+  and the capture timeout retain their existing values.
+- Tighten the relocated Pi package test to reject ignored registration settings
+  before starting the real MCP server and exercising its tools.
+
 ## 0.10.1 - Unreleased
 
 - Fix fresh Pi Git installations failing with `tsc: command not found`.

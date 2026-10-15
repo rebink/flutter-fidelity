@@ -19,7 +19,8 @@ export default function flutterFidelity(pi) {
     command: 'node',
     args: [cli, 'mcp'],
     // Inherit the Pi workspace, never the installed package's directory.
-    exposure: 'direct',
+    // Leave tool exposure to the host. Some MCP integrations ignore this option
+    // on extension-registered servers and warn when an extension supplies it.
     // Capture runs SDK probing, analysis and Flutter tests (up to 5m each by default).
     timeout: 1200,
     description: 'Flutter Fidelity: background PNG/styling intake, widget snapshots and source-aware reuse catalog, parallel widget work plans, Flutter captures, visual reports and source-bound repair. Use the flutter-fidelity skill; host agents own inference and Dart edits. Missing native or behavioral evidence remains incomplete.',

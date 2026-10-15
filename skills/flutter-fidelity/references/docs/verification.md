@@ -1,5 +1,32 @@
 <!-- Generated from docs/verification.md by npm run skill:sync. -->
 
+# Verification record - 15 October 2026 (0.10.2)
+
+Pi adapter compatibility for the reported `ignored settings exposure: direct`
+warning. The optional exposure override is omitted; the host controls discovery
+and exposure through its MCP integration.
+
+| Check | Result |
+| --- | --- |
+| `npm run check` | 133 passed, including TypeScript, production-only source preparation and relocated package/MCP coverage |
+| Registration compatibility | The Pi package test models a consumer that rejects unsupported registration keys; the adapter supplies only command, arguments, description and timeout |
+| MCP behavior | The resulting command connects, discovers eighteen tools, imports and inspects a reference, exercises the widget catalog/planner, and retains incomplete/error evidence |
+| Capture timeout and workspace | The 1200-second request timeout remains; the adapter still inherits the app workspace |
+| User's live Pi integration and native Flutter checks | Not-run locally; the reported warning identifies the ignored option, and tests verify registration without it |
+
+The current [Pi MCP documentation](https://pi.dev/docs/latest/mcp#control-tool-exposure)
+supports exposure configuration, but the reported host ignores the option on this
+extension registration. No particular Pi version or replacement MCP integration
+is inferred from that warning. Omitting it lets the host use its own settings.
+Check `/mcp` after reloading to confirm the actual connection and exposed tools.
+
+Local evidence: `.fidelity/pi-exposure-0.10.2-20261015-1/check.log`.
+No image, Dart or fidelity policy changes were made.
+
+Earlier records below are historical.
+
+---
+
 # Verification record - 15 October 2026 (0.10.1)
 
 Fix for Pi source installation with omitted development dependencies.

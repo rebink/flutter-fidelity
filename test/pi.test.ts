@@ -52,12 +52,19 @@ test('packed Pi extension runs its MCP tools from a different workspace', async 
 
   const extension = (await import(pathToFileURL(path.join(installed, pkg.pi.extensions[0])).href)).default;
   assert.throws(() => extension({}), /requires Pi with native MCP/);
-  const registrations: { name: string; config: { command: string; args: string[]; cwd?: string; exposure: string } }[] = [];
-  extension({ registerMcpServer: (name: string, config: typeof registrations[number]['config']) => registrations.push({ name, config }) });
+  const registrations: { name: string; config: { command: string; args: string[]; cwd?: string; timeout: number; description: string } }[] = [];
+  extension({ registerMcpServer: (name: string, config: typeof registrations[number]['config']) => {
+    // Model the narrower registration contract behind the reported warning.
+    // The accepted transport config must still launch the real MCP server below.
+    const supported = new Set(['command', 'args', 'cwd', 'timeout', 'description']);
+    const ignored = Object.keys(config).filter(key => !supported.has(key));
+    assert.deepEqual(ignored, [], 'MCP registration must not send ignored host settings');
+    registrations.push({ name, config });
+  } });
   assert.equal(registrations.length, 1);
   const { name, config } = registrations[0]!;
   assert.equal(name, 'flutter-fidelity');
-  assert.equal(config.exposure, 'direct');
+  assert.equal(config.timeout, 1200, 'preserve the Flutter capture request timeout');
   assert.equal(config.cwd, undefined, 'inherit the user workspace, not the installed package');
 
   const workspace = path.join(root, 'user workspace');
