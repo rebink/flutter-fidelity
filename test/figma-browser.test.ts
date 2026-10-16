@@ -21,6 +21,9 @@ const recipe = {
 
 test('browser schema bounds workers/scope and MCP exposes background intake without credentials', async () => {
   assert.equal(FigmaBrowserSchema.parse({ url, out: 'new' }).concurrency, 3);
+  assert.equal(FigmaBrowserSchema.parse({ url, out: 'new' }).headless, true);
+  assert.equal(FigmaBrowserSchema.parse({ url, out: 'new', headless: false }).headless, false);
+  assert.equal(FigmaBrowserSchema.safeParse({ url, out: 'new', headless: 'false' }).success, false);
   for (const concurrency of [0, 7, 2.5]) assert.equal(FigmaBrowserSchema.safeParse({ url, out: 'new', concurrency }).success, false);
   const client = new Client({ name: 'browser-tools', version: '1' }), server = createServer();
   const [a, b] = InMemoryTransport.createLinkedPair();
@@ -29,7 +32,7 @@ test('browser schema bounds workers/scope and MCP exposes background intake with
     const tool = (await client.listTools()).tools.find(tool => tool.name === 'acquire_figma_browser');
     assert.ok(tool);
     assert.ok(!('storageState' in tool.inputSchema.properties!));
-    assert.ok(!('headless' in tool.inputSchema.properties!));
+    assert.equal((tool.inputSchema.properties!.headless as { default: boolean }).default, true);
     const result = await client.callTool({ name: 'acquire_figma_browser', arguments: { url, out: 'unused', concurrency: 20 } });
     assert.equal(result.isError, true);
   } finally { await client.close(); await server.close(); }
@@ -56,10 +59,13 @@ test('parallel headless acquisition preserves node identity, exact exports and i
     if (previous === undefined) delete process.env.FIGMA_BROWSER_STORAGE_STATE; else process.env.FIGMA_BROWSER_STORAGE_STATE = previous;
     await fs.rm(root, { recursive: true, force: true });
   });
-  let deny = 0, invalidPNG = false, missingPanel = false, wrongNode = false, hang = false;
+  let deny = 0, invalidPNG = false, missingPanel = false, wrongNode = false, hang = false, signIn = false;
   let exports = 0, contextsCreated = 0;
   const navigations: string[] = [];
-  const launch = async () => {
+  const launchModes: boolean[] = [];
+  const launch = async ({ headless }: { headless: boolean }) => {
+    launchModes.push(headless);
+    // Exercise mode propagation without opening a real window in automated tests.
     const browser = await chromium.launch({ headless: true, channel });
     browsers.push(browser);
     const original = browser.newContext.bind(browser);
@@ -75,6 +81,12 @@ test('parallel headless acquisition preserves node identity, exact exports and i
           if (!route.request().isNavigationRequest()) { await route.fulfill({ body: '' }); return; }
           navigations.push(requestURL.searchParams.get('node-id') || '');
           if (deny) { await route.fulfill({ status: deny, body: 'Access blocked' }); return; }
+          if (signIn) {
+            await route.fulfill(requestURL.pathname === '/login'
+              ? { contentType: 'text/html', body: '<input type="password">' }
+              : { status: 302, headers: { location: 'https://www.figma.com/login' } });
+            return;
+          }
           const initial = wrongNode ? '9:99' : requestURL.searchParams.get('node-id')!.replace('-', ':');
           await route.fulfill({ contentType: 'text/html', body: `<!doctype html><html><body>
             <main id="editor">
@@ -112,6 +124,8 @@ test('parallel headless acquisition preserves node identity, exact exports and i
     assert.equal(result.profileStatus, 'needs-review');
     assert.ok(Number(result.peakWorkers) >= 2 && Number(result.peakWorkers) <= 3);
     assert.equal(contextsCreated, 3);
+    assert.equal(launchModes.at(-1), true);
+    assert.equal(result.headless, true);
     assert.equal(exports, 1);
     assert.equal(navigations.length, 3, 'reuse pages; no reload per child with selector');
     const evidence = await manifest('parallel');
@@ -143,16 +157,47 @@ test('parallel headless acquisition preserves node identity, exact exports and i
     await fs.access(path.join(root, 'inspect/context/editor-diagnostic.png'));
     await assert.rejects(fs.access(path.join(root, 'inspect/frames/reference.png')));
   });
+  await t.test('explicit visible retry is serial and records the requested launch mode', async () => {
+    const before = contextsCreated;
+    const result = await run('visible-retry', { headless: false, nodeIds: ['1:3', '1:4'], concurrency: 3 });
+    assert.equal(launchModes.at(-1), false);
+    assert.equal(result.headless, false);
+    assert.equal(result.concurrency, 1);
+    assert.equal(result.peakWorkers, 1);
+    assert.equal(contextsCreated - before, 1);
+    const record = await manifest('visible-retry');
+    assert.ok(record.nodes.every((node: any) => node.status === 'collected'));
+    assert.ok(!JSON.stringify(record).includes('never-record-browser-secret'));
+    assert.equal(browsers.at(-1)!.isConnected(), false);
+  });
   await t.test('access denials stop before fan-out, no retries', async () => {
-    for (const status of [401, 403, 429]) {
+    for (const status of [401, 403, 404, 429]) {
       deny = status; const before = navigations.length, beforeContexts = contextsCreated;
       await assert.rejects(run(`denied-${status}`, { nodeIds: ['1:3', '1:4'] }), /access or rate-limit/);
       assert.equal(navigations.length - before, 1);
       assert.equal(contextsCreated - beforeContexts, 1);
-      assert.equal((await manifest(`denied-${status}`)).status, 'failed');
+      const record = await manifest(`denied-${status}`);
+      assert.equal(record.status, 'failed');
+      assert.equal(record.httpStatus, status);
+      if ([401, 403].includes(status)) assert.match(record.next, /sign in manually.*wait for confirmation/);
+      else assert.doesNotMatch(record.next, /sign in/);
+      assert.equal(launchModes.at(-1), true, 'denials never open a visible browser automatically');
       assert.equal(browsers.at(-1)!.isConnected(), false);
     }
     deny = 0;
+  });
+  await t.test('sign-in redirects request manual recovery without recording the login page', async () => {
+    signIn = true;
+    try {
+      const before = contextsCreated;
+      await assert.rejects(run('sign-in', { nodeIds: ['1:3'] }), /requires authentication/);
+      const record = await manifest('sign-in');
+      assert.equal(record.status, 'failed');
+      assert.match(record.next, /sign in manually.*wait for confirmation/);
+      assert.equal(contextsCreated - before, 1);
+      await assert.rejects(fs.access(path.join(root, 'sign-in/context/editor-diagnostic.png')));
+      assert.equal(browsers.at(-1)!.isConnected(), false);
+    } finally { signIn = false; }
   });
   await t.test('bad selection fails preflight without dispatching other nodes', async () => {
     wrongNode = true; const before = contextsCreated;

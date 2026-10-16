@@ -19,33 +19,41 @@ interaction. Choose the first usable route below, respecting the user's explicit
 choice. An existing local plugin remains an opt-in capability if the user chooses
 it; do not recommend or set up the desktop/plugin route as an intake prerequisite.
 
-1. **Validated local reference:** use a supplied PNG with established source and
-   profile. Reuse a prior reference for the same explicitly pinned design; for a
-   live Figma link, verify its current revision before assuming it is unchanged.
-2. **Connected Figma remote MCP:** use the linked node with available
+Before online acquisition, prefer a **validated local reference**: a supplied PNG
+with established source and profile. Reuse a prior reference for the same
+explicitly pinned design; for a live Figma link, verify its current revision
+before assuming it is unchanged. Otherwise choose among these three online options:
+
+1. **Connected Figma remote MCP:** use the linked node with available
    `get_design_context` and `get_screenshot`/`download_assets`. Inspect actual tool
    schemas; do not assume all hosts expose the same tools. Save returned image
    bytes locally and verify them. A preview, metadata or temporary URL alone is
    not an acquired reference. Remote MCP is link-based and does not need a local
    Figma window. Client eligibility, OAuth and file permissions still apply;
    do not assume Pi can connect just because it supports MCP.
-3. **Built-in REST intake:** use `acquire_figma` or the CLI below when
+2. **Built-in REST intake:** use `acquire_figma` or the CLI below when
    `FIGMA_ACCESS_TOKEN` is available to the server process. It retrieves the
    linked node subtree, saves styling JSON, then exports PNG at the same revision.
    It requires no browser, visible Figma window, clipboard, or copied CSS.
-4. **Parallel background browser:** when browser intake is requested, or API
+3. **Playwright browser with manual-login recovery:** when browser intake is requested, or API
    access/quotas prevent programmatic acquisition, use `acquire_figma_browser`
    with isolated headless Playwright workers. Follow [browser intake](figma-browser.md)
    to inspect once, derive observed selectors, and dispatch distinct scoped node
    IDs (three workers by default, maximum six). Preserve panel coverage and export
-   failures; browser UI does not establish a complete layer tree. No desktop
-   input or visible browser is used. Authentication setup can require a one-time
-   interaction. Respect an explicit browser-route choice before trying APIs.
-5. **Interactive fallback:** only when background routes are unavailable or
-   the user requests it, use connected browser/native tools for frame export or
-   **Copy as PNG**. Check clipboard-image capability before opening menus. If the
-   user needs background-only operation, report missing acquisition access rather than
-   taking over the screen. Ask once for unresolved access or required files.
+   failures; browser UI does not establish a complete layer tree. On 403 or a
+   sign-in redirect, follow [manual login recovery](figma-browser.md#manual-login-recovery):
+   with permission open a dedicated visible browser, ask the user to sign in,
+   wait for confirmation, verify file access and resume using private saved
+   authentication. Headless remains the default; if it stays blocked, an
+   authorized `headless: false` run continues visibly with one worker. Respect
+   an explicit browser-route choice before trying APIs. Do not retry repeatedly.
+
+**Last-resort interactive export:** only when these routes are unavailable or
+requested, use connected browser/native tools for frame export or **Copy as PNG**.
+Check clipboard-image capability before opening menus. If the user needs
+background-only operation, obtain permission before any visible interaction;
+otherwise report missing acquisition access instead of taking over the screen.
+Ask once for unresolved access or required files.
 
 ```sh
 # FIGMA_ACCESS_TOKEN must already be set securely in the launching environment.

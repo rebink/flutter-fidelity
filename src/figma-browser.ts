@@ -25,6 +25,7 @@ export const FigmaBrowserSchema = z.object({
   url: z.string().url(), out: z.string().min(1),
   nodeIds: z.array(nodeId).max(200).default([]),
   discoverChildren: z.boolean().default(true),
+  headless: z.boolean().default(true).describe('Default background mode. Set false only with user permission for a visible, serial retry after manual login.'),
   concurrency: z.number().int().min(1).max(6).default(3),
   maxNodes: z.number().int().min(1).max(200).default(50),
   timeoutMs: z.number().int().min(1000).max(600_000).default(180_000),
@@ -40,15 +41,15 @@ type NodeResult = { nodeId: string; status: 'collected' | 'failed' | 'not-run'; 
 const sha256 = (bytes: Buffer | string) => createHash('sha256').update(bytes).digest('hex');
 const template = (value: string, id: string) => value.replaceAll('{nodeId}', id).replaceAll('{nodeIdUrl}', id.replace(':', '-'));
 
-/** A test seam for a browser fixture; tool callers cannot override origin or launch flags. */
-export type FigmaBrowserRuntime = { launch?: () => Promise<Browser> };
+/** A test seam for a browser fixture; tool callers cannot override origin or arbitrary launch flags. */
+export type FigmaBrowserRuntime = { launch?: (options: { headless: boolean }) => Promise<Browser> };
 
-async function launchBrowser(timeoutMs: number) {
+async function launchBrowser(timeoutMs: number, headless: boolean) {
   try {
     const { chromium } = await import('playwright-core');
-    return await chromium.launch({ headless: true, timeout: Math.min(30_000, timeoutMs), channel: process.env.FIGMA_BROWSER_CHANNEL || undefined });
+    return await chromium.launch({ headless, timeout: Math.min(30_000, timeoutMs), channel: process.env.FIGMA_BROWSER_CHANNEL || undefined });
   } catch {
-    throw new Error('Background browser unavailable. Run npx playwright-core install chromium, or set FIGMA_BROWSER_CHANNEL=chrome for installed Chrome. No foreground fallback was opened.');
+    throw new Error('Browser unavailable. Run npx playwright-core install chromium, or set FIGMA_BROWSER_CHANNEL=chrome for installed Chrome. No automatic foreground fallback was attempted.');
   }
 }
 
@@ -82,15 +83,17 @@ async function readPanel(page: Page, value: string) {
   return { ...data, aria: aria.slice(0, 200_000), ariaTruncated: aria.length > 200_000 };
 }
 
-/** Acquire UI evidence with independent headless contexts, not desktop input or private Figma internals. */
+/** Acquire UI evidence with isolated contexts, headless by default; never use private Figma internals. */
 export async function acquireFigmaBrowser(input: Input, runtime: FigmaBrowserRuntime = {}): Promise<{ root: string; status: string; [key: string]: unknown }> {
   const args = FigmaBrowserSchema.parse(input), identity = parseFigmaLink(args.url);
   if (identity.requestedVersion) throw new Error('Browser intake cannot verify a pinned REST revision. Use REST intake for version-id links.');
   if (new Set([identity.nodeId, ...args.nodeIds]).size > args.maxNodes) throw new Error('Explicit node list exceeds maxNodes; increase the bound or narrow the requested scope.');
   const root = await createOutput(args.out), started = performance.now();
+  const concurrency = args.headless ? args.concurrency : 1;
+  const loginNext = 'Ask the user to sign in manually in a dedicated visible Playwright browser, wait for confirmation and verify file access. Keep authentication state private. Retry once in a NEW output directory; see docs/figma-browser.md#manual-login-recovery.';
   const record: Record<string, unknown> = {
     version: 1, sourceKind: 'figma-browser-ui', status: 'pending', ...identity,
-    acquiredAt: new Date().toISOString(), headless: true, concurrency: args.concurrency,
+    acquiredAt: new Date().toISOString(), headless: args.headless, concurrency,
     coverage: 'observed-ui-only', structureStatus: 'incomplete', profileStatus: 'unavailable',
     notes: ['Browser properties are supporting evidence, not a complete Figma node tree.',
       'Editor screenshots and DOM geometry are not reference exports or design coordinates.',
@@ -111,7 +114,7 @@ export async function acquireFigmaBrowser(input: Input, runtime: FigmaBrowserRun
       try { storageState = JSON.parse(await fs.readFile(process.env.FIGMA_BROWSER_STORAGE_STATE, 'utf8')); }
       catch { throw new Error('Cannot read browser authentication state from FIGMA_BROWSER_STORAGE_STATE. Keep this credential file outside source/evidence directories.'); }
     }
-    browser = await (runtime.launch ? runtime.launch() : launchBrowser(args.timeoutMs));
+    browser = await (runtime.launch ? runtime.launch({ headless: args.headless }) : launchBrowser(args.timeoutMs, args.headless));
     if (expired) throw new Error('Browser intake deadline reached.');
     const newPage = async () => {
       const context = await browser!.newContext({ storageState, acceptDownloads: true, viewport: { width: 1440, height: 1000 }, serviceWorkers: 'block' });
@@ -126,10 +129,17 @@ export async function acquireFigmaBrowser(input: Input, runtime: FigmaBrowserRun
     const urlFor = (id: string) => identity.sourceUrl.replace(/node-id=[^&]+/, `node-id=${id.replace(':', '-')}`);
     const navigate = async (page: Page, id: string) => {
       const response = await page.goto(urlFor(id), { waitUntil: 'domcontentloaded' });
-      if (response && [401, 403, 404, 429].includes(response.status())) { blocked = true; throw new Error('Browser access or rate-limit denial; workers stopped.'); }
+      if (response && [401, 403, 404, 429].includes(response.status())) {
+        blocked = true;
+        record.httpStatus = response.status();
+        record.next = [401, 403].includes(response.status()) ? loginNext
+          : 'Resolve file access or rate limits before starting a new intake; do not retry automatically.';
+        throw new Error(`Browser access or rate-limit denial (HTTP ${response.status()}); workers stopped.`);
+      }
       const location = new URL(page.url());
       if (!['www.figma.com', 'figma.com'].includes(location.hostname) || !/^\/(design|file)\//.test(location.pathname)) {
         blocked = true;
+        record.next = loginNext;
         throw new Error('Editor access requires authentication or file permission; workers stopped.');
       }
     };
@@ -137,7 +147,7 @@ export async function acquireFigmaBrowser(input: Input, runtime: FigmaBrowserRun
     await navigate(initial, identity.nodeId);
     await fs.mkdir(path.join(root, 'context'));
     if (!args.recipe) {
-      // Inspection is a single background visit. The host derives selectors from this evidence.
+      // Inspect once in the requested mode. The host derives selectors from this evidence.
       await initial.waitForLoadState('load');
       if (args.inspectReady) await initial.locator(args.inspectReady).waitFor({ state: 'visible' });
       const aria = await initial.locator('body').ariaSnapshot({ depth: 20 });
@@ -263,7 +273,7 @@ export async function acquireFigmaBrowser(input: Input, runtime: FigmaBrowserRun
       }
     };
     const workers = [worker(initial)];
-    for (let index = 1; index < Math.min(args.concurrency, ids.length); index++) {
+    for (let index = 1; index < Math.min(concurrency, ids.length); index++) {
       workers.push((async () => {
         const page = await newPage();
         await navigate(page, identity.nodeId);
@@ -280,8 +290,8 @@ export async function acquireFigmaBrowser(input: Input, runtime: FigmaBrowserRun
   } catch (error) {
     record.status = 'failed';
     // Playwright exceptions can contain cookies, signed URLs, selectors and page text. Never echo them.
-    record.error = error instanceof Error && /^(Background browser unavailable|Cannot read browser authentication|Browser intake deadline|Browser access or rate-limit|Editor access requires)/.test(error.message)
-      ? error.message : 'Browser intake failed or the observed UI recipe did not match. No foreground fallback or repeated login attempt was made.';
+    record.error = error instanceof Error && /^(Browser unavailable|Cannot read browser authentication|Browser intake deadline|Browser access or rate-limit|Editor access requires)/.test(error.message)
+      ? error.message : 'Browser intake failed or the observed UI recipe did not match. No automatic foreground fallback or repeated login attempt was made.';
     await finish();
     throw new Error(`${record.error} Evidence: ${path.join(root, 'intake.json')}`);
   } finally {

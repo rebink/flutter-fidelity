@@ -40,6 +40,22 @@ test('copied skill retains every local Markdown dependency within its own folder
   }
 });
 
+test('portable skill includes the third intake option and consent-based login recovery', async t => {
+  const { skill } = await fixture(t);
+  const entry = await fs.readFile(path.join(skill, 'SKILL.md'), 'utf8');
+  const intake = await fs.readFile(path.join(skill, 'references/docs/design-intake.md'), 'utf8');
+  const browser = await fs.readFile(path.join(skill, 'references/docs/figma-browser.md'), 'utf8');
+  assert.match(entry, /three online intake options/);
+  assert.match(entry, /manual-login-recovery/);
+  assert.match(intake, /3\. \*\*Playwright browser with manual-login recovery/);
+  assert.match(browser, /## Manual login recovery/);
+  assert.match(browser, /Wait for that reply/);
+  assert.match(browser, /never copy or attach the normal Chrome profile/);
+  assert.match(browser, /headless: false/);
+  assert.match(browser, /forces serial intake/);
+  assert.match(browser, /existing\n   review\/approval checkpoint/);
+});
+
 test('standalone CLI launcher uses the project engine from nested directories and preserves comparison exit status', async t => {
   const { root, skill, env, launcher, run } = await fixture(t);
   const packages = path.join(root, 'node_modules');

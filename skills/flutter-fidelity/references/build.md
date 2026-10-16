@@ -24,12 +24,19 @@ set it up as part of this workflow.
 Acquire each scoped frame/context and shared asset batch once for all workers.
 Pass local evidence paths to workers; do not repeat exports per subagent.
 
-For an explicit browser request or exhausted/unavailable API access, follow
+The three online options are remote MCP, built-in REST, and Playwright browser
+intake. For an explicit browser request or exhausted/unavailable API access, follow
 [parallel background browser intake](docs/figma-browser.md). Inspect once, derive
 selectors from observed UI, and run `acquire_figma_browser` with distinct scoped
 node IDs in isolated headless workers (default three, maximum six). Preserve
 partial coverage; do not claim that UI snapshots contain every layer/property.
-Keep the user's desktop available; authentication setup can require interaction.
+Keep the user's desktop available by default. On 403 or a sign-in redirect,
+follow [manual login recovery](docs/figma-browser.md#manual-login-recovery): with
+permission open a dedicated visible Playwright browser, ask the user to log in,
+wait for confirmation and verify the intended frame. Resume with private saved
+authentication in a fresh run. If headless access stays blocked, request permission
+for `headless: false` (serial visible intake). Do not repeatedly retry or ask for
+passwords/cookies; preserve failed evidence and the existing widget-review choice.
 
 Follow [design intake](docs/design-intake.md) for access, validation and
 fallbacks. Save/validate actual PNG bytes; tool previews and metadata alone are

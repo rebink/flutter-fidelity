@@ -138,8 +138,8 @@ A PNG is enough to begin. The reference image stays unchanged and remains the
 visual authority. Figma or Sketch structure can help explain a design, but is
 optional.
 
-For a Figma link, the agent can use an existing remote Figma MCP connection or
-Flutter Fidelity's REST intake. REST intake needs `FIGMA_ACCESS_TOKEN` with
+For a Figma link, the three online options are an existing remote Figma MCP
+connection, Flutter Fidelity's REST intake, or Playwright browser intake. REST intake needs `FIGMA_ACCESS_TOKEN` with
 `file_content:read` and access to the file, supplied securely to the launching
 process. It saves a frame PNG and scoped styling JSON without opening Figma or
 copying CSS. Exports are pinned to the design revision; reuse checks the live
@@ -158,7 +158,13 @@ inspects the editor once, then supplies observed selectors and scoped node IDs.
 This retains browser-visible properties and an optional original PNG export;
 collapsed/virtualized layers and unavailable fields remain incomplete. Chromium
 is optional, and live Figma compatibility still needs verification for the active
-editor/account. This route does not remove file permissions or API limits.
+editor/account. On 403 or a sign-in redirect, the skill asks permission to open a
+separate visible Chrome session, asks you to log in, waits for confirmation, and
+resumes with private saved authentication. If headless access remains blocked,
+it can continue visibly with your permission (`headless: false`, one worker).
+Your everyday Chrome profile is untouched; login is not guaranteed to resolve
+CloudFront blocking. See [manual login recovery](docs/figma-browser.md#manual-login-recovery).
+This route does not remove file permissions or API limits.
 
 The agent establishes the logical viewport, export scale, crop, and safe insets
 from supplied dimensions or reliable source evidence. A 2x or 3x PNG does not

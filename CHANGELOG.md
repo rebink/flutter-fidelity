@@ -2,6 +2,13 @@
 
 ## 0.11.0 - Unreleased
 
+- Make Playwright the third online skill intake option after remote MCP and REST.
+  On 403/sign-in redirects, guide authorized visible manual login, wait for user
+  confirmation and resume with private saved authentication. Add explicit
+  `headless: false` serial acquisition when authenticated headless access stays
+  blocked; background defaults and no-automatic-foreground behavior remain.
+  Denial manifests retain HTTP status and recovery guidance. No credential or
+  normal Chrome profile copying, repeated login attempts or quota bypass.
 - Add `acquire_figma_browser` and `acquire-figma-browser` for background Playwright
   inspection and parallel collection of explicitly scoped node properties.
   Three isolated headless contexts share authentication by default, with a

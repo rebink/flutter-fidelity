@@ -43,6 +43,14 @@ implementation. In review mode, resolve feedback and wait for approval before
 Dart edits or implementation workers; a confirmed skip choice needs no plan approval.
 Carry forward an explicit review/skip choice already given for this task.
 
+For Figma links, the three online intake options are remote MCP, built-in REST,
+and Playwright browser intake. On a browser 403 or sign-in redirect, follow
+[manual login recovery](references/docs/figma-browser.md#manual-login-recovery):
+with permission open a dedicated visible browser, ask the user to sign in, wait
+for confirmation, verify frame access and continue with private saved
+authentication. If headless remains blocked, use an authorized visible retry;
+never silently take over a background-only session or repeat failed logins.
+
 An existing report or usable reference can start a repair/verification directly.
 Keep valid acquisition evidence shared across workers. Do not start a new Figma
 export or full implementation merely to enter another stage. A request limited
