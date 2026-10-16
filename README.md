@@ -151,6 +151,15 @@ Browser or clipboard access is a fallback when available. A paired
 it; that route requires a persistent MCP connection and Figma to remain open.
 See [design intake](docs/design-intake.md) for access, assets, and recovery.
 
+For browser acquisition, [parallel headless Playwright workers](docs/figma-browser.md)
+can collect different nodes without taking over the desktop. Three isolated
+sessions share an authentication snapshot by default (maximum six). The agent
+inspects the editor once, then supplies observed selectors and scoped node IDs.
+This retains browser-visible properties and an optional original PNG export;
+collapsed/virtualized layers and unavailable fields remain incomplete. Chromium
+is optional, and live Figma compatibility still needs verification for the active
+editor/account. This route does not remove file permissions or API limits.
+
 The agent establishes the logical viewport, export scale, crop, and safe insets
 from supplied dimensions or reliable source evidence. A 2x or 3x PNG does not
 have the same pixel and logical dimensions. Missing product behavior, original
@@ -238,7 +247,7 @@ A local MCP client can launch the engine with:
 node /absolute/path/to/flutter-fidelity/dist/cli.js mcp
 ```
 
-The server exposes eighteen tools. Its stdout carries the MCP protocol;
+The server exposes nineteen tools. Its stdout carries the MCP protocol;
 diagnostics go to stderr. Optional official Dart MCP needs an SDK that supports
 `dart mcp-server`; it is separate from this server and is not required for image
 tools or the custom capture workflow.

@@ -22,6 +22,12 @@ revision before reference reuse; every intake/capture/report gets a new director
 Collect required original assets/fonts separately, recording provenance and
 remaining gaps. Batch one residual access/input request when routes are unavailable.
 
+For browser acquisition, follow [parallel background intake](figma-browser.md):
+inspect once and dispatch distinct scoped node IDs across isolated headless
+Playwright workers. The user can continue using the desktop. Browser-visible
+layers/properties retain incomplete coverage and have no pinned REST revision;
+an editor screenshot cannot replace an exported reference PNG.
+
 Use `suggest_viewport` only to propose candidates. Establish the intended logical
 width/height and app-content crop once. Use a supplied profile or reliable
 target-frame/export evidence with its source recorded, or state the

@@ -31,10 +31,18 @@ it; do not recommend or set up the desktop/plugin route as an intake prerequisit
    `FIGMA_ACCESS_TOKEN` is available to the server process. It retrieves the
    linked node subtree, saves styling JSON, then exports PNG at the same revision.
    It requires no browser, visible Figma window, clipboard, or copied CSS.
-4. **Interactive fallback:** only when programmatic routes are unavailable or
+4. **Parallel background browser:** when browser intake is requested, or API
+   access/quotas prevent programmatic acquisition, use `acquire_figma_browser`
+   with isolated headless Playwright workers. Follow [browser intake](figma-browser.md)
+   to inspect once, derive observed selectors, and dispatch distinct scoped node
+   IDs (three workers by default, maximum six). Preserve panel coverage and export
+   failures; browser UI does not establish a complete layer tree. No desktop
+   input or visible browser is used. Authentication setup can require a one-time
+   interaction. Respect an explicit browser-route choice before trying APIs.
+5. **Interactive fallback:** only when background routes are unavailable or
    the user requests it, use connected browser/native tools for frame export or
    **Copy as PNG**. Check clipboard-image capability before opening menus. If the
-   user needs background-only operation, report missing API access rather than
+   user needs background-only operation, report missing acquisition access rather than
    taking over the screen. Ask once for unresolved access or required files.
 
 ```sh

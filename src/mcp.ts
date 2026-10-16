@@ -14,6 +14,7 @@ import { validateAssets } from './assets.js';
 import { VERSION } from './version.js';
 import { verifySourceCheckpoint } from './checkpoint.js';
 import { acquireFigma, FigmaIntakeSchema } from './figma.js';
+import { acquireFigmaBrowser, FigmaBrowserSchema } from './figma-browser.js';
 import { FigmaBridge, PluginIntakeSchema } from './figma-bridge.js';
 import { markWidgets, registerWidget, findWidgets, MarkWidgetsSchema, RegisterWidgetSchema, FindWidgetsSchema } from './widget-catalog.js';
 import { planWidgetWork, WidgetPlanSchema } from './widget-plan.js';
@@ -42,6 +43,7 @@ export function createServer() {
     return bridge.acquire(a);
   }));
   server.registerTool('acquire_figma', { description: 'Acquire a linked Figma frame PNG and scoped styling JSON in the background using FIGMA_ACCESS_TOKEN from the server environment. Creates a NEW intake directory; optional reuse verifies the live revision and PNG hash. No browser, clipboard or CSS copying required. Does not fetch original assets/fonts.', inputSchema: FigmaIntakeSchema.shape, annotations: { destructiveHint: false, openWorldHint: true } }, wrap(acquireFigma));
+  server.registerTool('acquire_figma_browser', { description: 'Inspect or collect Figma editor evidence in isolated HEADLESS Playwright workers (default 3, max 6). Supply one linked frame and observed UI selectors in recipe; omit recipe for background UI inspection first. Optional nodeIds and parent-chain child discovery share a deduplicated bounded queue. Authentication comes from FIGMA_BROWSER_STORAGE_STATE in the process environment. Saves fresh per-node panels and optional original PNG export. Visible UI is partial structure; no private API, desktop input, foreground fallback, or quota bypass. Read docs/figma-browser.md for setup and coverage.', inputSchema: FigmaBrowserSchema.shape, annotations: { destructiveHint: false, openWorldHint: true } }, wrap(acquireFigmaBrowser));
   server.registerTool('validate_assets', { description: 'Validate local downloaded images/fonts in a batch; return hashes, format metadata, failures and duplicate groups without changing files.', inputSchema: { files: z.array(z.string()).min(1) }, annotations: { readOnlyHint: true } }, wrap(a => validateAssets(a.files)));
   server.registerTool('doctor', { description: 'Check image, Flutter capture and official Dart MCP capabilities independently.', inputSchema: { flutter: z.string().optional() }, annotations: { readOnlyHint: true } }, wrap(a => doctor(a.flutter)));
   server.registerTool('suggest_viewport', { description: 'Propose logical viewport candidates from PNG dimensions. Does not confirm them; ask developer before import.', inputSchema: { image: z.string() }, annotations: { readOnlyHint: true } }, wrap(a => suggestViewport(a.image)));

@@ -14,6 +14,7 @@ import { validateAssets } from './assets.js';
 import { VERSION } from './version.js';
 import { verifySourceCheckpoint } from './checkpoint.js';
 import { acquireFigma } from './figma.js';
+import { acquireFigmaBrowser } from './figma-browser.js';
 import { markWidgets, registerWidget, findWidgets } from './widget-catalog.js';
 import { planWidgetWork } from './widget-plan.js';
 function number(value: string) { const n = Number(value); if (!Number.isFinite(n) || n <= 0) throw new InvalidArgumentError('Expected a positive number'); return n; }
@@ -25,6 +26,11 @@ for (const [name, fn] of [['mark-widgets', markWidgets], ['register-widget', reg
   program.command(name).requiredOption('--config <json>', 'JSON object matching the corresponding MCP tool schema').action(async o => print(await fn(await json(o.config))));
 }
 program.command('acquire-figma').requiredOption('--url <frame-link>').requiredOption('--out <new-directory>').option('--scale <number>', 'PNG export scale, 0.01 to 4', number, 1).option('--reuse <prior-intake>', 'Verify live revision and reuse an unchanged PNG').action(async o => print(await acquireFigma(o)));
+program.command('acquire-figma-browser').requiredOption('--config <json>', 'Background browser intake arguments; omit recipe for UI inspection').action(async o => {
+  const result = await acquireFigmaBrowser(await json(o.config) as Parameters<typeof acquireFigmaBrowser>[0]);
+  print(result);
+  process.exitCode = result.status === 'failed' ? 1 : 2; // Browser UI evidence never establishes a complete design tree.
+});
 program.command('validate-assets').requiredOption('--files <paths...>', 'Downloaded local asset/font files').action(async o => { const result = await validateAssets(o.files); print(result); if (result.status !== 'validated') process.exitCode = 2; });
 program.command('doctor').option('--flutter <executable>', 'Flutter executable', 'flutter').action(async o => { const result = await doctor(o.flutter); print(result); if (!result.readyForFlutter) process.exitCode = 2; });
 program.command('suggest-viewport').requiredOption('--image <png>').action(async o => print(await suggestViewport(o.image)));

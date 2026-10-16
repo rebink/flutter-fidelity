@@ -20,6 +20,7 @@ images at the returned local paths with the host's image-reading capability.
 | --- | --- |
 | `doctor` | `doctor [--flutter <executable>]` |
 | `acquire_figma` | `acquire-figma --url <frame-link> --out <new-directory> [--reuse <prior-intake>]` |
+| `acquire_figma_browser` | `acquire-figma-browser --config <arguments.json>`; see [parallel background intake](docs/figma-browser.md) |
 | `validate_assets` | `validate-assets --files <paths...>` |
 | `suggest_viewport` | `suggest-viewport --image <png>` |
 | `import_reference` | `import-image --image <png> --out <new-directory> --width <logical> --height <logical> --confirmed`; add supplied fonts, assets, crop and insets |

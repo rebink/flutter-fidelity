@@ -75,7 +75,7 @@ test('packed Pi extension runs its MCP tools from a different workspace', async 
   assert.equal(client.getServerVersion()?.version, pkg.version);
   const { tools } = await client.listTools();
   assert.deepEqual(tools.map(tool => tool.name).sort(), [
-    'acquire_figma', 'acquire_figma_plugin', 'capture_ui', 'compare_ui', 'crop_asset', 'doctor', 'figma_bridge', 'find_widgets', 'get_report',
+    'acquire_figma', 'acquire_figma_browser', 'acquire_figma_plugin', 'capture_ui', 'compare_ui', 'crop_asset', 'doctor', 'figma_bridge', 'find_widgets', 'get_report',
     'import_reference', 'inspect_reference', 'mark_widgets', 'plan_widget_work', 'record_iteration', 'register_widget',
     'suggest_viewport', 'validate_assets', 'verify_source_checkpoint',
   ]);

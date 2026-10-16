@@ -1,5 +1,62 @@
 <!-- Generated from docs/verification.md by npm run skill:sync. -->
 
+# Verification record - 16 October 2026 (0.11.0)
+
+## Live browser test: Food Delivery frame 256:4022
+
+The user supplied [this community frame](https://www.figma.com/design/KjLElYOJzYB7145cycnflA/Food-Delivery-App--Community-?node-id=256-4022).
+The standalone headless CLI was denied before the editor loaded. A single
+correction to the exact original URL also returned CloudFront HTTP 403; no layer
+workers started. The hidden connected in-app browser could render the canvas.
+Three background tabs then checked layer navigation, inspector access and export
+controls concurrently, without desktop input or making the browser visible.
+
+The signed-out viewer exposed 14 document-level layer labels, but displayed
+“Sign up to comment, edit, inspect and more.” Main-menu access opened a sign-up
+dialog; no sign-in or account creation occurred. No original PNG, exact styling,
+complete frame subtree, font bytes or original artwork was acquired. Visible
+layer rows had ARIA levels/row positions, without the numeric node/parent ID
+attributes expected by the current CLI recipe. This live test therefore does
+**not** establish successful structured intake or a speedup. It exposed both an
+access blocker and a live-selector compatibility gap. No paid-plan prompt was
+observed; authenticated operation remains untested.
+
+Evidence: `.fidelity/food-delivery-live-1792121444880/` contains the failed CLI
+manifest, exact-link HTTP/error-page diagnostic and connected-browser observations.
+No Dart, comparator or policy changes were made for this live exercise.
+
+## Local implementation checks
+
+Parallel background browser acquisition through `acquire_figma_browser` and the
+matching CLI command. The host derives selectors from editor inspection; the
+engine executes bounded acquisition jobs in independent headless contexts.
+
+| Check | Result |
+| --- | --- |
+| `npm run check` | 143 passed, no skipped tests; TypeScript build, portable documentation/version consistency, core/MCP, production-only preparation and relocated Pi package coverage |
+| Skill validator | Passed with the skill-creator validator using PyYAML in a disposable Python environment |
+| Real headless browser fixture | Passed using installed Chrome with all Figma requests fulfilled by a local fixture; concurrent isolated sessions, reused pages, selected-node checks, labeled input values, root PNG bytes and diagnostic-only screenshots |
+| Scoped discovery | Passed: duplicate explicit/discovered nodes run once, parent chains stay inside the requested frame, job caps retain omitted node IDs |
+| Failure/cleanup | Passed: access/rate-limit denials do not fan out/retry, wrong selection blocks collection, absent panels and invalid exports stay failed, overall deadlines close browsers and retain unfinished nodes |
+| Fresh fixtures/comparator calibration | 12/12 passed; comparator calibration does not measure model generation or Figma acquisition speed |
+| Live Figma/browser speed | Not-run: no current frame link or dedicated authenticated browser state supplied for this change; compatibility with Figma's actual selectors and complete layer/property extraction is not established |
+| Flutter/native/product checks | Not-run; no Dart edits, native acceptance or behavior claims |
+
+Local test evidence:
+`.fidelity/parallel-browser-0.11.0-1792121093377238000/check.log` and `result.json`.
+Fresh image evidence: `.fidelity/fixtures-1792120975076/screens` and
+`.fidelity/benchmark-1792120975582`.
+
+Browser intake always preserves `structureStatus: incomplete`. A UI observation
+is not a REST/plugin node export; it has no pinned design revision. No browser,
+global plugin, Flutter SDK or account resource was installed/changed by testing.
+The tests launched the existing Chrome executable headlessly with disposable
+contexts. Comparison policy v3 and repair policy v2 are unchanged.
+
+Earlier records below are historical.
+
+---
+
 # Verification record - 15 October 2026 (0.10.2)
 
 Pi adapter compatibility for the reported `ignored settings exposure: direct`

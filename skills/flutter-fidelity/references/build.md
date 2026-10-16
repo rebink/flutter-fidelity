@@ -24,6 +24,13 @@ set it up as part of this workflow.
 Acquire each scoped frame/context and shared asset batch once for all workers.
 Pass local evidence paths to workers; do not repeat exports per subagent.
 
+For an explicit browser request or exhausted/unavailable API access, follow
+[parallel background browser intake](docs/figma-browser.md). Inspect once, derive
+selectors from observed UI, and run `acquire_figma_browser` with distinct scoped
+node IDs in isolated headless workers (default three, maximum six). Preserve
+partial coverage; do not claim that UI snapshots contain every layer/property.
+Keep the user's desktop available; authentication setup can require interaction.
+
 Follow [design intake](docs/design-intake.md) for access, validation and
 fallbacks. Save/validate actual PNG bytes; tool previews and metadata alone are
 insufficient. Use structured typography, layout, fills and effects directly;

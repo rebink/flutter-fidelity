@@ -50,7 +50,7 @@ test('fresh source prepares and serves MCP using only production dependencies', 
   await client.connect(new StdioClientTransport({ command: process.execPath, args: [cli, 'mcp'], cwd: root, stderr: 'pipe' }));
   assert.equal(client.getServerVersion()?.version, VERSION);
   const { tools } = await client.listTools();
-  assert.equal(tools.length, 18);
+  assert.equal(tools.length, 19);
   const result = await client.callTool({ name: 'suggest_viewport', arguments: { image: 'screen.png' } });
   assert.notEqual(result.isError, true);
   const content = result.content as { type: string; text: string }[];

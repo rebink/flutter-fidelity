@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.11.0 - Unreleased
+
+- Add `acquire_figma_browser` and `acquire-figma-browser` for background Playwright
+  inspection and parallel collection of explicitly scoped node properties.
+  Three isolated headless contexts share authentication by default, with a
+  six-worker cap, deduplicated jobs, reused pages and bounded deadlines.
+- Save observed layer rows, per-panel text/accessibility/form values and optional
+  validated root PNG exports. Preserve missing/failed evidence; browser UI never
+  claims a complete node tree, revision pinning or visual acceptance.
+- Add real headless browser fixture coverage for isolation, concurrent jobs,
+  selection identity, downloads, denials and deadline cleanup. Live Figma
+  compatibility and speed remain unverified. Comparison/repair policies and Dart
+  sources are unchanged; no browser, global plugin or SDK installs run implicitly.
+
 ## 0.10.2 - Unreleased
 
 - Remove `exposure: "direct"` from the Pi adapter. Some MCP integrations warn
