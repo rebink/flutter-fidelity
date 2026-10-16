@@ -40,14 +40,24 @@ test('copied skill retains every local Markdown dependency within its own folder
   }
 });
 
-test('portable skill includes the third intake option and consent-based login recovery', async t => {
+test('portable skill checks four ordered intake routes and consent-based login recovery', async t => {
   const { skill } = await fixture(t);
   const entry = await fs.readFile(path.join(skill, 'SKILL.md'), 'utf8');
   const intake = await fs.readFile(path.join(skill, 'references/docs/design-intake.md'), 'utf8');
   const browser = await fs.readFile(path.join(skill, 'references/docs/figma-browser.md'), 'utf8');
-  assert.match(entry, /three online intake options/);
+  assert.match(entry, /four routes in order/);
   assert.match(entry, /manual-login-recovery/);
-  assert.match(intake, /3\. \*\*Playwright browser with manual-login recovery/);
+  const routes = [...intake.matchAll(/^\d\. \*\*([^*]+)\*\*/gm)].map(match => match[1]);
+  assert.deepEqual(routes, [
+    'Connected Figma MCP (local first):',
+    'Built-in REST intake:',
+    'Figma desktop + Flutter Fidelity Bridge plugin:',
+    'Playwright browser with manual-login recovery:',
+  ]);
+  assert.match(intake, /figma_bridge\(\{"action":"status"\}\)/);
+  assert.match(intake, /A running app\n   alone does not establish a paired plugin/);
+  assert.match(intake, /Do not install or register a plugin silently/);
+  assert.match(intake, /Stop at the first route/);
   assert.match(browser, /## Manual login recovery/);
   assert.match(browser, /Wait for that reply/);
   assert.match(browser, /never copy or attach the normal Chrome profile/);

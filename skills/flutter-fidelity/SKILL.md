@@ -3,7 +3,7 @@ name: flutter-fidelity
 description: Build, reuse, fix and verify Flutter UI from PNGs, Figma links or existing app code. Use for screenshot implementation, widget reuse, typography fixes and measured visual repair with your coding agent.
 license: MIT
 metadata:
-  version: "0.11.0"
+  version: "0.11.1"
 ---
 
 Use Flutter Fidelity for the requested Flutter UI work. The host assistant owns
@@ -43,8 +43,14 @@ implementation. In review mode, resolve feedback and wait for approval before
 Dart edits or implementation workers; a confirmed skip choice needs no plan approval.
 Carry forward an explicit review/skip choice already given for this task.
 
-For Figma links, the three online intake options are remote MCP, built-in REST,
-and Playwright browser intake. On a browser 403 or sign-in redirect, follow
+For Figma links, check four routes in order: connected Figma MCP (local first,
+then an already connected remote MCP), Fidelity REST with `FIGMA_ACCESS_TOKEN`,
+Figma desktop with the Flutter Fidelity Bridge plugin, then Playwright. Follow
+[availability checks](references/docs/design-intake.md): skip unavailable routes,
+preserve failure reasons, verify the intended frame and stop once a validated
+reference is acquired. Ask before desktop/plugin setup or pairing; never install
+it silently. The host skill selects routes, not an automatic cross-MCP tool.
+On a browser 403 or sign-in redirect, follow
 [manual login recovery](references/docs/figma-browser.md#manual-login-recovery):
 with permission open a dedicated visible browser, ask the user to sign in, wait
 for confirmation, verify frame access and continue with private saved

@@ -138,17 +138,22 @@ A PNG is enough to begin. The reference image stays unchanged and remains the
 visual authority. Figma or Sketch structure can help explain a design, but is
 optional.
 
-For a Figma link, the three online options are an existing remote Figma MCP
-connection, Flutter Fidelity's REST intake, or Playwright browser intake. REST intake needs `FIGMA_ACCESS_TOKEN` with
+For a Figma link, the skill checks four routes in order: connected Figma MCP
+(local first, then an already connected remote MCP), Fidelity REST token, Figma
+desktop with the Flutter Fidelity Bridge plugin, then Playwright. It skips
+unavailable routes, preserves failure reasons and stops at the first validated
+reference. REST intake needs `FIGMA_ACCESS_TOKEN` with
 `file_content:read` and access to the file, supplied securely to the launching
 process. It saves a frame PNG and scoped styling JSON without opening Figma or
 copying CSS. Exports are pinned to the design revision; reuse checks the live
 revision and saved PNG hash before copying an unchanged reference into a new
 intake directory. Original artwork and fonts are separate inputs.
 
-Browser or clipboard access is a fallback when available. A paired
-[Figma plugin connection](docs/figma-plugin.md) is also available when you choose
-it; that route requires a persistent MCP connection and Figma to remain open.
+The desktop/plugin check verifies an existing
+[Figma plugin connection](docs/figma-plugin.md); a running app alone is not enough.
+The skill asks before opening or pairing it and skips to Playwright if unavailable
+or declined. This route requires a persistent MCP connection and Figma to remain
+open. Browser or clipboard export is the last resort when available.
 See [design intake](docs/design-intake.md) for access, assets, and recovery.
 
 For browser acquisition, [parallel headless Playwright workers](docs/figma-browser.md)

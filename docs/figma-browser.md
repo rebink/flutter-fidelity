@@ -1,7 +1,8 @@
 # Parallel background Figma browser intake
 
-This is the third online intake option, after remote MCP and REST, or the first
-when the user explicitly requests browser acquisition. Playwright defaults to
+This is the fourth intake route, after connected Figma MCP (local first),
+Fidelity REST token and the Figma desktop/Flutter Fidelity Bridge plugin check.
+Use it first when the user explicitly requests browser acquisition. Playwright defaults to
 headless operation without desktop input or clipboard access. One Chromium
 process shares an authentication snapshot across independent contexts. The
 default is three workers, configurable from one to six. Workers reuse their pages

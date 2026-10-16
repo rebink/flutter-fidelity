@@ -11,21 +11,25 @@ choice is pending; app edits and implementation workers must wait.
 
 ## Acquire Figma inputs
 
-Default to browser-only Figma access through connected remote MCP or REST; no
-Figma desktop application or local plugin is required. Prefer a supplied
-validated reference when available. Otherwise use connected remote MCP or
+Prefer a supplied validated reference when available. Otherwise check connected
+Figma MCP (local first, then an already connected remote MCP), Fidelity REST token,
+Figma desktop with the Flutter Fidelity Bridge plugin, then Playwright, in that
+order. Follow the [availability checks](docs/design-intake.md); stop at the first
+usable validated reference and retain skipped/failed reasons. For REST, use
 `acquire_figma` with `url`, a fresh `out` directory and optional `reuse` pointing
 to a prior successful intake. REST reads `FIGMA_ACCESS_TOKEN` from the server
 environment. Read saved `context/node.json` for styling and `intake.json` for
 logical dimensions, revision, PNG hash/scale and profile warnings. An existing
-local Figma plugin is opt-in only when the user chooses it; do not recommend or
-set it up as part of this workflow.
+local Figma plugin is checked through `figma_bridge` status after REST is
+unavailable or fails. Verify the paired document before `acquire_figma_plugin`.
+Ask before opening the app/plugin or setting up pairing; if unavailable or
+declined, continue to Playwright without making plugin installation a prerequisite.
 
 Acquire each scoped frame/context and shared asset batch once for all workers.
 Pass local evidence paths to workers; do not repeat exports per subagent.
 
-The three online options are remote MCP, built-in REST, and Playwright browser
-intake. For an explicit browser request or exhausted/unavailable API access, follow
+For an explicit browser request or after MCP, REST and desktop/plugin routes
+are unavailable or fail, follow
 [parallel background browser intake](docs/figma-browser.md). Inspect once, derive
 selectors from observed UI, and run `acquire_figma_browser` with distinct scoped
 node IDs in isolated headless workers (default three, maximum six). Preserve

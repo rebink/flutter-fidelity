@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.11.1 - Unreleased
+
+- Check Figma intake availability in order: connected Figma MCP (local first),
+  Fidelity REST token, Figma desktop with the Flutter Fidelity Bridge plugin,
+  then Playwright with manual-login recovery. Stop at the first validated
+  reference, retain failure reasons and ask before desktop setup or pairing.
+- Synchronize package, MCP/CLI runtime and agent-plugin/skill versions to 0.11.1.
+  Guided automatic plugin preparation remains a proposal, not an installed feature.
+
 ## 0.11.0 - Unreleased
 
 - Make Playwright the third online skill intake option after remote MCP and REST.

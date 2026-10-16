@@ -11,30 +11,46 @@ Inspect supplied files and existing assets before fetching anything. Retain the
 requested file/node and screen/state scope. An explicit node link identifies the
 target; do not export the entire document or navigate every page.
 
-Default to browser-only Figma access via connected remote MCP or REST, without
-requiring Figma desktop. These programmatic routes need no visible browser
-interaction. Choose the first usable route below, respecting the user's explicit
-choice. An existing local plugin remains an opt-in capability if the user chooses
-it; do not recommend or set up the desktop/plugin route as an intake prerequisite.
+Check route availability in order: connected Figma MCP (local first), Fidelity
+REST token, Figma desktop with the Flutter Fidelity Bridge plugin, then Playwright.
+The host skill coordinates these checks; one engine tool does not discover or
+invoke other MCP servers. Respect an explicit route choice and background-only
+constraints. Check existing capabilities before requesting installation or setup.
 
 Before online acquisition, prefer a **validated local reference**: a supplied PNG
 with established source and profile. Reuse a prior reference for the same
 explicitly pinned design; for a live Figma link, verify its current revision
-before assuming it is unchanged. Otherwise choose among these three online options:
+before assuming it is unchanged. Otherwise try these four routes in order:
 
-1. **Connected Figma remote MCP:** use the linked node with available
-   `get_design_context` and `get_screenshot`/`download_assets`. Inspect actual tool
-   schemas; do not assume all hosts expose the same tools. Save returned image
-   bytes locally and verify them. A preview, metadata or temporary URL alone is
-   not an acquired reference. Remote MCP is link-based and does not need a local
-   Figma window. Client eligibility, OAuth and file permissions still apply;
-   do not assume Pi can connect just because it supports MCP.
+1. **Connected Figma MCP (local first):** inspect the host's connected servers and
+   actual tool schemas. Prefer the local Figma MCP; an already connected remote
+   Figma MCP can serve this same stage if local is unavailable. Do not confuse
+   either with Flutter Fidelity's own MCP server. Use the linked node with
+   available `get_design_context` and `get_screenshot`/`download_assets`; verify
+   the requested file/node rather than assuming the desktop selection matches.
+   Save actual image bytes locally and verify them. A preview, metadata or
+   temporary URL alone is not an acquired reference. A configured server is not
+   proof of access; record unavailable, denied or rate-limited results and move
+   to the next route without repeated calls.
 2. **Built-in REST intake:** use `acquire_figma` or the CLI below when
-   `FIGMA_ACCESS_TOKEN` is available to the server process. It retrieves the
+   `FIGMA_ACCESS_TOKEN` is available to the server process. Check presence without
+   printing its value; if the host cannot inspect the server environment, use the
+   tool's missing-credential response as evidence. Missing, invalid, denied or
+   rate-limited credentials advance to the desktop/plugin check. It retrieves the
    linked node subtree, saves styling JSON, then exports PNG at the same revision.
    It requires no browser, visible Figma window, clipboard, or copied CSS.
-3. **Playwright browser with manual-login recovery:** when browser intake is requested, or API
-   access/quotas prevent programmatic acquisition, use `acquire_figma_browser`
+3. **Figma desktop + Flutter Fidelity Bridge plugin:** check whether the desktop
+   app is available on the same computer as the engine and call
+   `figma_bridge({"action":"status"})` when that tool is available. A running app
+   alone does not establish a paired plugin. If paired, verify document/selection
+   and use `acquire_figma_plugin` for the requested frame. If installed but not
+   running/paired, ask before opening the app/plugin or starting pairing; follow
+   [plugin setup](figma-plugin.md). Do not install or register a plugin silently.
+   If unavailable, declined, unpaired or acquisition fails, retain the reason
+   and continue to Playwright rather than blocking on desktop setup. Never
+   substitute another open document for the requested file.
+4. **Playwright browser with manual-login recovery:** when earlier routes are
+   unavailable or fail, or browser intake is explicitly requested, use `acquire_figma_browser`
    with isolated headless Playwright workers. Follow [browser intake](figma-browser.md)
    to inspect once, derive observed selectors, and dispatch distinct scoped node
    IDs (three workers by default, maximum six). Preserve panel coverage and export
@@ -45,6 +61,12 @@ before assuming it is unchanged. Otherwise choose among these three online optio
    authentication. Headless remains the default; if it stays blocked, an
    authorized `headless: false` run continues visibly with one worker. Respect
    an explicit browser-route choice before trying APIs. Do not retry repeatedly.
+
+Stop at the first route that yields a usable, validated reference for the scoped
+frame. Record the chosen route and skipped/failed reasons without secrets. Keep
+successful partial context and immutable failures, use fresh output directories,
+and share acquired evidence across workers. Do not reacquire merely to test all
+routes. A route change never grants file permissions or bypasses access controls.
 
 **Last-resort interactive export:** only when these routes are unavailable or
 requested, use connected browser/native tools for frame export or **Copy as PNG**.
