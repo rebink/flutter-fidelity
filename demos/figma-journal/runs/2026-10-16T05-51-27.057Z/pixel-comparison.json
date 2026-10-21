@@ -1,0 +1,11 @@
+{
+  "dimensions": [
+    1608,
+    3496
+  ],
+  "resized": false,
+  "aligned": false,
+  "meanAbsoluteChannelError": 4.464510198340866,
+  "normalizedMeanAbsoluteError": 0.017507883130748494,
+  "acceptance": "Not certified; font, glass borders, status/navigation icons and shadows differ."
+}

@@ -80,13 +80,23 @@ Code discovers project skills under `.claude/skills`; Codex discovers them under
 
 ## Guided Figma bridge setup
 
-After installing the engine in your Flutter project, run this in your terminal:
+From your Flutter project, use the launcher for your installation method.
+For an engine installed with npm from GitHub:
 
 ```sh
 npx --no-install flutter-fidelity setup
 ```
 
-For a built source checkout, use `node dist/cli.js setup`. Before saving files or
+For a project-local Pi Git installation:
+
+```sh
+node .pi/git/github.com/rebink/flutter-fidelity/dist/cli.js setup
+```
+
+Pi does not add its packages to the app's `node_modules` or npm command search.
+For a built source checkout elsewhere, use its absolute CLI path while staying
+in your Flutter project: `node /absolute/path/to/flutter-fidelity/dist/cli.js setup`.
+Before saving files or
 MCP settings, the wizard initializes the actual local MCP engine and verifies its
 version and Figma tools, with a bounded deadline and cancellation. This temporary
 stdio test process is always closed; it never starts a bridge. Startup failures
@@ -152,6 +162,31 @@ then `/mcp` must show a working `flutter-fidelity` connection before asking it t
 start the bridge. Only then use the plugin's **Check bridge** action and the fresh
 pairing code. Do not start a second standalone bridge to hide an MCP launch error.
 See [Figma plugin setup](figma-plugin.md) for the remaining steps.
+
+### npm 404 or missing setup command
+
+A GitHub release does not publish a package to the npm registry. If `npx`
+reports `E404`, it did not find an npm-installed engine in the current project.
+`--no-install` does not make a Pi-installed package visible to npm. Do not fix
+this by changing registry settings or installing a global plugin.
+
+For a project-local Pi Git installation, update only Flutter Fidelity if its
+version is older than 0.12.0, then launch its own engine from the app directory:
+
+```sh
+pi update git:github.com/rebink/flutter-fidelity
+node .pi/git/github.com/rebink/flutter-fidelity/dist/cli.js --version
+node .pi/git/github.com/rebink/flutter-fidelity/dist/cli.js setup
+```
+
+Use `pi update <source>` for the package, not bare `pi update`, which updates Pi
+itself. A tag/commit-pinned install stays pinned; select a release with guided
+setup through Pi's normal package management. Reload Pi after updating.
+
+For an npm-based installation, first run the GitHub engine install in
+[Install in a Flutter project](#install-in-a-flutter-project), then use `npx`.
+Installing only a skill or configuring MCP does not install an npm command.
+GitHub installs require access to the repository.
 
 ## Optional MCP connections
 
@@ -225,6 +260,13 @@ Both locate the installed engine and leave the working directory to the host.
 Package and stdio tests verify the configured commands; live plugin discovery
 in every host/version remains unverified. This setup does not publish or upload
 a plugin to an account or directory.
+
+## Uninstall the tool and bridge
+
+Use the [uninstall guide](uninstall.md) for package removal, Figma development-plugin
+removal, MCP cleanup and verification. Package removal alone does not stop every
+running host, remove wizard-created MCP entries or unregister the Figma plugin.
+Keep unrelated settings, app code and saved reference/capture evidence intact.
 
 ## Troubleshooting
 

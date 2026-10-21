@@ -104,12 +104,47 @@ replace an already imported local plugin copy.
 
 ### Run the guided setup
 
-After installing Flutter Fidelity, run one command **in your terminal**, from
-your Flutter app's directory:
+Run the command for your installation method **in your terminal**, from your
+Flutter app's directory.
+
+**Installed with npm from GitHub:**
 
 ```sh
 npx --no-install flutter-fidelity setup
 ```
+
+**Installed with `pi install --local git:github.com/rebink/flutter-fidelity`:**
+
+```sh
+node .pi/git/github.com/rebink/flutter-fidelity/dist/cli.js setup
+```
+
+Pi packages are not npm project dependencies: `npx` cannot find them. An npm 404
+is an installation/launcher issue, not a Figma error; the package is released on
+GitHub, not npm. [Fix npm 404 or an older Pi package](docs/setup.md#npm-404-or-missing-setup-command).
+
+**For Pi, complete setup in this order:**
+
+1. If the wizard asks for a manifest, select an existing Figma-generated one.
+   If you have none, use **Plugins > Development > New plugin > Figma Design >
+   Custom UI** in Figma. Save the generated files, return to the wizard, and
+   select their `manifest.json`. No plugin ID copying is needed.
+2. Choose **Pi** in the wizard and approve the project MCP changes.
+3. In Figma, use **Plugins > Development > Import plugin from manifest**. Select
+   the **new prepared manifest printed by the wizard**, not the original
+   scaffold. Run **Flutter Fidelity Bridge** in your design file.
+4. In Pi, run `/reload`, then `/mcp`. Confirm that `flutter-fidelity` connects
+   successfully before pairing.
+5. Ask Pi: **"Start the Flutter Fidelity Figma bridge and give me a fresh pairing
+   code."** Wait for its successful response; do not start a second server.
+6. In the plugin, click **Check bridge**, paste the fresh code, and click
+   **Connect** once your document name appears. Allow local-network access if
+   Figma prompts for it.
+7. Select one frame and ask Pi to export a fresh PNG through the connected
+   plugin into a new folder. Keep Figma and the plugin open while using it.
+
+If another project owns port `43871`, ask that project's agent to stop its bridge
+first. Do not kill an unknown process or take over another workspace's bridge.
 
 The wizard checks Node, actually launches the built MCP engine to verify its
 version and Figma tools, then closes that test process without starting a bridge.
@@ -188,6 +223,37 @@ npm run update
 ```
 
 See [update instructions](docs/updates.md) and [release notes](CHANGELOG.md).
+
+## Uninstall
+
+**Removing the package alone does not remove its Figma development plugin or
+wizard-created MCP entries.** Complete the [uninstall guide](docs/uninstall.md)
+for a full removal, including the bridge:
+
+1. Finish or cancel active work. Ask the owning agent to stop this project's
+   Figma bridge and confirm it is no longer running.
+2. Click **Disconnect** if available, close the plugin, and remove its development-plugin
+   registration in Figma. Verify the prepared manifest path before removing an
+   entry; another project may use a different bridge copy.
+3. From the app directory, remove the package using its installation method:
+
+   ```sh
+   # Project-local Pi Git install
+   pi remove --local git:github.com/rebink/flutter-fidelity
+   ```
+
+   For an npm install, remove its separately installed skill with
+   `npx skills remove flutter-fidelity`, then run `npm uninstall --save-dev flutter-fidelity`.
+4. Remove only Flutter Fidelity's MCP entries. Pi setup can leave entries in
+   **both** `.pi/mcp.json` and `.pi/mcp-adapter.json`; preserve all other servers
+   and settings. Other agents have different scopes; see the guide.
+5. After checking for shared copies and reviewing private settings backups,
+   remove this project's generated `.fidelity/figma-plugin` folder if no longer
+   needed. Do **not** delete the whole `.fidelity` folder: keep references,
+   captures, reports and other evidence. Restart the agent and verify removal.
+
+Figma registration removal is a manual action. No package command silently
+removes plugins from your Figma account or deletes saved evidence.
 
 ## Examples and development
 

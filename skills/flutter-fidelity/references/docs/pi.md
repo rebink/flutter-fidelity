@@ -42,6 +42,44 @@ needs only runtime dependencies. Do not copy the extension file alone: it
 locates `../dist/cli.js`. The skill keeps its guides inside its own folder;
 the measurement engine still needs the complete package and its dependencies.
 
+## Set up the optional Figma bridge
+
+For the project-local Git install above, run this from your Flutter app's
+terminal, not from inside Pi's chat:
+
+```sh
+node .pi/git/github.com/rebink/flutter-fidelity/dist/cli.js setup
+```
+
+This command needs Flutter Fidelity 0.12.0 or newer. Pi's installation is not an
+npm project dependency, so do not use `npx --no-install flutter-fidelity setup`
+for it. For an older package, run `pi update git:github.com/rebink/flutter-fidelity`
+and reload Pi. [Launcher troubleshooting](setup.md#npm-404-or-missing-setup-command).
+
+Complete the setup in this order:
+
+1. If asked for a manifest, choose an existing Figma-generated `manifest.json`.
+   If none exists, use **Plugins > Development > New plugin > Figma Design >
+   Custom UI** in Figma, save its generated files, and select that manifest in
+   the wizard. Do not copy or invent an ID.
+2. Choose **Pi** and confirm the project MCP changes.
+3. In Figma, use **Plugins > Development > Import plugin from manifest** and
+   choose the **new prepared manifest printed by the wizard**, not the original
+   generated scaffold. Run **Flutter Fidelity Bridge** in your design file.
+4. In Pi, run `/reload`, then `/mcp`. Confirm that `flutter-fidelity` connects
+   without a launch error.
+5. Ask: **"Start the Flutter Fidelity Figma bridge and give me a fresh pairing
+   code."** Wait for the agent's successful start; do not run another server.
+6. In the plugin, click **Check bridge**, paste the fresh code, and click
+   **Connect** once the document name appears. Allow local-network access if
+   Figma asks.
+7. Select one frame and ask Pi to export its PNG through the connected plugin
+   into a new folder. Keep Figma and the plugin open while using it.
+
+If another project owns port `43871`, stop that bridge through its owning agent
+first, not by killing an unknown process.
+[Full registration and troubleshooting](figma-plugin.md#initial-setup).
+
 ## Use
 
 Start with:
@@ -147,6 +185,25 @@ or commit stays pinned. Local clones use the [source updater](updates.md).
   establish a failed connection; check the server's connection state in `/mcp`.
 - **Missing Flutter or capture tooling:** use `doctor` and the
   [setup guide](setup.md); the extension does not change your SDK.
+
+## Uninstall
+
+Follow the [full uninstall guide](uninstall.md), including stopping the bridge
+and removing its Figma development-plugin registration **before** deleting its
+prepared files. From the Flutter project, remove the Pi package with:
+
+```sh
+pi remove --local git:github.com/rebink/flutter-fidelity
+```
+
+Use the source and scope shown by `pi list` for tagged, local-path or personal
+installs. Pi removes its package declaration, but the wizard's separate
+`flutter-fidelity` (or existing `flutter_fidelity`) entries can remain under
+`mcpServers` in **both** `.pi/mcp.json` and `.pi/mcp-adapter.json`. Remove only
+those entries, keeping other settings intact. Do not delete `.pi` wholesale.
+Restart Pi, check `pi list` and `/mcp`, and confirm the removed installation no
+longer exposes its tools or skill. Removing the package does not automatically
+unregister a development plugin in Figma or delete captured evidence.
 
 ## Distribute
 

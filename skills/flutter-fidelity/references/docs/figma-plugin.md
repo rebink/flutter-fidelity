@@ -15,13 +15,25 @@ computer**. This is a one-time local development-plugin setup, not a Community
 plugin installation. No Figma access token, proxy or browser configuration is
 needed.
 
-From the Flutter project where the engine is installed, run **in your terminal**:
+From your Flutter project, run **in your terminal** using the launcher for your
+installation. For an engine installed with npm from GitHub:
 
 ```sh
 npx --no-install flutter-fidelity setup
 ```
 
-For a built source checkout, run `node dist/cli.js setup`. Follow the wizard:
+For `pi install --local git:github.com/rebink/flutter-fidelity`:
+
+```sh
+node .pi/git/github.com/rebink/flutter-fidelity/dist/cli.js setup
+```
+
+Pi packages are not visible to `npx`. For npm `E404` or an older Pi engine without
+`setup`, follow [launcher troubleshooting](setup.md#npm-404-or-missing-setup-command).
+For a built source checkout elsewhere, use its absolute CLI path from the app
+folder. In the remaining examples, Pi users replace `npx --no-install
+flutter-fidelity` with `node .pi/git/github.com/rebink/flutter-fidelity/dist/cli.js`.
+Follow the wizard:
 
 1. If this is the first run, Figma must assign the development-plugin ID once.
    The wizard opens Figma on macOS/Windows and explains **Plugins > Development >
@@ -136,6 +148,21 @@ origin checks still apply. The manifest uses `allowedDomains: ["none"]` and
 `devAllowedDomains: ["http://localhost:43871"]`, so run the imported development
 plugin, not a published copy. If Figma/OS prompts for local network access,
 allow it for this connection.
+
+## Remove the bridge
+
+Finish or cancel active exports, then ask the owning agent to stop this project's
+bridge with `figma_bridge` action `stop` and confirm it is no longer running.
+Click **Disconnect** if available, close the plugin, and remove the matching
+Flutter Fidelity Bridge registration from Figma's development-plugin management.
+Check the manifest path: removing a shared registration can affect other projects.
+Closing the plugin alone does not stop the local listener.
+
+Only after unregistering the matching copies should you remove their prepared
+files. The [uninstall guide](uninstall.md) covers the generated
+`.fidelity/figma-plugin` folder, private settings backups, Pi's two MCP files and
+other agent/package installations. Do not delete the entire `.fidelity` directory
+or overwrite current settings with an old backup.
 
 ## Troubleshooting
 

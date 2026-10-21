@@ -1,0 +1,20 @@
+{
+  "baseUrl": "http://127.0.0.1:8874",
+  "results": [
+    {
+      "name": "mobile",
+      "width": 402,
+      "height": 874,
+      "devicePixelRatio": 4,
+      "runtimeErrors": []
+    },
+    {
+      "name": "desktop",
+      "width": 1280,
+      "height": 1000,
+      "devicePixelRatio": 1,
+      "runtimeErrors": []
+    }
+  ],
+  "visualAcceptance": "Not certified; inspect captures against the unchanged reference."
+}
