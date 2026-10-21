@@ -58,6 +58,12 @@ test('guided macOS setup requests file picker activation, configures Pi by conse
   assert.equal(f.commands.filter(call => call.args[0] === '-a').length, 1);
   assert.ok(f.commands.some(call => call.command === '/usr/bin/open' && call.args[0] === '-R' && call.args[1] === result.manifest));
   assert.ok(f.prompts.some(prompt => prompt.includes('Add only')));
+  assert.ok(f.prompts.some(prompt => prompt.startsWith('After saving, return here. Press Enter')));
+  assert.match(f.logs.join('\n'), /enter a name, choose Figma design, then click Next/);
+  assert.match(f.logs.join('\n'), /Choose Custom UI, click Save as/);
+  assert.match(f.logs.join('\n'), /Select the PREPARED manifest above, not the original scaffold/);
+  assert.match(f.logs.join('\n'), /ID is already registered, remove only this plugin's original scaffold or older bridge/);
+  assert.match(f.logs.join('\n'), /Plugins > Development > Flutter Fidelity Bridge/);
   assert.match(f.logs.join('\n'), /live connection is not yet verified/);
   assert.match(f.logs.join('\n'), /Setup did not start a bridge/);
   assert.equal(f.commands.some(call => call.args[0]?.endsWith('cli.js') && call.args.includes('mcp')), false);

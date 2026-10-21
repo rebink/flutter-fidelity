@@ -9,7 +9,8 @@ SDK for analysis, tests, and captures; image tools work without it.
 
 ## Install in a Flutter project
 
-From your app's directory:
+Use this npm/Node installation for all compatible agents, including Pi. Open a
+normal terminal outside your agent's chat and run these from your app's directory:
 
 ```sh
 npm install --save-dev github:rebink/flutter-fidelity
@@ -82,30 +83,43 @@ Code discovers project skills under `.claude/skills`; Codex discovers them under
 
 ## Guided Figma bridge setup
 
-From your Flutter project, use the launcher for your installation method.
-For an engine installed with npm from GitHub:
+Run the Node wizard in a normal terminal, not Pi's chat or another agent's prompt.
+If Pi is running in your terminal, open a new tab for setup. From the Flutter app
+where you installed the npm package:
 
 ```sh
-npx --no-install flutter-fidelity setup
+node node_modules/flutter-fidelity/dist/cli.js setup
 ```
 
-For a project-local Pi Git installation:
+Keep this terminal open while using Figma; manifest selection happens at the
+waiting Node prompt. Pi remains an optional agent choice, not a separate setup
+process. Existing Pi-managed installations can keep their own launcher from the
+[advanced Pi guide](pi.md#advanced-pi-package-installation); do not install a second
+engine just to change launchers. For a built source checkout elsewhere, use its
+absolute CLI path while staying in your Flutter project:
+`node /absolute/path/to/flutter-fidelity/dist/cli.js setup`.
 
-```sh
-node .pi/git/github.com/rebink/flutter-fidelity/dist/cli.js setup
-```
-
-Pi does not add its packages to the app's `node_modules` or npm command search.
-For a built source checkout elsewhere, use its absolute CLI path while staying
-in your Flutter project: `node /absolute/path/to/flutter-fidelity/dist/cli.js setup`.
-Before saving files or
-MCP settings, the wizard initializes the actual local MCP engine and verifies its
+Before saving files or MCP settings, the wizard initializes the actual local MCP
+engine and verifies its
 version and Figma tools, with a bounded deadline and cancellation. This temporary
 stdio test process is always closed; it never starts a bridge. Startup failures
 stop setup with repair instructions, without echoing private diagnostics.
-The wizard also checks Node, checks Figma Desktop on macOS, guides one-time
-Figma registration, and prepares the plugin without copying IDs or files.
-macOS uses a native manifest picker; other systems ask for the saved path.
+The wizard also checks Node and Figma Desktop on macOS. On a first run, it
+pauses at `[2/3]` while you create the original plugin in a Figma Design file:
+**Plugins > Development > New plugin**, enter a name, select **Figma design**,
+click **Next**, then select **Custom UI**, click **Save as**, and save the
+folder. These are separate dialog screens, not one menu path. Return to the same
+terminal still running setup. At **After saving, return here**, press Enter to
+open the macOS picker, or paste the full path to the original `manifest.json`
+Figma generated. Other systems ask for its path. Do not paste the file contents,
+send the path to Pi's chat or run it as a shell command. Setup
+then prints a different prepared manifest and asks which agent to configure.
+Import that prepared copy, not the original scaffold. If Figma reports an
+already-registered ID, remove only this plugin's original scaffold or older
+bridge development entry, keep its files, then retry. Do not remove another
+project's bridge. Later runs with a saved ID skip creation and manifest
+selection. Follow the [full Figma steps](figma-plugin.md#initial-setup) for import,
+run and pairing.
 If the macOS picker times out or cannot launch, the wizard offers path entry
 without restarting or saving settings first. Cancelling the picker or pressing
 Ctrl+C still stops setup without proceeding. You can also paste the path at the
@@ -240,9 +254,10 @@ or custom capture engine. See [Flutter's AI tooling guide](https://docs.flutter.
 
 ## Native plugin packages
 
-Pi can load the whole package with
-`pi install --local git:github.com/rebink/flutter-fidelity`. The adapter registers
-the MCP server and exposes the same skill. See [Pi setup](pi.md).
+Pi can also load the whole package through its optional
+[advanced package installation](pi.md#advanced-pi-package-installation). That
+adapter registers the MCP server and exposes the same skill. This is an
+alternative to the standard npm/Node install, not an extra required step.
 
 For a built local checkout, Claude Code can load the included plugin files:
 

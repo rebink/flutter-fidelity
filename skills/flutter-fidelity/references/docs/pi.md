@@ -2,70 +2,70 @@
 
 # Flutter Fidelity for Pi
 
-Flutter Fidelity is a Pi extension package with eighteen MCP tools and one
-user-facing skill, `flutter-fidelity`. The Pi model inspects designs and edits Dart; the tools perform local,
+Pi uses the same Node-installed engine and `flutter-fidelity` skill as other
+agents. The Pi model inspects designs and edits Dart; the tools perform local,
 deterministic validation, captures and comparisons.
 
 ## Install
 
-Use Pi with native `registerMcpServer` support (tested with
-`@earendil-works/pi-coding-agent` 1.2.0). Follow Pi's own Node requirement;
-Flutter Fidelity requires Node 22+ available as `node` on PATH. Flutter is
-needed for captures, but not for image inspection or comparison.
+Use Pi with native MCP support (tested with `@earendil-works/pi-coding-agent`
+1.2.0). Follow Pi's own Node requirement; Flutter Fidelity requires Node 22+
+available as `node` on PATH. Flutter is needed for captures, but not for image
+inspection or comparison.
 
-From the Flutter project where you want to use the tools:
-
-```sh
-pi install --local git:github.com/rebink/flutter-fidelity
-```
-
-Restart Pi after installation. Project packages load after Pi's project trust
-step. Use `pi list` to check the installation and `/mcp` to check the
-`flutter-fidelity` server. The extension leaves tool exposure to the host's MCP
-integration and its settings. Pi may prefix tool names with the server namespace
-or require discovery through its available MCP tools. Where supported, `/mcp`
-lets you inspect or change tool exposure.
-
-For a local clone, first run `npm ci` in the clone; its prepare hook builds
-`dist`. Then, from your Flutter project:
+Open a normal terminal, not Pi's chat. From your Flutter app's directory:
 
 ```sh
-pi install --local /absolute/path/to/flutter-fidelity
+npm install --save-dev github:rebink/flutter-fidelity
+npx skills add ./node_modules/flutter-fidelity --skill flutter-fidelity
 ```
 
-Pi does not install dependencies for a local path. Git installs do install
-dependencies and run the build hook. Pi uses
-`npm install --omit=dev --legacy-peer-deps`; the compiler and Node type
-definitions are regular dependencies so this source build works without dev
-dependencies. Allow lifecycle scripts. An npm archive contains built output and
-needs only runtime dependencies. Do not copy the extension file alone: it
-locates `../dist/cli.js`. The skill keeps its guides inside its own folder;
-the measurement engine still needs the complete package and its dependencies.
+Choose Pi in the skill installer, then reload or restart Pi and approve project
+trust as required. The skill can use the Node CLI for PNG and REST workflows.
+For MCP tools, configure the project connection using the [setup guide](setup.md#optional-mcp-connections),
+or choose Pi in the optional bridge wizard below. Check `/mcp` before using it;
+a saved configuration is not proof of a working connection. Pi controls tool
+exposure and may prefix tool names or require discovery.
+
+The [Pi package installer](#advanced-pi-package-installation) is an advanced
+alternative, not a requirement. Keep an existing working Pi-managed installation
+instead of installing a second engine.
 
 ## Set up the optional Figma bridge
 
-For the project-local Git install above, run this from your Flutter app's
-terminal, not from inside Pi's chat:
+From the app folder where you installed the npm package, run the Node wizard in
+a normal terminal, not Pi's chat. Open a new terminal tab if Pi is running there:
 
 ```sh
-node .pi/git/github.com/rebink/flutter-fidelity/dist/cli.js setup
+node node_modules/flutter-fidelity/dist/cli.js setup
 ```
 
-This command needs Flutter Fidelity 0.12.0 or newer. Pi's installation is not an
-npm project dependency, so do not use `npx --no-install flutter-fidelity setup`
-for it. For an older package, run `pi update git:github.com/rebink/flutter-fidelity`
-and reload Pi. [Launcher troubleshooting](setup.md#npm-404-or-missing-setup-command).
+Keep this terminal open while you create the plugin in Figma. Return to its
+waiting manifest prompt to press Enter for the macOS picker or paste the file's
+full path. Do not paste the manifest contents, send the path to Pi, or run it at
+a blank shell prompt. Existing Pi-managed installs use the
+[advanced launcher](#advanced-pi-package-installation) instead.
 
 Complete the setup in this order:
 
-1. If asked for a manifest, choose an existing Figma-generated `manifest.json`.
-   If none exists, use **Plugins > Development > New plugin > Figma Design >
-   Custom UI** in Figma, save its generated files, and select that manifest in
-   the wizard. Do not copy or invent an ID.
-2. Choose **Pi** and confirm the project MCP changes.
+1. If asked for a manifest, use an existing Figma-generated `manifest.json` for
+   this bridge, or create one: open a Design file in Figma desktop and choose
+   **Plugins > Development > New plugin**. In **Create plugin**, enter a name, select
+   **Figma design**, then click **Next**. Select **Custom UI**, click **Save as**,
+   and save the folder. Return to the terminal and press Enter to open the macOS
+   picker, or paste the path. Select that original manifest, not a repository
+   template. Later runs with a saved ID skip this question. Do not invent an ID.
+2. The wizard prints a prepared manifest path, then asks for your agent. Choose
+   **3 (Pi)** and confirm the project MCP changes, or **4** to keep an already
+   working connection.
 3. In Figma, use **Plugins > Development > Import plugin from manifest** and
-   choose the **new prepared manifest printed by the wizard**, not the original
-   generated scaffold. Run **Flutter Fidelity Bridge** in your design file.
+   choose the **prepared manifest printed by the wizard**, not the original
+   scaffold. If Figma reports an already-registered ID, remove only this plugin's
+   original scaffold or older bridge development entry, keep its files, then
+   retry. Do not remove another project's bridge. Run the prepared plugin with
+   **Plugins > Development > Flutter Fidelity Bridge**. Skip reimporting if the exact copy
+   is already registered. See the [full creation steps](figma-plugin.md#initial-setup)
+   for the dialogs and menu-label variations.
 4. In Pi, run `/reload`, then `/mcp`. Confirm that `flutter-fidelity` connects
    without a launch error.
 5. Ask: **"Start the Flutter Fidelity Figma bridge and give me a fresh pairing
@@ -162,10 +162,57 @@ snapshots/hashes and a reference crop, not a behavioral or visual pass. Never us
 the crop as the runtime UI. Record separate native/behavioral evidence and actual
 timing before making acceptance or speedup claims.
 
+## Advanced: Pi package installation
+
+This is an alternative to the standard npm/Node installation, not an additional
+step. Use one route to avoid duplicate engines and skills. An existing working
+Pi-managed installation does not need to migrate. This adapter requires Pi's
+`registerMcpServer` API.
+
+From your Flutter project:
+
+```sh
+pi install --local git:github.com/rebink/flutter-fidelity
+```
+
+Restart Pi and approve project trust. Use `pi list` to check the package and
+`/mcp` to check the `flutter-fidelity` connection. The adapter registers the MCP
+server and exposes the same skill; Pi controls tool discovery and exposure.
+
+For a local clone, first run `npm ci` in the clone to build `dist`, then run this
+from your Flutter project:
+
+```sh
+pi install --local /absolute/path/to/flutter-fidelity
+```
+
+Pi does not install dependencies for a local path. Git installs do install
+dependencies and run the build hook with
+`npm install --omit=dev --legacy-peer-deps`. Allow lifecycle scripts. The compiler
+and Node type definitions are regular dependencies, so the source build works
+without dev dependencies. An npm archive contains built output and needs only
+runtime dependencies. Keep the complete package and its dependencies; copying
+the extension file alone breaks its relative `../dist/cli.js` lookup.
+
+For a project-local Pi Git installation, launch setup from a normal terminal in
+your Flutter app, outside Pi's chat:
+
+```sh
+node .pi/git/github.com/rebink/flutter-fidelity/dist/cli.js setup
+```
+
+The setup command requires Flutter Fidelity 0.12.0 or newer. Pi does not add its
+packages to the app's `node_modules`, so the standard Node path and `npx` launcher
+do not apply to this route. Continue with the [same Figma steps](#set-up-the-optional-figma-bridge)
+after starting the wizard. [Launcher troubleshooting](setup.md#npm-404-or-missing-setup-command).
+
 ## Update and troubleshoot
 
-Use `pi update --extensions` for managed packages, then restart Pi. A Git tag
-or commit stays pinned. Local clones use the [source updater](updates.md).
+For the standard npm/Node installation, follow the [update guide](updates.md)
+and refresh the installed skill when its version changes. Only for the advanced
+Pi-managed route, run `pi update git:github.com/rebink/flutter-fidelity`, then
+restart Pi. A Git tag or commit stays pinned. Local clones use the source updater
+in the same guide.
 
 - **Requires Pi with native MCP support:** update Pi; legacy hosts without
   `registerMcpServer` cannot load this adapter. The existing stdio server remains
@@ -190,7 +237,9 @@ or commit stays pinned. Local clones use the [source updater](updates.md).
 
 Follow the [full uninstall guide](uninstall.md), including stopping the bridge
 and removing its Figma development-plugin registration **before** deleting its
-prepared files. From the Flutter project, remove the Pi package with:
+prepared files. For the standard npm/Node install, use that guide's npm and skill
+removal steps. Only if you used the advanced Pi package installer, remove its
+package from the Flutter project with:
 
 ```sh
 pi remove --local git:github.com/rebink/flutter-fidelity

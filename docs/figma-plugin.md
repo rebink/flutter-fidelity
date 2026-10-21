@@ -1,7 +1,7 @@
 # Figma plugin connection
 
 Use this route for automatic acquisition from an open Figma Design file without
-browser automation or a Figma REST token. Pi talks to a local bridge; the Figma
+browser automation or a Figma REST token. Your agent talks to a local bridge; the Figma
 plugin exports the requested node through the Plugin API. PNG remains the visual
 authority. The file and plugin must stay open during a request. For acquisition
 with Figma closed, use the REST route in [design intake](design-intake.md).
@@ -13,43 +13,53 @@ computer**. This is a one-time local development-plugin setup, not a Community
 plugin installation. No Figma access token, proxy or browser configuration is
 needed.
 
-From your Flutter project, run **in your terminal** using the launcher for your
-installation. For an engine installed with npm from GitHub:
+Use the [standard npm/Node install](setup.md#install-in-a-flutter-project) for any
+compatible agent, including Pi. From your Flutter project, run this in a normal
+terminal outside your agent's chat. If Pi occupies the terminal, open a new tab:
 
 ```sh
-npx --no-install flutter-fidelity setup
+node node_modules/flutter-fidelity/dist/cli.js setup
 ```
 
-For `pi install --local git:github.com/rebink/flutter-fidelity`:
-
-```sh
-node .pi/git/github.com/rebink/flutter-fidelity/dist/cli.js setup
-```
-
-Pi packages are not visible to `npx`. For npm `E404` or an older Pi engine without
-`setup`, follow [launcher troubleshooting](setup.md#npm-404-or-missing-setup-command).
-For a built source checkout elsewhere, use its absolute CLI path from the app
-folder. In the remaining examples, Pi users replace `npx --no-install
-flutter-fidelity` with `node .pi/git/github.com/rebink/flutter-fidelity/dist/cli.js`.
+Keep that terminal open while you use Figma. An existing Pi-managed installation
+can keep its Node launcher from the [advanced Pi guide](pi.md#advanced-pi-package-installation);
+a built source checkout can use its absolute CLI path. Use that same engine path
+for the remaining examples instead of installing another copy. For npm `E404` or
+an older engine without `setup`, see
+[launcher troubleshooting](setup.md#npm-404-or-missing-setup-command).
 Follow the wizard:
 
-1. If this is the first run, Figma must assign the development-plugin ID once.
-   The wizard opens Figma on macOS/Windows and explains **Plugins > Development >
-   New plugin > Figma Design > Custom UI**. Save Figma's generated files. Return
-   to the terminal; macOS opens a native file picker, while other systems ask for
-   the manifest path. No copying or inventing IDs.
+1. On the first run, the wizard pauses at `[2/3]` for Figma to assign the plugin
+   ID. Open a Design file in Figma desktop and choose **Plugins > Development >
+   New plugin** (the macOS app has **Plugins** in its menu bar). In **Create
+   plugin**, enter a name such as `Flutter Fidelity setup`, select **Figma
+   design**, and click **Next**. On the next screen, select **Custom UI**, click
+   **Save as**, and save the generated folder. These are dialog choices, not
+   submenus. Return to the same terminal still running Node setup, not Pi's chat
+   or a blank shell. At **After saving, return here**, press Enter on macOS to
+   open the picker, or paste the full path. Select the original `manifest.json`
+   Figma generated; do not paste its contents. Other systems ask for its path. No
+   copying or inventing IDs. An existing Figma-generated manifest for this bridge
+   can supply the ID instead; later runs with a saved ID skip this question.
 2. The wizard prepares a local copy in `.fidelity/figma-plugin`, remembers the
-   assigned ID, and opens the prepared manifest's location. Repeated runs reuse
+   assigned ID, and prints the prepared manifest's path. Repeated runs reuse
    identical files; edited/older copies and Figma's original files are kept.
 3. Choose Claude Code, Codex, Pi, or keep your existing MCP connection. Every
    setting change needs confirmation. Claude/Pi configuration is project-local;
    **Codex uses its own CLI and asks before updating its user-level entry**.
    Reload/restart the host after changing configuration. A saved entry is not a
    verified host connection. [Configuration details](setup.md#guided-figma-bridge-setup).
-4. In Figma, use **Plugins > Development > Import plugin from manifest** and
-   select the **prepared manifest printed by setup**, not the original scaffold.
-   Run **Flutter Fidelity Bridge** in your design. Figma registration/import and
-   local-network permission remain explicit user actions, not desktop automation.
+4. After the agent step, setup opens the prepared manifest's location. In Figma,
+   use **Plugins > Development > Import plugin from manifest** and select the
+   **prepared manifest printed by setup**, not the original scaffold. Some
+   versions label this action **Import new plugin from manifest**. If Figma says
+   the ID is already registered, remove only this plugin's original scaffold or
+   older bridge development entry, keep its files, then retry the import. Do not
+   remove another project's bridge. Choose **Plugins > Development > Flutter Fidelity
+   Bridge** to run the prepared plugin in your Design file. If the wizard reused
+   the exact manifest already imported, run it without reimporting. Registration,
+   import and local-network permission remain explicit user actions, not desktop
+   automation.
 5. Reload your agent and confirm its MCP server connects without a launch error
    (Pi: `/reload`, then `/mcp`). Ask: **"Start the Figma bridge and give me a fresh
    pairing code."** It calls `figma_bridge({"action":"start"})`. After it succeeds,
@@ -118,7 +128,7 @@ retries do not automatically rerun rendering or reuse an old reference.
 Skip app/file-picker launches and leave MCP untouched:
 
 ```sh
-npx --no-install flutter-fidelity setup \
+node node_modules/flutter-fidelity/dist/cli.js setup \
   --manifest "/absolute/path/to/Figma plugin/manifest.json" --client skip --no-open
 ```
 
@@ -129,7 +139,7 @@ prompt. `--no-open` suppresses Figma, file-picker and file-manager launches.
 The original explicit preparation command remains available:
 
 ```sh
-npx --no-install flutter-fidelity setup-figma-plugin \
+node node_modules/flutter-fidelity/dist/cli.js setup-figma-plugin \
   --manifest "/absolute/path/to/Figma plugin/manifest.json" \
   --out "./fidelity-figma-plugin"
 ```

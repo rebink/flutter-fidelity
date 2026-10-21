@@ -146,7 +146,9 @@ export async function setup(options: SetupOptions = {}, environment: SetupEnviro
     let openedFigma = false;
     if (!options.manifest && beforeState === null) {
       log('Figma must assign the development-plugin ID once. No ID copying is needed.');
-      log('In a Figma Design file: Plugins > Development > New plugin > Figma Design > Custom UI. Save the generated files.');
+      log('In Figma Desktop, open a Design file and choose Plugins > Development > New plugin (macOS: use the app menu bar).');
+      log('In Create plugin, enter a name, choose Figma design, then click Next.');
+      log('Choose Custom UI, click Save as, and save the generated folder. Return here to select its original manifest.json.');
       if (options.open !== false) {
         if (platform === 'darwin') { await open('/usr/bin/open', ['-a', 'Figma']); openedFigma = true; }
         else if (platform === 'win32') { await open('explorer.exe', ['figma://']); openedFigma = true; }
@@ -290,8 +292,9 @@ export async function setup(options: SetupOptions = {}, environment: SetupEnviro
       } else await open('xdg-open', [path.dirname(manifest)]);
     }
     if (reused) log('If Figma already uses this exact manifest, keep its development entry and run the plugin; no reimport is needed.');
-    log('\nFirst import or a new copy: Plugins > Development > Import plugin from manifest. Select the manifest above, then run Flutter Fidelity Bridge.');
-    log('If Figma says the ID is already registered, remove the ORIGINAL development entry (keep its files), then import this copy.');
+    log('\nFirst import or a new copy: Plugins > Development > Import plugin from manifest (some versions: Import new plugin from manifest). Select the PREPARED manifest above, not the original scaffold.');
+    log('If Figma says the ID is already registered, remove only this plugin\'s original scaffold or older bridge development entry (keep its files), then import this copy. Do not remove another project\'s bridge.');
+    log('To run it in your Design file: Plugins > Development > Flutter Fidelity Bridge.');
     const readiness = await (environment.checkBridge ?? checkFigmaBridge)('http://localhost:43871', abort.signal);
     if (readiness.state === 'ready') log(`A compatible bridge responded on this computer (engine ${readiness.version}). Pairing and your agent's loaded MCP entry are not yet verified.`);
     else if (readiness.state === 'incompatible') log(`Port 43871 replied, but not with a compatible bridge${readiness.httpStatus ? ` (HTTP ${readiness.httpStatus})` : ''}. Stop an old bridge from its original agent, update/reload the matching engine, and start it again. No process was stopped.`);
