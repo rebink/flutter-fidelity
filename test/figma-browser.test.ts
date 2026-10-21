@@ -216,6 +216,19 @@ test('parallel headless acquisition preserves node identity, exact exports and i
     await assert.rejects(fs.access(path.join(root, 'partial/frames/reference.png')));
     invalidPNG = false; missingPanel = false;
   });
+  await t.test('a deadline during preflight keeps its reason and never dispatches workers', async () => {
+    const browser = await launch({ headless: true }), before = exports;
+    await assert.rejects(acquireFigmaBrowser({
+      url, out: path.join(root, 'preflight-timeout'), recipe: { ...recipe, ready: '#not-an-editor' },
+      nodeIds: ['1:3'], timeoutMs: 1000, actionTimeoutMs: 5000,
+    }, { launch: async () => browser }), /deadline/);
+    const record = await manifest('preflight-timeout');
+    assert.equal(record.status, 'failed');
+    assert.match(record.error, /deadline/);
+    assert.ok(record.nodes.every((node: any) => node.status === 'not-run'));
+    assert.equal(exports, before);
+    assert.equal(browser.isConnected(), false);
+  });
   await t.test('overall deadline closes all browsers and retains unfinished work', async () => {
     hang = true;
     await run('timeout', { nodeIds: ['1:3', '1:4', '1:5'], concurrency: 1, timeoutMs: 1000, actionTimeoutMs: 5000 }).catch(() => {});

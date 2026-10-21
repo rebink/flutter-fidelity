@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 import { Command, InvalidArgumentError } from 'commander';
+import { execFileSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 import { json } from './io.js';
 import { importReference, inspectReference, suggestViewport, cropAsset } from './reference.js';
 import { captureUI } from './capture.js';
@@ -17,11 +19,16 @@ import { acquireFigma } from './figma.js';
 import { acquireFigmaBrowser } from './figma-browser.js';
 import { markWidgets, registerWidget, findWidgets } from './widget-catalog.js';
 import { planWidgetWork } from './widget-plan.js';
+import { setup } from './setup.js';
 function number(value: string) { const n = Number(value); if (!Number.isFinite(n) || n <= 0) throw new InvalidArgumentError('Expected a positive number'); return n; }
 function rectangle(value: string) { const parts = value.split(',').map(Number); if (parts.length !== 4 || parts.some(n => !Number.isFinite(n))) throw new InvalidArgumentError('Use x,y,width,height'); return { x: parts[0], y: parts[1], width: parts[2], height: parts[3] }; }
 function insets(value: string) { if (value.split(',').some(part => !part.trim())) throw new InvalidArgumentError('Insets cannot be empty'); const [top, right, bottom, left, ...extra] = value.split(',').map(Number); if (extra.length) throw new InvalidArgumentError('Use top,right,bottom,left'); try { return InsetsSchema.parse({ top, right, bottom, left }); } catch { throw new InvalidArgumentError('Use four finite nonnegative insets: top,right,bottom,left'); } }
 function print(value: unknown) { process.stdout.write(JSON.stringify(value, null, 2) + '\n'); }
 const program = new Command().name('flutter-fidelity').version(VERSION).description('Screenshot-first Flutter generation companion and visual verification');
+program.command('setup').description('Guided local Figma plugin and optional MCP setup; never publishes or starts a bridge').option('--manifest <file>', 'Use an existing Figma-generated manifest instead of the file picker').option('--client <client>', 'MCP client: claude, codex, pi, or skip; changes still require confirmation').option('--no-open', 'Do not launch Figma, a file picker, or a file manager').action(async o => { await setup(o); });
+program.command('setup-figma-plugin').description('Prepare a local Figma bridge plugin from the manifest Figma created; never installs or publishes').requiredOption('--manifest <file>', 'manifest.json saved by Figma when creating a development plugin').requiredOption('--out <new-directory>', 'New local plugin folder (existing files are never overwritten)').action(o => {
+  execFileSync(process.execPath, [fileURLToPath(new URL('../scripts/prepare-figma-plugin.mjs', import.meta.url)), '--manifest', o.manifest, '--out', o.out], { stdio: 'inherit' });
+});
 for (const [name, fn] of [['mark-widgets', markWidgets], ['register-widget', registerWidget], ['find-widgets', findWidgets], ['plan-widget-work', planWidgetWork]] as const) {
   program.command(name).requiredOption('--config <json>', 'JSON object matching the corresponding MCP tool schema').action(async o => print(await fn(await json(o.config))));
 }

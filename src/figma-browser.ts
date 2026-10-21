@@ -290,8 +290,9 @@ export async function acquireFigmaBrowser(input: Input, runtime: FigmaBrowserRun
   } catch (error) {
     record.status = 'failed';
     // Playwright exceptions can contain cookies, signed URLs, selectors and page text. Never echo them.
-    record.error = error instanceof Error && /^(Browser unavailable|Cannot read browser authentication|Browser intake deadline|Browser access or rate-limit|Editor access requires)/.test(error.message)
-      ? error.message : 'Browser intake failed or the observed UI recipe did not match. No automatic foreground fallback or repeated login attempt was made.';
+    record.error = expired ? 'Overall deadline reached; unfinished nodes retained as not-run/failed.'
+      : error instanceof Error && /^(Browser unavailable|Cannot read browser authentication|Browser intake deadline|Browser access or rate-limit|Editor access requires)/.test(error.message)
+        ? error.message : 'Browser intake failed or the observed UI recipe did not match. No automatic foreground fallback or repeated login attempt was made.';
     await finish();
     throw new Error(`${record.error} Evidence: ${path.join(root, 'intake.json')}`);
   } finally {

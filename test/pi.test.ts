@@ -19,7 +19,7 @@ test('packed Pi extension runs its MCP tools from a different workspace', async 
   // npm run check already builds. Avoid recursive lifecycle scripts and network.
   const packed = JSON.parse(execFileSync(process.execPath, [process.env.npm_execpath!, 'pack', '--ignore-scripts', '--json', '--pack-destination', root], { encoding: 'utf8' }))[0];
   const files = new Set<string>(packed.files.map((file: { path: string }) => file.path));
-  for (const file of ['dist/cli.js', 'dist/widget-catalog.js', 'dist/widget-plan.js', 'docs/widget-catalog.md', 'extensions/flutter-fidelity.js', 'figma-plugin/manifest.json', 'figma-plugin/code.js', 'figma-plugin/ui.html', 'docs/workflow.md', 'flutter/fidelity_harness/lib/fidelity_harness.dart', '.claude-plugin/plugin.json', '.mcp.json', 'mcp.json', '.codex-plugin/plugin.json', 'skills/flutter-fidelity/scripts/fidelity.mjs', 'skills/flutter-fidelity/references/docs/workflow.md']) {
+  for (const file of ['dist/cli.js', 'dist/setup.js', 'scripts/prepare-figma-plugin.mjs', 'dist/widget-catalog.js', 'dist/widget-plan.js', 'docs/widget-catalog.md', 'extensions/flutter-fidelity.js', 'figma-plugin/manifest.json', 'figma-plugin/code.js', 'figma-plugin/ui.html', 'docs/workflow.md', 'flutter/fidelity_harness/lib/fidelity_harness.dart', '.claude-plugin/plugin.json', '.mcp.json', 'mcp.json', '.codex-plugin/plugin.json', 'skills/flutter-fidelity/scripts/fidelity.mjs', 'skills/flutter-fidelity/references/docs/workflow.md']) {
     assert.ok(files.has(file), `package must include ${file}`);
   }
   execFileSync('tar', ['-xzf', path.join(root, packed.filename), '-C', root]);
@@ -69,6 +69,12 @@ test('packed Pi extension runs its MCP tools from a different workspace', async 
 
   const workspace = path.join(root, 'user workspace');
   await fs.mkdir(workspace);
+  const generated = path.join(workspace, 'Figma generated manifest.json');
+  await fs.writeFile(generated, JSON.stringify({ id: '1234567890123456789' }));
+  const setupOutput = execFileSync(process.execPath, [path.join(installed, 'dist/cli.js'), 'setup', '--manifest', generated, '--client', 'skip', '--no-open'], { cwd: workspace, encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] });
+  assert.match(setupOutput, /Prepared a new plugin copy/);
+  assert.equal(JSON.parse(await fs.readFile(path.join(workspace, '.fidelity/figma-plugin/setup.json'), 'utf8')).id, '1234567890123456789');
+  assert.equal(JSON.parse(await fs.readFile(path.join(installed, 'figma-plugin/manifest.json'), 'utf8')).id, undefined, 'setup must not modify the packaged plugin');
   await sharp({ create: { width: 100, height: 100, channels: 4, background: '#ffffff' } }).png().toFile(path.join(workspace, 'screen.png'));
   client = new Client({ name: 'pi-package-test', version: '1.0.0' });
   await client.connect(new StdioClientTransport({ command: config.command, args: config.args, cwd: workspace, stderr: 'pipe' }));

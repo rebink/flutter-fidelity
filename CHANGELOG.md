@@ -1,5 +1,68 @@
 # Changelog
 
+## 0.12.0 - 2026-10-21
+
+- Recover from a timed-out or unavailable macOS manifest picker with path entry
+  in the same setup run, before any settings are saved. Explicit picker
+  cancellation and Ctrl+C still stop setup without continuing.
+- Fix bridge recovery with protocol 2: use per-launch identities for idempotent
+  pairing, release abandoned ownership only without active polls/exports, retry
+  temporary transport failures, and offer in-memory Reconnect without exposing
+  the code again. Update the engine and prepared plugin together; protocol 1
+  copies are incompatible. Expired/failed exports do not disconnect a healthy
+  session, and a disconnect during output creation retains failed intake evidence.
+- Preserve the browser-intake deadline reason when timeout closes the browser
+  during preflight, rather than misreporting an observed-recipe failure.
+- Report partial Pi configuration writes, including cancellation, with completed
+  and unfinished paths and safe retry instructions. Preserve newer settings and
+  backups rather than automatically rolling back independently saved files.
+- Configure both native Pi MCP and a project-local pi-mcp-adapter override with
+  one consent. Keep the stateful adapter server alive after first use, preserve
+  shared plugin templates and unrelated servers, and reject invalid/symlinked
+  settings or conflicting aliases before changing either Pi configuration.
+- Verify actual local MCP startup, engine version and Figma tools before the
+  wizard saves files/settings; bound and cancel the check, close its temporary
+  server, redact private startup diagnostics, and never start a second bridge.
+  Report loopback readiness separately from plugin preparation and host pairing.
+- Add a read-only bridge health/protocol check and an explicit plugin **Check
+  bridge** action. Verify compatibility before sending a pairing credential;
+  explain old/unrelated listeners and the reload/start/fresh-code recovery path.
+  Health reveals no document/session/credential/path data; Host/origin and all
+  paired-route authorization checks remain. Browser network errors explicitly
+  retain uncertainty between a missing server and blocked access. No automatic
+  network probes run merely because the plugin opened.
+- Add guided `flutter-fidelity setup`: Node/engine and macOS Figma checks, a
+  native macOS manifest picker, remembered Figma-assigned ID, content-addressed
+  local plugin copies and app/folder opening without desktop-click automation.
+  Offer opt-in project JSON MCP setup for Claude/Pi or Codex's own user-level
+  registration command, preserving unrelated settings and private JSON backups.
+  Refuse invalid/symlinked settings, serialize setup writers and preserve raced
+  files with conflict-safe JSON publication. Cancel detached subprocesses on
+  Ctrl+C, redact Codex diagnostics and resolve its Windows npm/native launcher
+  without a shell. Retain the explicit preparation CLI; never start a second
+  bridge, install global plugins or publish.
+- Align the Figma development manifest and plugin UI on `http://localhost:43871`.
+  Bind explicitly to IPv4/IPv6 loopback and keep exact Host, origin and pairing
+  checks; port conflicts fail without stopping another process.
+- Bind UI/sandbox messages to a per-launch random channel instead of requiring
+  `event.source === parent`. Use `crypto.getRandomValues()` (not sandbox-missing
+  `randomUUID`), retry metadata with a bounded deadline, and show document-read
+  errors and connection recovery instructions. Clean up a pending pairing if
+  document access fails so the engine session is not orphaned.
+- Add `setup-figma-plugin --manifest <Figma-generated-manifest> --out <new-folder>`
+  so users do not need to copy IDs. Keep the existing `--id` preparation script,
+  refuse overwrites, and document the Figma menu/import/pairing steps.
+- Add real sandboxed-browser fixtures with opaque origins, relayed messages,
+  missing `randomUUID`, retries, channel rejection and loopback PNG transfers.
+  Tests use ephemeral ports and never take over an existing bridge. No browser
+  or global plugin is installed; comparison/repair policies are unchanged.
+- Verify a clean native macOS/Pi reinstall through the real wizard and Figma
+  import, protocol-2 health, first-click pairing and a first-request fresh
+  402 x 2521 frame export. Independently check PNG dimensions/hash, context,
+  root CSS and preserved backups. Windows and fresh-account setup are not
+  qualified by this local integration result.
+- Synchronize package, MCP/CLI runtime and agent-plugin/skill versions to 0.12.0.
+
 ## 0.11.1 - Unreleased
 
 - Check Figma intake availability in order: connected Figma MCP (local first),
@@ -7,7 +70,6 @@
   then Playwright with manual-login recovery. Stop at the first validated
   reference, retain failure reasons and ask before desktop setup or pairing.
 - Synchronize package, MCP/CLI runtime and agent-plugin/skill versions to 0.11.1.
-  Guided automatic plugin preparation remains a proposal, not an installed feature.
 
 ## 0.11.0 - Unreleased
 

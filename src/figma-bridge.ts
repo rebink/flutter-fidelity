@@ -6,12 +6,15 @@ import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 import { z } from 'zod';
 import { createOutput, writeJson } from './io.js';
+import { VERSION } from './version.js';
 
+const SESSION_TIMEOUT_MS = 30_000;
 const NodeId = z.string().regex(/^I?\d+:\d+(?:;I?\d+:\d+)*$/);
 const Metadata = z.object({
   documentName: z.string().min(1).max(500), pageId: NodeId,
   selection: z.array(z.object({ id: NodeId, name: z.string().max(500), type: z.string().max(50) })).max(100),
 }).strict();
+const Connect = Metadata.extend({ clientId: z.string().regex(/^[a-f0-9]{32}$/) });
 const ExportResult = z.object({
   nodeId: NodeId, pageId: NodeId, nodeName: z.string().max(500),
   logicalSize: z.object({ width: z.number().positive(), height: z.number().positive() }).strict(),
@@ -30,39 +33,51 @@ type Pending = { job: Job; delivered: boolean; resolve: (value: z.infer<typeof E
 /** A paired, loopback-only read bridge. HTTP endpoints never accept filesystem paths or code. */
 export class FigmaBridge {
   private token = randomBytes(24).toString('base64url');
-  private session?: { id: string; metadata: z.infer<typeof Metadata>; lastSeen: number };
+  private session?: { id: string; clientId: string; metadata: z.infer<typeof Metadata>; lastSeen: number };
   private pending?: Pending;
   private poll?: { response: ServerResponse; timer: NodeJS.Timeout };
-  private server = createServer((req, res) => { void this.handle(req, res).catch(error => {
+  private servers = ['127.0.0.1', '::1'].map(() => createServer((req, res) => { void this.handle(req, res).catch(error => {
     if (!res.headersSent) this.reply(res, error instanceof z.ZodError || error instanceof SyntaxError ? 400 : 409, { error: error instanceof z.ZodError ? 'Invalid bridge message.' : String(error instanceof Error ? error.message : error).slice(0, 2000) });
     else res.destroy();
-  }); });
+  }); }));
   private port = 0;
   private closed = false;
   constructor(private options: { jobTimeoutMs?: number; pollTimeoutMs?: number } = {}) {
-    this.server.requestTimeout = 30_000;
+    for (const server of this.servers) server.requestTimeout = 30_000;
   }
   async start(port = 43871) {
-    await new Promise<void>((resolve, reject) => {
-      const failed = (error: Error) => { this.server.off('listening', ready); reject(error); };
-      const ready = () => { this.server.off('error', failed); resolve(); };
-      this.server.once('error', failed).once('listening', ready).listen(port, '127.0.0.1');
-    });
-    const address = this.server.address();
-    if (!address || typeof address === 'string') throw new Error('Bridge did not bind a loopback TCP port.');
-    this.port = address.port;
-    this.server.unref();
+    for (const [index, host] of ['127.0.0.1', '::1'].entries()) {
+      const server = this.servers[index]!;
+      try {
+        await new Promise<void>((resolve, reject) => {
+          const failed = (error: Error) => { server.off('listening', ready); reject(error); };
+          const ready = () => { server.off('error', failed); resolve(); };
+          server.once('error', failed).once('listening', ready).listen(this.port || port, host);
+        });
+      } catch (error) {
+        const code = (error as NodeJS.ErrnoException).code;
+        if (host === '::1' && ['EAFNOSUPPORT', 'EADDRNOTAVAIL'].includes(code ?? '')) continue;
+        await this.close();
+        if (code === 'EADDRINUSE') throw new Error(`Figma bridge port ${this.port || port} is already in use. Stop the other bridge in its coding agent, then try again. No process was stopped.`, { cause: error });
+        throw error;
+      }
+      const address = server.address();
+      if (!address || typeof address === 'string') throw new Error('Bridge did not bind a loopback TCP port.');
+      this.port = address.port;
+      server.unref();
+    }
     return this.connection();
   }
   connection() {
     return { ...this.status(), pairingCode: `${this.port}.${this.token}`,
       pluginSource: fileURLToPath(new URL('../figma-plugin/', import.meta.url)),
       setupGuide: fileURLToPath(new URL('../docs/figma-plugin.md', import.meta.url)),
-      instruction: 'Register a development plugin in Figma once and prepare its source with the assigned plugin ID (see setup guide). Run it in the intended file and paste this pairing code. Keep file/plugin open. No Figma access token is needed.' };
+      setupCommand: 'npx --no-install flutter-fidelity setup',
+      instruction: 'First time: run setupCommand in an interactive terminal from your Flutter project. It guides Figma registration, prepares a safe local copy, and opens the manifest location. If this MCP connection already works, choose keep existing MCP. Import the prepared manifest through Plugins > Development > Import plugin from manifest. Run Flutter Fidelity Bridge in your design, paste the pairing code, and click Connect. Allow local network access if prompted. Keep the file/plugin open; no Figma access token is needed.' };
   }
   status() {
-    return { running: this.server.listening && !this.closed, address: `http://127.0.0.1:${this.port}`,
-      connected: !!this.session && Date.now() - this.session.lastSeen < 30_000,
+    return { running: this.servers[0]!.listening && !this.closed, address: `http://localhost:${this.port}`,
+      connected: !!this.session && Date.now() - this.session.lastSeen < SESSION_TIMEOUT_MS,
       session: this.session ? { sessionId: this.session.id, ...this.session.metadata, lastSeen: new Date(this.session.lastSeen).toISOString() } : null,
       busy: !!this.pending };
   }
@@ -93,25 +108,36 @@ export class FigmaBridge {
   }
   private async handle(req: IncomingMessage, res: ServerResponse) {
     const origin = req.headers.origin;
-    if (req.headers.host !== `127.0.0.1:${this.port}` || (origin && !['null', 'https://www.figma.com', 'https://figma.com'].includes(origin))) {
+    if (!['localhost', '127.0.0.1', '[::1]'].some(host => req.headers.host?.toLowerCase() === `${host}:${this.port}`) || (origin && !['null', 'https://www.figma.com', 'https://figma.com'].includes(origin))) {
       this.reply(res, 403, { error: 'Loopback Figma bridge only.' }); return;
     }
     if (origin) res.setHeader('Access-Control-Allow-Origin', origin);
     res.setHeader('Vary', 'Origin');
-    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
     res.setHeader('Access-Control-Allow-Private-Network', 'true');
     if (req.method === 'OPTIONS') { this.reply(res, 204); return; }
+    if (req.method === 'GET' && req.url === '/health') {
+      this.reply(res, 200, { service: 'flutter-fidelity-bridge', protocol: 2, version: VERSION }); return;
+    }
     const auth = Buffer.from(req.headers.authorization ?? ''), expected = Buffer.from(`Bearer ${this.token}`);
     if (auth.length !== expected.length || !timingSafeEqual(auth, expected)) { this.reply(res, 401, { error: 'Invalid pairing code.' }); return; }
     if (req.method !== 'POST' || !['/connect', '/poll', '/metadata', '/result', '/disconnect'].includes(req.url ?? '')) { this.reply(res, 404); return; }
     const body = await this.body(req);
     if (req.url === '/connect') {
-      if (this.session) throw new Error('A plugin is already paired. Disconnect it or stop/start the bridge before pairing another file.');
-      this.session = { id: randomUUID(), metadata: Metadata.parse(body), lastSeen: Date.now() };
+      const { clientId, ...metadata } = Connect.parse(body);
+      // A quiet, abandoned plugin may expire; an active poll or export never does.
+      if (this.session && !this.poll && !this.pending && Date.now() - this.session.lastSeen >= SESSION_TIMEOUT_MS) this.session = undefined;
+      if (this.session && this.session.clientId !== clientId) {
+        this.reply(res, 409, { code: 'ALREADY_PAIRED', error: 'A plugin is already paired. Disconnect it first. If it was closed, wait 30 seconds and retry; active polls and exports keep ownership.' }); return;
+      }
+      if (!this.session) this.session = { id: randomUUID(), clientId, metadata, lastSeen: Date.now() };
+      else { this.session.metadata = metadata; this.session.lastSeen = Date.now(); }
       this.reply(res, 200, { sessionId: this.session.id }); return;
     }
-    if (!this.session || body.sessionId !== this.session.id) throw new Error('Plugin session differs from the paired document.');
+    if (!this.session || body.sessionId !== this.session.id) {
+      this.reply(res, 409, { code: 'SESSION_MISMATCH', error: 'Plugin session differs from the paired document.' }); return;
+    }
     this.session.lastSeen = Date.now();
     if (req.url === '/metadata') {
       this.session.metadata = Metadata.parse(body.metadata);
@@ -124,7 +150,7 @@ export class FigmaBridge {
     }
     if (req.url === '/poll') {
       this.session.metadata = Metadata.parse(body.metadata);
-      if (this.poll) throw new Error('A poll is already active for this plugin.');
+      if (this.poll) { this.reply(res, 409, { code: 'POLL_ACTIVE', error: 'A poll is already active for this plugin.' }); return; }
       const timer = setTimeout(() => this.flush(), this.options.pollTimeoutMs ?? 20_000);
       timer.unref();
       this.poll = { response: res, timer };
@@ -134,7 +160,9 @@ export class FigmaBridge {
       if (this.pending && !this.pending.delivered) this.flush();
       return;
     }
-    if (!this.pending || body.id !== this.pending.job.id || !this.pending.delivered) throw new Error('Export request expired or does not match the pending request.');
+    if (!this.pending || body.id !== this.pending.job.id || !this.pending.delivered) {
+      this.reply(res, 409, { code: 'JOB_EXPIRED', error: 'Export request expired or does not match the pending request.' }); return;
+    }
     const pending = this.pending;
     if (typeof body.error === 'string') pending.reject(new Error(`Figma plugin: ${body.error.slice(0, 2000)}`));
     else {
@@ -161,12 +189,13 @@ export class FigmaBridge {
   async acquire(input: z.input<typeof PluginIntakeSchema>) {
     const args = PluginIntakeSchema.parse(input);
     if (!this.status().connected || this.session?.id !== args.sessionId) throw new Error('Pair the intended Figma file first and use its current sessionId from figma_bridge status.');
-    const selected = this.session.metadata.selection;
+    const metadata = this.session.metadata;
+    const selected = metadata.selection;
     const nodeId = args.nodeId ?? (selected.length === 1 ? selected[0]!.id : undefined);
     if (!nodeId) throw new Error('Select one frame in Figma or provide an explicit nodeId in the paired document.');
     const root = await createOutput(args.out), started = performance.now();
     const record: Record<string, unknown> = { version: 1, status: 'pending', sourceKind: 'figma-plugin', sessionId: args.sessionId,
-      documentName: this.session.metadata.documentName, nodeId, requestedScale: args.scale,
+      documentName: metadata.documentName, nodeId, requestedScale: args.scale,
       acquiredAt: new Date().toISOString(), revision: null,
       scope: 'Live plugin snapshot; no REST revision or original artwork/font bytes. CSS, if requested, covers only the root node.' };
     await writeJson(path.join(root, 'intake.json'), record);
@@ -207,7 +236,9 @@ export class FigmaBridge {
     this.closed = true;
     this.pending?.reject(new Error('Figma bridge stopped.'));
     this.flush(); this.session = undefined;
-    if (!this.server.listening) return;
-    await new Promise<void>(resolve => { this.server.close(() => resolve()); this.server.closeAllConnections(); });
+    await Promise.all(this.servers.map(server => {
+      if (!server.listening) return;
+      return new Promise<void>(resolve => { server.close(() => resolve()); server.closeAllConnections(); });
+    }));
   }
 }

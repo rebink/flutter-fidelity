@@ -78,6 +78,81 @@ installation must copy the complete skill folder, not just SKILL.md. Claude
 Code discovers project skills under `.claude/skills`; Codex discovers them under
 `.agents/skills`. Other agents use their documented discovery paths.
 
+## Guided Figma bridge setup
+
+After installing the engine in your Flutter project, run this in your terminal:
+
+```sh
+npx --no-install flutter-fidelity setup
+```
+
+For a built source checkout, use `node dist/cli.js setup`. Before saving files or
+MCP settings, the wizard initializes the actual local MCP engine and verifies its
+version and Figma tools, with a bounded deadline and cancellation. This temporary
+stdio test process is always closed; it never starts a bridge. Startup failures
+stop setup with repair instructions, without echoing private diagnostics.
+The wizard also checks Node, checks Figma Desktop on macOS, guides one-time
+Figma registration, and prepares the plugin without copying IDs or files.
+macOS uses a native manifest picker; other systems ask for the saved path.
+If the macOS picker times out or cannot launch, the wizard offers path entry
+without restarting or saving settings first. Cancelling the picker or pressing
+Ctrl+C still stops setup without proceeding. You can also paste the path at the
+initial prompt. `--no-open` disables app, picker and file-manager launches.
+
+MCP configuration is optional and always asks for confirmation:
+
+- **Claude Code:** merge only the `flutter-fidelity` entry into `.mcp.json`.
+- **Pi:** one confirmation covers `.pi/mcp.json` (native MCP, 1,200-second
+  timeout) and `.pi/mcp-adapter.json` (adapter compatibility, same timeout).
+  Both point to the engine just checked. The adapter override also uses
+  `lazy-keep-alive` so an idle timeout does not stop a paired bridge. It works
+  when the adapter cannot load native Pi MCP settings and takes precedence over
+  shared plugin-template launchers. Other servers and shared `.mcp.json` plugin
+  templates stay intact. Existing Pi aliases must agree across both files.
+  Project trust/approval and agent reload are still required. Keep existing MCP
+  instead if the installed Pi package already works.
+- **Codex:** invoke `codex mcp add` after separate consent to update its
+  **user-level** entry. The wizard does not parse or rewrite TOML. Codex's
+  longer capture timeout remains a separate host setting, as documented below.
+  Windows launches the official npm entry point with Node, or a native `.exe`,
+  without a command shell; nonstandard shims need manual MCP configuration.
+- **Keep existing / later:** prepare the plugin without changing MCP settings.
+
+JSON merges retain other servers/settings. Changed existing JSON is backed up
+in a private, git-ignored `settings-backup-*` folder under `.fidelity/figma-plugin`;
+it can contain credentials, so keep it private. Invalid JSON,
+symlinked destinations are refused. An exclusive setup lock serializes writers;
+existing files move into recoverable backups before conflict-safe publication,
+so a competing replacement is never silently overwritten. This requires local
+hard-link support; unsupported filesystems fail without replacing old settings.
+After a force-kill, inspect backups before removing a stale lock: each private
+folder's `target.json` names the original destination of its `mcp.json`. Restore
+any missing original settings first, and remove the reported
+`.flutter-fidelity.lock` only when no setup is running. Ctrl+C cancels setup's
+subprocesses, including the native picker, before returning.
+Pi's two files are saved independently, not as a cross-file transaction. If a
+later write fails or is cancelled, setup names the completed and unfinished
+paths and keeps newer edits/backups without automatic rollback. Review the
+reported files and rerun setup: already matching entries are not rewritten.
+The saved command uses the current Node executable and absolute engine path.
+Keep that installation in place; rerun setup after moving it or updating Node.
+An engine launched from a temporary `npx` cache cannot be persisted as MCP:
+install the project engine first, or keep an existing connection.
+
+Prepared copies live under `.fidelity/figma-plugin`. Repeating setup reuses
+identical files; changed copies remain intact and get a fresh sibling. Figma's
+create/import/run and local-network confirmations remain manual. Restart your
+agent after config changes; writing an entry is not proof of a live connection.
+
+Setup separately probes the loopback bridge without pairing credentials. It
+reports a compatible listener, an incompatible HTTP/protocol reply, or no complete
+response. None of these proves that the selected host loaded its new MCP entry,
+that Figma has network permission, or that pairing succeeded. In Pi, `/reload`
+then `/mcp` must show a working `flutter-fidelity` connection before asking it to
+start the bridge. Only then use the plugin's **Check bridge** action and the fresh
+pairing code. Do not start a second standalone bridge to hide an MCP launch error.
+See [Figma plugin setup](figma-plugin.md) for the remaining steps.
+
 ## Optional MCP connections
 
 MCP provides structured tools and image results. The CLI covers PNG and Figma

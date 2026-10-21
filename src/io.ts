@@ -31,16 +31,31 @@ export async function pixels(file: string) {
   return { data: new Uint8Array(data), width: info.width, height: info.height };
 }
 export type ProcessResult = { code: number; stdout: string; stderr: string };
-export async function run(command: string, args: string[], options: { cwd?: string; env?: NodeJS.ProcessEnv; timeoutMs?: number } = {}): Promise<ProcessResult> {
+export async function run(command: string, args: string[], options: { cwd?: string; env?: NodeJS.ProcessEnv; timeoutMs?: number; signal?: AbortSignal } = {}): Promise<ProcessResult> {
+  options.signal?.throwIfAborted();
   return new Promise((resolve, reject) => {
     const child = spawn(command, args, { detached: process.platform !== 'win32', cwd: options.cwd, env: { ...process.env, ...options.env }, shell: false, stdio: ['ignore', 'pipe', 'pipe'] });
-    let stdout = '', stderr = '', timedOut = false;
+    let stdout = '', stderr = '', timedOut = false, aborted = false;
     const terminate = (signal: NodeJS.Signals) => { try { if (process.platform !== 'win32' && child.pid) process.kill(-child.pid, signal); else child.kill(signal); } catch { /* Already exited. */ } };
     const timer = setTimeout(() => { timedOut = true; terminate('SIGTERM'); }, options.timeoutMs ?? 30000);
-    const hardStop = setTimeout(() => { if (timedOut) terminate('SIGKILL'); }, (options.timeoutMs ?? 30000) + 3000);
+    let hardStop = setTimeout(() => { if (timedOut) terminate('SIGKILL'); }, (options.timeoutMs ?? 30000) + 3000);
+    const cancel = () => {
+      aborted = true; terminate('SIGTERM');
+      clearTimeout(hardStop);
+      hardStop = setTimeout(() => terminate('SIGKILL'), 3000);
+    };
+    const cleanup = () => { clearTimeout(timer); clearTimeout(hardStop); options.signal?.removeEventListener('abort', cancel); };
+    options.signal?.addEventListener('abort', cancel, { once: true });
+    if (options.signal?.aborted) cancel();
     child.stdout.on('data', data => { stdout = (stdout + data).slice(-1_000_000); });
     child.stderr.on('data', data => { stderr = (stderr + data).slice(-1_000_000); });
-    child.on('error', error => { clearTimeout(timer); clearTimeout(hardStop); reject(error); });
-    child.on('close', code => { if (timedOut) terminate('SIGKILL'); clearTimeout(timer); clearTimeout(hardStop); if (timedOut) reject(Object.assign(new Error(`${command} timed out`), { stdout, stderr })); else resolve({ code: code ?? 1, stdout, stderr }); });
+    child.on('error', error => { cleanup(); reject(error); });
+    child.on('close', code => {
+      if (timedOut || aborted) terminate('SIGKILL');
+      cleanup();
+      if (aborted) reject(Object.assign(new Error(`${command} cancelled`), { name: 'AbortError', code: 'ABORT_ERR', stdout, stderr }));
+      else if (timedOut) reject(Object.assign(new Error(`${command} timed out`), { stdout, stderr }));
+      else resolve({ code: code ?? 1, stdout, stderr });
+    });
   });
 }

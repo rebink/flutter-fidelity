@@ -3,7 +3,7 @@ name: flutter-fidelity
 description: Build, reuse, fix and verify Flutter UI from PNGs, Figma links or existing app code. Use for screenshot implementation, widget reuse, typography fixes and measured visual repair with your coding agent.
 license: MIT
 metadata:
-  version: "0.11.1"
+  version: "0.12.0"
 ---
 
 Use Flutter Fidelity for the requested Flutter UI work. The host assistant owns

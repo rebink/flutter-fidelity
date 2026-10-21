@@ -7,22 +7,45 @@
   label { display: block; margin-bottom: 5px; }
   input { box-sizing: border-box; width: 100%; padding: 8px; }
   button { margin: 10px 6px 0 0; padding: 7px 12px; }
-  #status { overflow-wrap: anywhere; }
-  small { display: block; margin-top: 12px; }
+  #status, #document { overflow-wrap: anywhere; }
+  ol { padding-left: 20px; }
+  details, small { display: block; margin-top: 12px; }
+  summary { cursor: pointer; }
 </style>
 <h1>Flutter Fidelity Bridge</h1>
-<p>Start the bridge in Pi, then paste its pairing code.</p>
-<label for="code">Pairing code</label>
-<input id="code" type="password" autocomplete="off" spellcheck="false">
-<button id="connect">Connect</button><button id="disconnect" disabled>Disconnect</button>
-<p id="status" role="status">Waiting for a connection.</p>
-<small>Keep this plugin and file open. Only requested frames are exported to this computer.</small>
+<ol>
+  <li>Ask your coding agent: <strong>Start the Figma bridge.</strong></li>
+  <li>Paste its pairing code here and connect.</li>
+  <li>Select one frame, then ask your agent to use it.</li>
+</ol>
+<p id="document">Reading your Figma file...</p>
+<label for="code">Pairing code (not a Figma access token)</label>
+<input id="code" type="password" autocomplete="off" spellcheck="false" placeholder="43871.pairing-code">
+<button id="check">Check bridge</button><button id="connect" disabled>Connect</button><button id="disconnect" disabled>Disconnect</button>
+<p id="status" role="status">Waiting for Figma...</p>
+<details><summary>Having trouble connecting?</summary>
+  <p>Plugin installation does not start the bridge. Restart/reload your coding agent (Pi: /reload), confirm Flutter Fidelity MCP loads without an error (Pi: /mcp), then ask it to start the bridge and give you a fresh pairing code. Figma and the agent must run on this computer. Allow local network access if prompted; do not disable browser security or add a proxy. A missing reply can mean a stopped bridge or blocked network access. If Figma does not finish loading, close and rerun this plugin.</p>
+</details>
+<small>Keep this plugin and file open. Only requested frames are exported to this computer. No Figma access token or proxy is needed.</small>
 <script>
   const code = document.getElementById('code'), connect = document.getElementById('connect');
   const disconnect = document.getElementById('disconnect'), status = document.getElementById('status');
-  let metadata, connection, activeJob;
+  const documentStatus = document.getElementById('document'), check = document.getElementById('check');
+  const unreachable = 'No response from localhost:43871. Plugin setup does not start the bridge. Reload your coding agent (Pi: /reload), confirm its MCP server loads (Pi: /mcp), then ask it to start the bridge for a fresh code. If it started successfully, check Figma local network access. This can be a stopped bridge or a network block.';
+  const channel = Array.from(crypto.getRandomValues(new Uint8Array(16)), byte => byte.toString(16).padStart(2, '0')).join('');
+  let metadata, metadataError, connection, activeJob, resumeToken, metadataAttempts = 0;
   const controllers = new Set();
   function tell(message) { status.textContent = message; }
+  function send(message) { parent.postMessage({ pluginMessage: { ...message, channel } }, '*'); }
+  function requestMetadata() {
+    if (metadataAttempts++ >= 20) {
+      clearInterval(metadataTimer);
+      tell(metadataError || 'Figma did not respond. Close and rerun this plugin in an open Figma Design file.');
+      return;
+    }
+    send({ type: 'ready' });
+  }
+  const metadataTimer = setInterval(requestMetadata, 500);
   async function post(route, body) {
     const current = connection;
     if (!current) throw new Error('Not connected.');
@@ -30,48 +53,133 @@
     const timer = setTimeout(() => controller.abort(), 30000);
     controllers.add(controller);
     try {
-      const response = await fetch('http://127.0.0.1:43871' + route, { method: 'POST',
+      const response = await fetch('http://localhost:43871' + route, { method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + current.token },
         body: JSON.stringify(body), signal: controller.signal });
       if (response.status === 204) return null;
       const result = await response.json();
-      if (!response.ok) throw new Error(result.error || 'Bridge request failed.');
+      if (!response.ok) {
+        const error = new Error(result?.error || 'Bridge request failed.');
+        error.code = result?.code;
+        error.retryable = response.status >= 500 || error.code === 'POLL_ACTIVE';
+        throw error;
+      }
       return result;
+    } catch (error) {
+      if (error instanceof TypeError || error.name === 'AbortError') {
+        const failure = new Error(unreachable); failure.retryable = true; throw failure;
+      }
+      if (error instanceof SyntaxError) error.retryable = true;
+      throw error;
     } finally { clearTimeout(timer); controllers.delete(controller); }
   }
-  function reset(message) {
+  async function request(route, body, current) {
+    for (let attempt = 0; ; attempt++) {
+      if (connection !== current) throw new Error('Disconnected.');
+      try {
+        const result = await post(route, body);
+        if (attempt && route === '/poll') tell('Connection restored. Still paired.');
+        return result;
+      } catch (error) {
+        if (!error.retryable || attempt >= 2 || connection !== current) throw error;
+        tell('Connection interrupted. Retrying (' + (attempt + 1) + '/2)...');
+        await new Promise(resolve => setTimeout(resolve, 250 * (attempt + 1)));
+      }
+    }
+  }
+  async function bridgeReady() {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 5000);
+    controllers.add(controller);
+    try {
+      const response = await fetch('http://localhost:43871/health', { signal: controller.signal, redirect: 'error' });
+      if (!response.ok) {
+        const error = new Error('A listener replied on port 43871 (HTTP ' + response.status + '), but not with a compatible bridge. Update Flutter Fidelity, reload the matching MCP engine, and ask its agent to stop/start the bridge for a fresh code.');
+        error.retryable = response.status >= 500;
+        throw error;
+      }
+      if (!response.body) throw new Error('The listener returned no readiness information. Update/reload the matching engine and plugin together.');
+      const chunks = [];
+      let size = 0;
+      for await (const chunk of response.body) {
+        size += chunk.byteLength;
+        if (size > 1024) throw new Error('The listener is not a compatible Flutter Fidelity bridge. Update/reload the matching engine and plugin together.');
+        chunks.push(chunk);
+      }
+      const bytes = new Uint8Array(size);
+      let offset = 0;
+      for (const chunk of chunks) { bytes.set(chunk, offset); offset += chunk.byteLength; }
+      let result;
+      try { result = JSON.parse(new TextDecoder().decode(bytes)); } catch {}
+      if (result?.service !== 'flutter-fidelity-bridge' || result.protocol !== 2 || typeof result.version !== 'string' || !/^\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.+-]+)?$/.test(result.version)) {
+        throw new Error('The listener is not a compatible Flutter Fidelity bridge. Update/reload the matching engine and plugin together.');
+      }
+      return result;
+    } catch (error) {
+      if (error instanceof TypeError || error.name === 'AbortError') {
+        const failure = new Error(unreachable); failure.retryable = true; throw failure;
+      }
+      throw error;
+    } finally { clearTimeout(timer); controllers.delete(controller); }
+  }
+  function reset(message, resumable = false) {
+    resumeToken = resumable ? connection?.token : undefined;
     connection = undefined;
     for (const controller of controllers) controller.abort();
     if (activeJob) { clearTimeout(activeJob.timer); activeJob.reject(new Error('Disconnected.')); activeJob = undefined; }
-    connect.disabled = false; disconnect.disabled = true; tell(message);
+    connect.textContent = resumeToken ? 'Reconnect' : 'Connect';
+    connect.disabled = !metadata; disconnect.disabled = true; check.disabled = false; tell(message);
+  }
+  async function disconnectBridge(message) {
+    const current = connection;
+    // Finish a pending handshake so a server-side session can still be disconnected.
+    if (current && !current.sessionId) { current.cancelled = message; return; }
+    if (current?.sessionId) await post('/disconnect', { sessionId: current.sessionId }).catch(() => {});
+    if (connection === current) reset(message);
   }
   async function poll(current) {
     try {
       while (connection === current) {
-        const job = await post('/poll', { sessionId: current.sessionId, metadata });
+        const job = await request('/poll', { sessionId: current.sessionId, metadata }, current);
         if (!job || connection !== current) continue;
         tell('Exporting the requested frame…');
         const result = await new Promise((resolve, reject) => {
-          const timer = setTimeout(() => { activeJob = undefined; reject(new Error('Figma export timed out. Reopen the plugin before retrying.')); }, 60000);
+          const timer = setTimeout(() => { activeJob = undefined; reject(new Error('Figma export timed out. Retry into a new output folder.')); }, 60000);
           activeJob = { id: job.id, resolve, reject, timer };
-          parent.postMessage({ pluginMessage: { type: 'export', job } }, '*');
-        });
-        await post('/result', { sessionId: current.sessionId, id: job.id, ...result });
-        tell('Connected. Ready for the next request.');
+          send({ type: 'export', job });
+        }).catch(error => ({ error: error.message }));
+        try {
+          await request('/result', { sessionId: current.sessionId, id: job.id, ...result }, current);
+          tell(result.error ? 'Last export failed: ' + result.error + ' Still connected; retry into a new output folder.' : 'Connected. Ready for the next request.');
+        } catch (error) {
+          if (error.code !== 'JOB_EXPIRED') throw error;
+          tell('The export request expired. Still connected; retry into a new output folder.');
+        }
       }
     } catch (error) {
-      if (connection === current) {
-        await post('/disconnect', { sessionId: current.sessionId }).catch(() => {});
-        reset('Disconnected: ' + error.message + ' Check Pi and Figma network permissions, then reconnect.');
-      }
+      if (connection === current) reset(error.retryable ? 'Connection interrupted. Check your agent and Figma network access, then click Reconnect; no need to paste the code again unless the engine restarted.' : 'Disconnected: ' + error.message + ' Ask your agent for a fresh pairing code.', !!error.retryable);
     }
   }
   window.onmessage = event => {
-    if (event.source !== parent) return;
-    const message = event.data.pluginMessage;
-    if (!message) return;
+    // Figma can relay through another window; bind replies to this launch, not event.source.
+    const message = event.data?.pluginMessage;
+    if (!message || message.channel !== channel) return;
+    if (message.type === 'metadata-error') {
+      metadataError = 'Could not read this Figma file: ' + message.error + ' Close and rerun this plugin in a Figma Design file you can access.';
+      metadata = undefined;
+      connect.disabled = true;
+      documentStatus.textContent = 'Figma document unavailable.';
+      tell(metadataError);
+      void disconnectBridge(metadataError);
+      return;
+    }
     if (message.type === 'metadata') {
+      const first = !metadata;
       metadata = message.metadata;
+      clearInterval(metadataTimer);
+      documentStatus.textContent = metadata.documentName + ' - ' + metadata.selection.length + ' selected';
+      connect.disabled = !!connection || check.disabled;
+      if (first && !connection && !check.disabled) tell('Figma file loaded; bridge not checked. Ask your agent to start the bridge, then use Check bridge and its fresh pairing code.');
       if (connection?.sessionId) post('/metadata', { sessionId: connection.sessionId, metadata }).catch(() => {});
     }
     if (message.type === 'export-result' && activeJob?.id === message.id) {
@@ -88,25 +196,38 @@
     }
   };
   connect.onclick = async () => {
-    const match = code.value.trim().match(/^43871\.([A-Za-z0-9_-]{32})$/);
-    if (!match) { tell('Paste the pairing code returned by figma_bridge start.'); return; }
-    if (!metadata) { tell('Figma is still loading. Try again.'); return; }
-    connect.disabled = true;
-    const current = { token: match[1] };
+    const input = code.value.trim(), match = input.match(/^43871\.([A-Za-z0-9_-]{32})$/);
+    const token = input ? match?.[1] : resumeToken;
+    if (!token) { tell('Paste the complete pairing code from your coding agent. It starts with 43871.'); return; }
+    if (!metadata) { requestMetadata(); tell(metadataError || 'Waiting for Figma to open this file...'); return; }
+    connect.disabled = true; check.disabled = true;
+    connect.textContent = 'Connect';
+    const current = { token };
     connection = current;
     try {
-      const result = await post('/connect', metadata);
+      await bridgeReady();
+      if (connection !== current) return;
+      if (current.cancelled) { reset(current.cancelled); return; }
+      const result = await request('/connect', { ...metadata, clientId: channel }, current);
       if (connection !== current) return;
       current.sessionId = result.sessionId;
+      if (current.cancelled) { await disconnectBridge(current.cancelled); return; }
       code.value = ''; disconnect.disabled = false;
       tell('Connected to ' + metadata.documentName + '.');
       void poll(current);
-    } catch (error) { reset('Could not connect: ' + error.message); }
+    } catch (error) { if (connection === current) reset(current.cancelled || 'Could not connect: ' + error.message + (error.retryable ? ' Click Reconnect to retry.' : ''), !current.cancelled && !!error.retryable); }
   };
-  disconnect.onclick = async () => {
-    if (connection?.sessionId) await post('/disconnect', { sessionId: connection.sessionId }).catch(() => {});
-    reset('Disconnected.');
+  disconnect.onclick = () => disconnectBridge('Disconnected.');
+  check.onclick = async () => {
+    if (connection || check.disabled) return;
+    check.disabled = true; connect.disabled = true;
+    tell('Checking the bridge on this computer...');
+    try {
+      const health = await bridgeReady();
+      if (!connection) tell(metadataError && !metadata ? metadataError : 'Compatible bridge responded (engine ' + health.version + '). Not paired yet: load your Figma file, paste its fresh pairing code and click Connect.');
+    } catch (error) { if (!connection) tell(metadataError && !metadata ? metadataError : error.message); }
+    finally { check.disabled = !!connection; connect.disabled = !metadata || !!connection; }
   };
-  parent.postMessage({ pluginMessage: { type: 'ready' } }, '*');
+  requestMetadata();
 </script>
 </html>

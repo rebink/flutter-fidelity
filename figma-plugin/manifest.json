@@ -6,7 +6,8 @@
   "editorType": ["figma"],
   "documentAccess": "dynamic-page",
   "networkAccess": {
-    "allowedDomains": ["http://127.0.0.1:43871"],
+    "allowedDomains": ["none"],
+    "devAllowedDomains": ["http://localhost:43871"],
     "reasoning": "Connects to the paired Flutter Fidelity process on this computer to export requested design nodes. No remote server is used."
   }
 }

@@ -1,21 +1,30 @@
 /* Figma sandbox entrypoint. Read-only document access; network lives in ui.html. */
 (() => {
-  figma.showUI(__html__, { width: 340, height: 310, themeColors: true });
-  let busy = false;
+  figma.showUI(__html__, { width: 360, height: 440, themeColors: true });
+  let busy = false, channel;
+  function send(message) { figma.ui.postMessage({ ...message, channel }); }
   function metadata() {
-    figma.ui.postMessage({ type: 'metadata', metadata: {
-      documentName: (figma.root.name || 'Untitled design').slice(0, 500), pageId: figma.currentPage.id,
-      selection: figma.currentPage.selection.slice(0, 100).map(node => ({ id: node.id, name: node.name.slice(0, 500), type: node.type })),
-    } });
+    if (!channel) return;
+    try {
+      send({ type: 'metadata', metadata: {
+        documentName: (figma.root.name || 'Untitled design').slice(0, 500), pageId: figma.currentPage.id,
+        selection: figma.currentPage.selection.slice(0, 100).map(node => ({ id: node.id, name: node.name.slice(0, 500), type: node.type })),
+      } });
+    } catch (error) {
+      send({ type: 'metadata-error', error: String(error instanceof Error ? error.message : error).slice(0, 2000) });
+    }
   }
   figma.on('selectionchange', metadata);
   figma.on('currentpagechange', metadata);
   figma.ui.onmessage = async message => {
+    if (!message || typeof message !== 'object') return;
+    if (!channel && message.type === 'ready' && typeof message.channel === 'string' && /^[a-f0-9]{32}$/.test(message.channel)) channel = message.channel;
+    if (!channel || message.channel !== channel) return;
     if (message.type === 'ready') { metadata(); return; }
     if (message.type !== 'export') return;
     const job = message.job;
     if (!job || typeof job.id !== 'string') return;
-    if (busy) { figma.ui.postMessage({ type: 'export-result', id: job.id, error: 'Another export is running.' }); return; }
+    if (busy) { send({ type: 'export-result', id: job.id, error: 'Another export is running.' }); return; }
     busy = true;
     try {
       if (!/^I?\d+:\d+(?:;I?\d+:\d+)*$/.test(job.nodeId) || !Number.isFinite(job.scale) || job.scale < 0.01 || job.scale > 4) throw new Error('Invalid export node or scale.');
@@ -42,9 +51,9 @@
       // No cached PNG: compare scoped properties around the render instead of loading all pages for change events.
       const after = await node.exportAsync({ format: 'JSON_REST_V1' });
       if (snapshot !== JSON.stringify(after)) throw new Error('The requested subtree changed during export. Retry after edits settle.');
-      figma.ui.postMessage({ type: 'export-result', id: job.id, result });
+      send({ type: 'export-result', id: job.id, result });
     } catch (error) {
-      figma.ui.postMessage({ type: 'export-result', id: job.id, error: String(error instanceof Error ? error.message : error).slice(0, 2000) });
+      send({ type: 'export-result', id: job.id, error: String(error instanceof Error ? error.message : error).slice(0, 2000) });
     } finally { busy = false; }
   };
 })();

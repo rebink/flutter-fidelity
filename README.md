@@ -97,29 +97,51 @@ This is optional. It exports the selected frame's PNG and styling without a
 Figma access token. You need **Figma desktop and Flutter Fidelity's MCP server
 on the same computer**.
 
-### 1. Get a plugin ID
+**Upgrading to 0.12.0?** The bridge uses protocol 2. Update the engine, reload
+its MCP connection, and rerun setup to prepare and import the matching plugin.
+Old protocol-1 plugin copies cannot connect; updating the engine alone does not
+replace an already imported local plugin copy.
 
-In Figma desktop, create a development plugin. Open the generated `manifest.json`
-and copy its numeric `id`. Figma assigns this ID; don't invent one.
+### Run the guided setup
 
-### 2. Generate the plugin files
-
-From your Flutter app's directory, run:
+After installing Flutter Fidelity, run one command **in your terminal**, from
+your Flutter app's directory:
 
 ```sh
-node node_modules/flutter-fidelity/scripts/prepare-figma-plugin.mjs \
-  --id YOUR_FIGMA_PLUGIN_ID \
-  --out ./fidelity-figma-plugin
+npx --no-install flutter-fidelity setup
 ```
 
-Replace `YOUR_FIGMA_PLUGIN_ID` with the ID from step 1. The output folder must be
-new. This prepares local files; it does **not** install or publish the plugin.
+The wizard checks Node, actually launches the built MCP engine to verify its
+version and Figma tools, then closes that test process without starting a bridge.
+It checks Figma Desktop on macOS, opens Figma, and guides its one-time
+development-plugin registration. On macOS,
+a file picker selects the generated manifest: no ID copying or path arguments.
+If the picker cannot finish, paste the manifest path to continue in the same run.
+It prepares a safe local bridge copy and opens its location for import.
 
-In Figma's development plugins, import the generated
-`fidelity-figma-plugin/manifest.json`. Open your design and run
-**Flutter Fidelity Bridge**.
+Choose your coding agent to configure MCP **with confirmation**, or keep your
+existing connection. Claude Code and Pi use project-local JSON; Codex uses its
+own CLI and asks separately before updating its **user-level** MCP entry.
+Existing unrelated settings are kept. Restart/reload the agent after changes.
 
-### 3. Pair the bridge
+**Plugin prepared does not mean connected.** Setup reports whether a compatible
+bridge responds, but the agent must still start it. In Pi, run `/reload`, check
+`/mcp` for launch errors, then ask for a fresh bridge pairing code. The plugin's
+**Check bridge** button verifies compatibility without sending your code or
+pairing. A missing reply can mean a stopped bridge or blocked local-network
+access; setup never disables browser security to work around it.
+
+Figma still requires you to create/import the development plugin and allow any
+local-network prompt. Setup does not click through those permissions, start a
+second bridge, install global plugins, or publish anything. On later runs it
+remembers the assigned ID, reuses unchanged files, and preserves edited copies.
+Keep the prepared `.fidelity/figma-plugin` folder while Figma uses it.
+
+From a built source checkout, use `node dist/cli.js setup`. For manual or
+unattended preparation, the existing `setup-figma-plugin --manifest ... --out ...`
+command remains available. [Options and troubleshooting](docs/figma-plugin.md).
+
+### Pair the bridge
 
 Ask your coding agent:
 
@@ -128,8 +150,11 @@ Start the Flutter Fidelity Figma bridge and give me the pairing code.
 ```
 
 The agent calls `figma_bridge` with `{"action":"start"}`. Paste its code into
-the Figma plugin and click **Connect**. Allow local network access if prompted.
-The bridge listens only on `127.0.0.1:43871`.
+the Figma plugin and click **Connect** once your file name appears. The plugin
+waits for Figma automatically and gives recovery instructions if it cannot read
+the file. Allow local network access if prompted. No proxy or Figma access token is needed.
+The UI uses `http://localhost:43871`; the bridge listens only on IPv4/IPv6
+loopback (`127.0.0.1` and `::1`), never your network interface.
 
 Select your frame, then ask:
 
@@ -140,6 +165,12 @@ Use the connected Figma plugin to build this selected frame in my Flutter app.
 The agent checks the paired document with `figma_bridge` status, then exports
 through `acquire_figma_plugin`. Keep Figma and the plugin open during the task.
 A bridge restart needs a new pairing code, not a new plugin installation.
+
+**Live-checked on macOS with Pi:** a clean wizard reinstall and native Figma
+import passed, followed by first-click pairing and a first-request fresh
+402 x 2521 PNG export. PNG dimensions/hash, frame context, root CSS and preserved
+backups were independently checked. This is a local integration result, not a
+Windows or fresh-account qualification.
 
 If pairing fails, the agent can move on to Playwright or use a PNG you provide.
 [Full bridge setup and troubleshooting](docs/figma-plugin.md).
